@@ -22,3 +22,15 @@ C:\Users\Ta Cong\Desktop\WEB-Book\ANUIShop-Client\TANGOCCONG.ANUIShop\TANGOCCONG
 C:\Users\Ta Cong\Desktop\WEB-Book\ANUIShop-Client\TANGOCCONG.ANUIShop\TANGOCCONG.ANUIShop.Data\obj\Debug\netcoreapp3.1\TANGOCCONG.ANUIShop.Data.dll
 C:\Users\Ta Cong\Desktop\WEB-Book\ANUIShop-Client\TANGOCCONG.ANUIShop\TANGOCCONG.ANUIShop.Data\obj\Debug\netcoreapp3.1\TANGOCCONG.ANUIShop.Data.pdb
 C:\Users\Ta Cong\Desktop\WEB-Book\ANUIShop-Client\TANGOCCONG.ANUIShop\TANGOCCONG.ANUIShop.Data\obj\Debug\netcoreapp3.1\TANGOCCONG.ANUIShop.Data.genruntimeconfig.cache
+F:\Congtn\WebBook\TANGOCCONG.ANUIShop\TANGOCCONG.ANUIShop.Data\bin\Debug\netcoreapp3.1\TANGOCCONG.ANUIShop.Data.deps.json
+F:\Congtn\WebBook\TANGOCCONG.ANUIShop\TANGOCCONG.ANUIShop.Data\bin\Debug\netcoreapp3.1\TANGOCCONG.ANUIShop.Data.runtimeconfig.json
+F:\Congtn\WebBook\TANGOCCONG.ANUIShop\TANGOCCONG.ANUIShop.Data\bin\Debug\netcoreapp3.1\TANGOCCONG.ANUIShop.Data.runtimeconfig.dev.json
+F:\Congtn\WebBook\TANGOCCONG.ANUIShop\TANGOCCONG.ANUIShop.Data\bin\Debug\netcoreapp3.1\TANGOCCONG.ANUIShop.Data.dll
+F:\Congtn\WebBook\TANGOCCONG.ANUIShop\TANGOCCONG.ANUIShop.Data\bin\Debug\netcoreapp3.1\TANGOCCONG.ANUIShop.Data.pdb
+F:\Congtn\WebBook\TANGOCCONG.ANUIShop\TANGOCCONG.ANUIShop.Data\obj\Debug\netcoreapp3.1\TANGOCCONG.ANUIShop.Data.csprojAssemblyReference.cache
+F:\Congtn\WebBook\TANGOCCONG.ANUIShop\TANGOCCONG.ANUIShop.Data\obj\Debug\netcoreapp3.1\TANGOCCONG.ANUIShop.Data.AssemblyInfoInputs.cache
+F:\Congtn\WebBook\TANGOCCONG.ANUIShop\TANGOCCONG.ANUIShop.Data\obj\Debug\netcoreapp3.1\TANGOCCONG.ANUIShop.Data.AssemblyInfo.cs
+F:\Congtn\WebBook\TANGOCCONG.ANUIShop\TANGOCCONG.ANUIShop.Data\obj\Debug\netcoreapp3.1\TANGOCCONG.ANUIShop.Data.csproj.CoreCompileInputs.cache
+F:\Congtn\WebBook\TANGOCCONG.ANUIShop\TANGOCCONG.ANUIShop.Data\obj\Debug\netcoreapp3.1\TANGOCCONG.ANUIShop.Data.dll
+F:\Congtn\WebBook\TANGOCCONG.ANUIShop\TANGOCCONG.ANUIShop.Data\obj\Debug\netcoreapp3.1\TANGOCCONG.ANUIShop.Data.pdb
+F:\Congtn\WebBook\TANGOCCONG.ANUIShop\TANGOCCONG.ANUIShop.Data\obj\Debug\netcoreapp3.1\TANGOCCONG.ANUIShop.Data.genruntimeconfig.cache
