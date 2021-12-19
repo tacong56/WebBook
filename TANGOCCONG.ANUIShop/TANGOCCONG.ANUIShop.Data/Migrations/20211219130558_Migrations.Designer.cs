@@ -10,8 +10,8 @@ using TANGOCCONG.ANUIShop.Data.EF;
 namespace TANGOCCONG.ANUIShop.Data.Migrations
 {
     [DbContext(typeof(ANUIShopDbContext))]
-    [Migration("20211215201430_create-db")]
-    partial class createdb
+    [Migration("20211219130558_Migrations")]
+    partial class Migrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -149,7 +149,7 @@ namespace TANGOCCONG.ANUIShop.Data.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "816a795d-7c2f-4ccf-8e5a-bd86fc20f839",
+                            ConcurrencyStamp = "26f1d760-7632-4491-9c11-3b3a166d64e4",
                             Description = "Admintrator role",
                             Name = "Admin",
                             NormalizedName = "admin"
@@ -157,7 +157,7 @@ namespace TANGOCCONG.ANUIShop.Data.Migrations
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "88a6a87f-6de7-44b4-b179-fb216c2adc34",
+                            ConcurrencyStamp = "bf473bf2-b687-441c-b7e1-a2ba18ee01be",
                             Description = "Employee role",
                             Name = "Nhân viên",
                             NormalizedName = "employee"
@@ -165,7 +165,7 @@ namespace TANGOCCONG.ANUIShop.Data.Migrations
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "171f5cd3-1ec7-4b41-bfe6-ffd7ebf8a3b0",
+                            ConcurrencyStamp = "cf220701-9b6e-4cd4-9f6f-398561fa9804",
                             Description = "Customer role",
                             Name = "Khách hàng",
                             NormalizedName = "customer"
@@ -243,7 +243,7 @@ namespace TANGOCCONG.ANUIShop.Data.Migrations
                     b.Property<DateTime>("TimeCreated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2021, 12, 16, 3, 14, 28, 182, DateTimeKind.Local).AddTicks(5976));
+                        .HasDefaultValue(new DateTime(2021, 12, 19, 20, 5, 57, 423, DateTimeKind.Local).AddTicks(7778));
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("tinyint(1)");
@@ -260,7 +260,7 @@ namespace TANGOCCONG.ANUIShop.Data.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c6b28e7c-e983-4530-a2d8-a4ef0de8fc04",
+                            ConcurrencyStamp = "b2fbc2c8-a1fa-41a4-b78f-65ad4ce19395",
                             Dob = new DateTime(1997, 6, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "tacong56@gmail.com",
                             EmailConfirmed = true,
@@ -271,11 +271,11 @@ namespace TANGOCCONG.ANUIShop.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "tacong56@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEG3pmbTrbNXHMGySVhA0KEsZaW4fObH8k7QuelS3DEN3hE4VXoCuxEpoR2zMP/hTjg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDPg3NOH6g626RDdlLxJqbpLqDHLqSZI2mMKc7e2Tnrhvl0z0bd+KMM5GZsTvzP+vQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             State = 0,
-                            TimeCreated = new DateTime(2021, 12, 16, 3, 14, 28, 352, DateTimeKind.Local).AddTicks(1770),
+                            TimeCreated = new DateTime(2021, 12, 19, 20, 5, 57, 486, DateTimeKind.Local).AddTicks(6130),
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -287,9 +287,6 @@ namespace TANGOCCONG.ANUIShop.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime(6)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(65,30)");
@@ -350,6 +347,41 @@ namespace TANGOCCONG.ANUIShop.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            IsDelete = false,
+                            IsShowOnHome = true,
+                            Level = 0,
+                            Name = "Danh mục 1",
+                            ParentId = 0,
+                            SortOrder = 1,
+                            Status = 0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            IsDelete = false,
+                            IsShowOnHome = true,
+                            Level = 0,
+                            Name = "Danh mục 2",
+                            ParentId = 0,
+                            SortOrder = 2,
+                            Status = 0
+                        },
+                        new
+                        {
+                            Id = 3,
+                            IsDelete = false,
+                            IsShowOnHome = true,
+                            Level = 0,
+                            Name = "Danh mục 3",
+                            ParentId = 0,
+                            SortOrder = 3,
+                            Status = 0
+                        });
                 });
 
             modelBuilder.Entity("TANGOCCONG.ANUIShop.Data.Entities.District", b =>
@@ -400,7 +432,7 @@ namespace TANGOCCONG.ANUIShop.Data.Migrations
                     b.Property<DateTime>("TimeCreated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2021, 12, 16, 3, 14, 28, 189, DateTimeKind.Local).AddTicks(1670));
+                        .HasDefaultValue(new DateTime(2021, 12, 19, 20, 5, 57, 427, DateTimeKind.Local).AddTicks(3365));
 
                     b.Property<string>("UrlPath")
                         .HasColumnType("longtext");
@@ -517,7 +549,7 @@ namespace TANGOCCONG.ANUIShop.Data.Migrations
                     b.Property<DateTime>("TimeCreated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2021, 12, 16, 3, 14, 28, 253, DateTimeKind.Local).AddTicks(3400));
+                        .HasDefaultValue(new DateTime(2021, 12, 19, 20, 5, 57, 454, DateTimeKind.Local).AddTicks(7330));
 
                     b.Property<DateTime>("TimeUpdated")
                         .HasColumnType("datetime(6)");
@@ -534,6 +566,104 @@ namespace TANGOCCONG.ANUIShop.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Code = "SACH0001",
+                            Description = "Sách 01",
+                            ImageId = 0,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Sách 01",
+                            Price = 100000m,
+                            TimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Sách 01",
+                            UserUpdate = 0,
+                            View = 0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Code = "SACH0002",
+                            Description = "Sách 01",
+                            ImageId = 0,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Sách 02",
+                            Price = 100000m,
+                            TimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Sách 01",
+                            UserUpdate = 0,
+                            View = 0
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Code = "SACH0003",
+                            Description = "Sách 03",
+                            ImageId = 0,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Sách 03",
+                            Price = 100000m,
+                            TimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Sách 01",
+                            UserUpdate = 0,
+                            View = 0
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Code = "SACH0004",
+                            Description = "Sách 04",
+                            ImageId = 0,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Sách 04",
+                            Price = 100000m,
+                            TimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Sách 01",
+                            UserUpdate = 0,
+                            View = 0
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Code = "SACH0005",
+                            Description = "Sách 03",
+                            ImageId = 0,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Sách 05",
+                            Price = 100000m,
+                            TimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Sách 01",
+                            UserUpdate = 0,
+                            View = 0
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Code = "SACH0006",
+                            Description = "Sách 03",
+                            ImageId = 0,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Sách 06",
+                            Price = 100000m,
+                            TimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Sách 01",
+                            UserUpdate = 0,
+                            View = 0
+                        });
                 });
 
             modelBuilder.Entity("TANGOCCONG.ANUIShop.Data.Entities.ProductImage", b =>
@@ -587,6 +717,38 @@ namespace TANGOCCONG.ANUIShop.Data.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("ProductInCategories");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryId = 1,
+                            ProductId = 1
+                        },
+                        new
+                        {
+                            CategoryId = 2,
+                            ProductId = 2
+                        },
+                        new
+                        {
+                            CategoryId = 3,
+                            ProductId = 3
+                        },
+                        new
+                        {
+                            CategoryId = 1,
+                            ProductId = 4
+                        },
+                        new
+                        {
+                            CategoryId = 1,
+                            ProductId = 5
+                        },
+                        new
+                        {
+                            CategoryId = 1,
+                            ProductId = 6
+                        });
                 });
 
             modelBuilder.Entity("TANGOCCONG.ANUIShop.Data.Entities.Promotion", b =>
