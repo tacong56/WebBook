@@ -28,6 +28,16 @@ export const navItems: INavData[] = [
     name: 'Tài khoản',
     url: 'tai-khoan',
     icon: 'icon-drop'
+  },
+  {
+    name: 'Đơn hàng',
+    url: 'don-hang',
+    icon: 'icon-drop'
+  },
+  {
+    name: 'Khuyến mãi',
+    url: 'khuyen-mai',
+    icon: 'icon-drop'
   }
   // {
   //   title: true,

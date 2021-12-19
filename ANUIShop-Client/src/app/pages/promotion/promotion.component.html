@@ -1,0 +1,85 @@
+<div class="row">
+    <div class="form-group col-3">
+        <label class="form-label">Ngày từ</label>
+        <div>
+            <input class="form-control" id="ngaytu" [max]="request.NgayDen" type="date" [(ngModel)]="request.NgayTu" (change)="filter()" placeholder="Ngày từ">
+        </div>
+    </div>
+    <div class="form-group col-3">
+        <label class="form-label">Ngày đến</label>
+        <div>
+            <input class="form-control" id="ngayden" [min]="request.NgayTu" type="date" [(ngModel)]="request.NgayDen" (change)="filter()" placeholder="Ngày đến">
+        </div>
+    </div>
+</div>
+
+<div class="mb-2 row">
+    <div class="col-12 text-right">
+        <a routerLink="/admin/tai-khoan/them-moi" class="btn btn-primary"><i class="fa fa-plus"></i> Thêm mới</a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <i class="fa fa-align-justify"></i> Danh sách sách
+    </div>
+    <div class="card-body">
+        <table class="table-custom table table-bordered table-striped table-sm">
+            <thead>
+                <tr>
+                    <th>Ngày tạo</th>
+                    <th>Người đặt</th>
+                    <th>Người nhận</th>
+                    <th>Địa chỉ nhận</th>
+                    <th>SĐT nhận</th>
+                    <th>Ngày sinh</th>
+                    <th style="width: 120px">Tác vụ</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of dataSource.items; let index = index">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <a routerLink="/admin/tai-khoan/cap-nhat/1" class="btn btn-sm btn-primary"><i class="fa fa-pencil text-white"></i></a>
+                        <button type="button" class="btn btn-sm btn-danger" (click)="openModalDelete(templateDelete, item)"><i class="fa fa-trash"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <nav>
+            <ul class="pagination">
+                <li class="page-item" [ngClass]="{'disabled': dataSource.page == 1}" title="Trang đầu" (click)="onClickPaging(1)" style="cursor: pointer;">
+                    <span class="page-link"><i class="fa fa-angle-double-left"></i></span>
+                </li>
+                <li class="page-item active" [ngClass]="{'active': dataSource.page == item}" *ngFor="let item of listNumberPaging; let index = index" (click)="onClickPaging(item)" style="cursor: pointer;">
+                    <span class="page-link" href="#">{{item}}</span>
+                </li>
+                <li class="page-item" [ngClass]="{'disabled': dataSource.page == totalPage}" (click)="onClickPaging(totalPage)" style="cursor: pointer;">
+                    <span class="page-link" href="#" title="Trang cuối"><i class="fa fa-angle-double-right"></i></span>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<ng-template #templateDelete>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Xóa</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRefDelete.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        Chọn xác nhận để xóa
+    </div>
+    <div class="modal-footer">
+        <div class="text-right">
+            <button class="btn btn-primary" (click)="deleteItem()">Xác nhận</button>
+            <button class="btn btn-light" (click)="modalRefDelete.hide()">Hủy</button>
+        </div>
+    </div>
+</ng-template>

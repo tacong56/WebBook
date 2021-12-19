@@ -18,6 +18,7 @@ import { AppComponent } from './app.component';
 
 // Import containers
 import { DefaultLayoutComponent } from './containers';
+import { DefaultLayoutClientComponent } from './containers/default-layout-client/default-layout-client.component';
 
 import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
@@ -25,7 +26,8 @@ import { LoginComponent } from './views/login/login.component';
 import { RegisterComponent } from './views/register/register.component';
 
 const APP_CONTAINERS = [
-  DefaultLayoutComponent
+  DefaultLayoutComponent,
+  DefaultLayoutClientComponent
 ];
 
 import {
@@ -48,6 +50,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { authInterceptorProviders } from './_helpers/auth.interceptor';
 import { UploadImageComponent } from './components/upload-image/upload-image.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { HomeComponent } from './clients/home/home.component';
 
 @NgModule({
   imports: [
@@ -79,7 +82,8 @@ import { ProfileComponent } from './pages/profile/profile.component';
     LoginComponent,
     RegisterComponent,
     UploadImageComponent,
-    ProfileComponent
+    ProfileComponent,
+    HomeComponent
   ],
   providers: [
     {
