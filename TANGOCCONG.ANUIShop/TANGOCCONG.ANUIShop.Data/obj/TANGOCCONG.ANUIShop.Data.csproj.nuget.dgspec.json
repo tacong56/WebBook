@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Ta Cong\\Desktop\\ANUIShop\\TANGOCCONG.ANUIShop\\TANGOCCONG.ANUIShop.Data\\TANGOCCONG.ANUIShop.Data.csproj": {}
+    "C:\\Users\\Ta Cong\\Desktop\\WEB-Book\\ANUIShop-Client\\TANGOCCONG.ANUIShop\\TANGOCCONG.ANUIShop.Data\\TANGOCCONG.ANUIShop.Data.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Ta Cong\\Desktop\\ANUIShop\\TANGOCCONG.ANUIShop\\TANGOCCONG.ANUIShop.Data\\TANGOCCONG.ANUIShop.Data.csproj": {
+    "C:\\Users\\Ta Cong\\Desktop\\WEB-Book\\ANUIShop-Client\\TANGOCCONG.ANUIShop\\TANGOCCONG.ANUIShop.Data\\TANGOCCONG.ANUIShop.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Ta Cong\\Desktop\\ANUIShop\\TANGOCCONG.ANUIShop\\TANGOCCONG.ANUIShop.Data\\TANGOCCONG.ANUIShop.Data.csproj",
+        "projectUniqueName": "C:\\Users\\Ta Cong\\Desktop\\WEB-Book\\ANUIShop-Client\\TANGOCCONG.ANUIShop\\TANGOCCONG.ANUIShop.Data\\TANGOCCONG.ANUIShop.Data.csproj",
         "projectName": "TANGOCCONG.ANUIShop.Data",
-        "projectPath": "C:\\Users\\Ta Cong\\Desktop\\ANUIShop\\TANGOCCONG.ANUIShop\\TANGOCCONG.ANUIShop.Data\\TANGOCCONG.ANUIShop.Data.csproj",
+        "projectPath": "C:\\Users\\Ta Cong\\Desktop\\WEB-Book\\ANUIShop-Client\\TANGOCCONG.ANUIShop\\TANGOCCONG.ANUIShop.Data\\TANGOCCONG.ANUIShop.Data.csproj",
         "packagesPath": "C:\\Users\\Ta Cong\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Ta Cong\\Desktop\\ANUIShop\\TANGOCCONG.ANUIShop\\TANGOCCONG.ANUIShop.Data\\obj\\",
+        "outputPath": "C:\\Users\\Ta Cong\\Desktop\\WEB-Book\\ANUIShop-Client\\TANGOCCONG.ANUIShop\\TANGOCCONG.ANUIShop.Data\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

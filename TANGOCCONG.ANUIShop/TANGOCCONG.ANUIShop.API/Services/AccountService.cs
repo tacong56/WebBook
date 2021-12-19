@@ -153,7 +153,7 @@ namespace TANGOCCONG.ANUIShop.API.Services
             using var connection = new MySqlConnection(_conn.DefaultConnection);
             await connection.OpenAsync();
 
-            var where = " where au.IsDelete = 0 and ar.Name not like N'Admin' ";
+            var where = " where au.IsDelete = 0 and ar.Id <> 1 ";
             if (!string.IsNullOrEmpty(request.Keyword))
             {
                 where += " and (au.UserName like N'%" + request.Keyword + "%') ";
