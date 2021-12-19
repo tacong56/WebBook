@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using TANGOCCONG.ANUIShop.Data.Enums;
 
 namespace TANGOCCONG.ANUIShop.Data.Entities
@@ -17,7 +18,5 @@ namespace TANGOCCONG.ANUIShop.Data.Entities
         public bool IsDelete { set; get; }
         public List<OrderDetail> OrderDetails { get; set; }
         public AppUser AppUser { get; set; }
-
-
     }
 }
