@@ -1,0 +1,88 @@
+<form autocomplete="off" (ngSubmit)="customSave()" [formGroup]="formDetail" class="detail-form">
+    <h1 class="header-title text-primary">{{headerTitle}}</h1>
+    <input formControlName="ID" hidden>
+    <div class="row">
+        <div class="form-group col-6">
+            <div class="upload-contain">
+                <label class="hoverable" for="fileInput1">
+                    <img class="upload-display" [src]="imageMainUrl ? imageMainUrl : '/assets/img/avatars/product-default.jpg'"> 
+                    <div class="hover-text">Chọn ảnh</div>
+                    <div class="background"></div>
+                </label>
+                <div class="upload--description">
+                    <span>Dung lượng ảnh không được vượt quá 5MB.</span>
+                </div>
+                <span class="upload--delete" *ngIf="imageMainUrl" (click)="deleteImageMain()"><i class="fa fa-close"></i></span>
+                <input #fileInput1 id='fileInput1' name="fileMain" type='file' (change)="onSelectFileMain($event)">
+            </div>
+            <div class="invalid-feedback" [ngStyle]="{'display': requiredImage ? 'block' : 'none'}">Trường không được để trống</div>
+        </div>
+        <div class="form-group col-6">
+            <label class="form-label required" for="">Danh mục</label>
+            <select class="form-control" formControlName="CategoryID" [ngClass]="displayFieldCss('CategoryID')">
+                <option value="">Chọn danh mục</option>
+                <option *ngFor="let category of listCategory" value="{{category.id}}">{{category.name}}</option>
+            </select>
+            <ng-container *ngIf="formDetail.get('CategoryID')?.errors?.required">
+                <div class="invalid-feedback">Trường không được để trống</div>
+            </ng-container>
+        </div>
+        <div class="form-group col-6">
+            <label class="form-label required">Mã sản phẩm</label>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="icon-user"></i></span>
+                </div>
+                <input type="text" id="Code" formControlName="Code" class="form-control" placeholder="Mã sản phẩm" [ngClass]="displayFieldCss('Code')">
+                <ng-container *ngIf="formDetail.get('Code')?.errors?.required">
+                    <div class="invalid-feedback">Trường không được để trống</div>
+                </ng-container>
+            </div>
+        </div>
+        <div class="form-group col-6">
+            <label class="form-label required">Tên sản phẩm</label>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="icon-user"></i></span>
+                </div>
+                <input type="text" id="Name" formControlName="Name" class="form-control" placeholder="Tên sản phẩm" [ngClass]="displayFieldCss('Name')">
+                <ng-container *ngIf="formDetail.get('Name')?.errors?.required">
+                    <div class="invalid-feedback">Trường không được để trống</div>
+                </ng-container>
+                <ng-container *ngIf="formDetail.get('Name')?.errors?.maxlength">
+                    <div class="invalid-feedback">Không được nhập quá 250 ký tự</div>
+                </ng-container>
+            </div>
+        </div>
+        <div class="form-group col-6">
+            <label class="form-label required">Giá</label>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="icon-user"></i></span>
+                </div>
+                <input type="text" id="Price" (keyup)="onKeyOnlyNumber($event)" name="Price" formControlName="Price" [value]="formDetail.get('Price').value | numberPipe" class="form-control" placeholder="Giá" [ngClass]="displayFieldCss('Price')">
+                <ng-container *ngIf="formDetail.get('Price')?.errors?.required">
+                    <div class="invalid-feedback">Trường không được để trống</div>
+                </ng-container>
+            </div>
+        </div>
+        <div class="form-group col-6">
+            <label class="form-label">Tiêu đề</label>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="icon-user"></i></span>
+                </div>
+                <input type="text" id="" name="Title" formControlName="Title" value="Title" class="form-control" placeholder="Tiêu đề">
+            </div>
+        </div>
+        <div class="form-group col-12">
+            <label class="form-label">Mô tả</label>
+            <ckeditor [editor]="Editor" [(ngModel)]="dataCKEditor" [ngModelOptions]="{standalone: true}" (change)="changeCkEditor($event)"></ckeditor>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <button type="submit" class="btn btn-primary px-4">Lưu</button>
+        </div>
+    </div>
+</form>

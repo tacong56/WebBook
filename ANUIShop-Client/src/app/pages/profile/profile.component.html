@@ -1,0 +1,84 @@
+<div class="card">
+    <div class="card-header">
+        Thông tin tài khoản
+    </div>
+    <div class="card-body">
+        <form autocomplete="off" (ngSubmit)="changeInfo()" [formGroup]="formInfo" class="form--profile">
+            <input id="id" formControlName="id" hidden readonly>
+            <div class="row align-items-end">
+                <div class="form-group col-md-6">
+                    <app-upload-image [url]="formInfo.get('urlimage').value" [urlOld]="formInfo.get('urlimage').value" (ChangeFileEvent)="changeFile($event)"></app-upload-image>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="form-label">Tài khoản</label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="icon-user"></i></span>
+                        </div>
+                        <input type="text" id="username" formControlName="username" class="form-control" placeholder="Tài khoản" readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label class="form-label">Số điện thoại</label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="icon-phone"></i></span>
+                        </div>
+                        <input type="text" id="phonenumber" formControlName="phonenumber" class="form-control" placeholder="Số điện thoại">
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="form-label">Email</label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="icon-envelope"></i></span>
+                        </div>
+                        <input type="text" id="email" formControlName="email" class="form-control" placeholder="Email">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label class="form-label">Địa chỉ</label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="icon-location-pin"></i></span>
+                        </div>
+                        <input type="text" id="address" formControlName="address" class="form-control" placeholder="Địa chỉ">
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="form-label" for="date-input">Ngày sinh</label>
+                    <input class="form-control" id="dob" type="date" formControlName="dob" placeholder="Ngày sinh">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label class="form-label">Họ</label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="icon-emotsmile"></i></span>
+                        </div>
+                        <input type="text" id="firstname" formControlName="firstname" class="form-control" placeholder="Họ">
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="form-label">Tên</label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="icon-emotsmile"></i></span>
+                        </div>
+                        <input type="text" id="lastname" formControlName="lastname" class="form-control" placeholder="Tên">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <button type="submit" class="btn btn-primary px-4">Lưu</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

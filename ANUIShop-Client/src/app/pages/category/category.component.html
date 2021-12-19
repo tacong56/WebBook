@@ -1,0 +1,104 @@
+<div class="row">
+    <div class="form-group col-3">
+        <label class="form-label" for="">Từ khóa</label>
+        <div>
+            <input class="form-control" placeholder="Tên danh mục" [(ngModel)]="request.Keyword" (keyup.enter)="filter()">
+        </div>
+    </div>
+    <div class="form-group col-3">
+        <label class="form-label">Loại danh mục</label>
+        <div>
+            <select class="form-control" [(ngModel)]="request.Level" (change)="filter()">
+                <option value="">Chọn loại danh mục</option>
+                <option value="0">Danh mục cha</option>
+                <option value="1">Danh mục con</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<div class="mb-2 row">
+    <div class="col-12 text-right">
+        <button type="button" (click)="openModal(template, null)" class="btn btn-primary"><i class="fa fa-plus"></i> Thêm mới</button>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <i class="fa fa-align-justify"></i> Danh sách danh mục
+    </div>
+    <div class="card-body">
+        <table class="table-custom table table-bordered table-striped table-sm">
+            <thead>
+                <tr>
+                    <th>Tên danh mục</th>
+                    <th>Danh mục cha</th>
+                    <th>Vị trí</th>
+                    <th>Hiển thị</th>
+                    <th style="width: 90px">Tác vụ</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of dataSource.items; let index = index">
+                    <td>{{item.name}}</td>
+                    <td>{{item.parentName}}</td>
+                    <td>{{item.sortOrder}}</td>
+                    <td>{{item.isShowOnHome ? 'Có' : 'Không'}}</td>
+                    <td>
+                        <button type="button" (click)="openModal(template, item)" class="btn btn-sm btn-primary"><i class="fa fa-pencil"></i></button>
+                        <button type="button" class="btn btn-sm btn-danger" (click)="openModalDelete(templateDelete, item)"><i class="fa fa-trash"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <nav>
+            <ul class="pagination">
+                <li class="page-item" [ngClass]="{'disabled': dataSource?.page == 1}" title="Trang đầu" (click)="onClickPaging(1)" style="cursor: pointer;">
+                    <span class="page-link"><i class="fa fa-angle-double-left"></i></span>
+                </li>
+                <li class="page-item active" [ngClass]="{'active': dataSource.page == item}" *ngFor="let item of listNumberPaging; let index = index" (click)="onClickPaging(item)" style="cursor: pointer;">
+                    <span class="page-link" href="#">{{item}}</span>
+                </li>
+                <li class="page-item" [ngClass]="{'disabled': dataSource.page == totalPage}" (click)="onClickPaging(totalPage)" style="cursor: pointer;">
+                    <span class="page-link" href="#" title="Trang cuối"><i class="fa fa-angle-double-right"></i></span>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<ng-template #template>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">{{title}}</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <app-category-detail #detail [item]="itemSelected"></app-category-detail>
+    </div>
+    <div class="modal-footer">
+        <div class="text-right">
+            <button class="btn btn-primary" (click)="customSave()">Lưu</button>
+            <button class="btn btn-light" (click)="modalRef.hide()">Đóng</button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #templateDelete>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Xóa</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRefDelete.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        Chọn xác nhận để xóa
+    </div>
+    <div class="modal-footer">
+        <div class="text-right">
+            <button class="btn btn-primary" (click)="deleteItem()">Xác nhận</button>
+            <button class="btn btn-light" (click)="modalRefDelete.hide()">Hủy</button>
+        </div>
+    </div>
+</ng-template>

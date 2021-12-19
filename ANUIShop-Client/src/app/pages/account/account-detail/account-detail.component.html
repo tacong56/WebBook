@@ -1,0 +1,127 @@
+<form autocomplete="off" (ngSubmit)="customSave()" [formGroup]="formDetail" class="detail-form">
+    <h1 class="header-title text-primary">{{headerTitle}}</h1>
+    <input formControlName="Id" hidden>
+    <div class="row">
+        <div class="form-group col-6">
+            <div class="upload-contain">
+                <label class="hoverable" for="fileInput1">
+                    <img class="upload-display" [src]="imageMainUrl ? imageMainUrl : '/assets/img/avatars/product-default.jpg'"> 
+                    <div class="hover-text">Chọn ảnh</div>
+                    <div class="background"></div>
+                </label>
+                <div class="upload--description">
+                    <span>Dung lượng ảnh không được vượt quá 5MB.</span>
+                </div>
+                <span class="upload--delete" *ngIf="imageMainUrl" (click)="deleteImageMain()"><i class="fa fa-close"></i></span>
+                <input #fileInput1 id='fileInput1' name="fileMain" type='file' (change)="onSelectFileMain($event)">
+            </div>
+            <!-- <div class="invalid-feedback" [ngStyle]="{'display': requiredImage ? 'block' : 'none'}">Trường không được để trống</div> -->
+        </div>
+        <div class="form-group col-6">
+            <label class="form-label required" for="">Quyền</label>
+            <select class="form-control" formControlName="RoleId" [ngClass]="displayFieldCss('RoleId')">
+                <option value="">Chọn quyền</option>
+                <option *ngFor="let item of listRole" value="{{item.id}}">{{item.name}}</option>
+            </select>
+            <ng-container *ngIf="formDetail.get('RoleId')?.errors?.required">
+                <div class="invalid-feedback">Trường không được để trống</div>
+            </ng-container>
+        </div>
+        <div class="form-group col-6">
+            <label class="form-label required">Tài khoản</label>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="icon-user"></i></span>
+                </div>
+                <input type="text" id="UserName" formControlName="UserName" class="form-control" placeholder="Tài khoản" [ngClass]="displayFieldCss('UserName')">
+                <ng-container *ngIf="formDetail.get('UserName')?.errors?.required">
+                    <div class="invalid-feedback">Trường không được để trống</div>
+                </ng-container>
+                <ng-container *ngIf="formDetail.get('UserName')?.errors?.maxlength">
+                    <div class="invalid-feedback">Không được nhập quá 50 ký tự</div>
+                </ng-container>
+            </div>
+        </div>
+        <div class="form-group col-6">
+            <label class="form-label">Email</label>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="icon-user"></i></span>
+                </div>
+                <input type="text" id="Email" name="Email" formControlName="Email" class="form-control" placeholder="Email">
+            </div>
+        </div>
+        <div class="form-group col-6">
+            <label class="form-label required">Mật khẩu</label>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="icon-user"></i></span>
+                </div>
+                <input type="password" id="Password" formControlName="Password" class="form-control" placeholder="Mật khẩu" [ngClass]="displayFieldCss('Password')">
+                <ng-container *ngIf="formDetail.get('Password')?.errors?.required">
+                    <div class="invalid-feedback">Trường không được để trống</div>
+                </ng-container>
+            </div>
+        </div>
+        <div class="form-group col-6">
+            <label class="form-label required">Nhập lại mật khẩu</label>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="icon-user"></i></span>
+                </div>
+                <input type="password" id="Password_Repeat" formControlName="Password_Repeat" class="form-control" placeholder="Nhập lại mật khẩu" [ngClass]="displayFieldCss('Password_Repeat')">
+                <ng-container *ngIf="formDetail.get('Password_Repeat')?.errors?.required">
+                    <div class="invalid-feedback">Trường không được để trống</div>
+                </ng-container>
+            </div>
+        </div>
+        <div class="form-group col-6">
+            <label class="form-label required">Họ</label>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="icon-user"></i></span>
+                </div>
+                <input type="text" id="FirstName" name="FirstName" formControlName="FirstName" class="form-control" placeholder="Họ" [ngClass]="displayFieldCss('FirstName')">
+                <ng-container *ngIf="formDetail.get('FirstName')?.errors?.required">
+                    <div class="invalid-feedback">Trường không được để trống</div>
+                </ng-container>
+            </div>
+        </div>
+        <div class="form-group col-6">
+            <label class="form-label required">Tên</label>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="icon-user"></i></span>
+                </div>
+                <input type="text" id="LastName" name="LastName" formControlName="LastName" class="form-control" placeholder="Tên" [ngClass]="displayFieldCss('LastName')">
+                <ng-container *ngIf="formDetail.get('LastName')?.errors?.required">
+                    <div class="invalid-feedback">Trường không được để trống</div>
+                </ng-container>
+            </div>
+        </div>
+
+        <div class="form-group col-6">
+            <label class="form-label">Số điện thoại</label>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="icon-user"></i></span>
+                </div>
+                <input type="text" id="PhoneNumber" name="PhoneNumber" formControlName="PhoneNumber" class="form-control" placeholder="Số điện thoại">
+            </div>
+        </div>
+        <div class="form-group col-6">
+            <label class="form-label">Ngày sinh</label>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="icon-user"></i></span>
+                </div>
+                <input class="form-control" id="Dob" name="Dob" type="date" formControlName="Dob" placeholder="Ngày sinh">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <button type="submit" class="btn btn-primary px-4">Lưu</button>
+        </div>
+    </div>
+</form>

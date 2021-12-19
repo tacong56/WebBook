@@ -1,0 +1,45 @@
+// Here you can add other styles
+.sidebar {
+    .nav-dropdown.open {
+        .nav-dropdown-items {
+            .nav-link {
+                padding-left: 2rem;
+            }
+        }
+    }
+}
+
+.header-title {
+    margin-bottom: 2rem;
+}
+
+.required {
+    &::after {
+        content: ' (*)';
+        color: $color-danger;
+    }
+}
+
+.img-avatar {
+    height: 35px;
+    margin: 0 10px;
+    width: 35px;
+    object-fit: cover;
+}
+
+.table-custom {
+    thead {
+        tr {
+            th {
+                text-align: center;
+            }
+        }
+    }
+    tbody {
+        tr {
+            td {
+                text-align: center;
+            }
+        }
+    }
+}

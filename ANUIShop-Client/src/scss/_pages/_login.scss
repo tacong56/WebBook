@@ -1,0 +1,12 @@
+#page-login {
+    background-image: url(../../assets/img/background/background-login.jpg);
+    background-repeat: no-repeat, repeat;
+    background-size: cover;
+
+    .card-group {
+        .card {
+            background: rgba(black, .2);
+            border: none;
+        }
+    }
+}

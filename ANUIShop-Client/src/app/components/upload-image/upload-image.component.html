@@ -1,0 +1,12 @@
+<div class="upload-contain">
+    <label class="hoverable" for="fileInput">
+        <img [src]="url ? url : '/assets/img/avatars/avatar-default.png'"> 
+        <div class="hover-text">Chọn ảnh đại diện</div>
+        <div class="background"></div>
+    </label>
+    <div class="upload--description">
+        <span>Dung lượng ảnh không được vượt quá 5MB.</span>
+    </div>
+    <span class="upload--delete" *ngIf="url" (click)="delete()"><i class="fa fa-close"></i></span>
+    <input #fileInput id='fileInput' type='file' (change)="onSelectFile($event)">
+</div>

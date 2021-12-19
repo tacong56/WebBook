@@ -1,0 +1,57 @@
+<div class="app-body" id="page-login">
+  <main class="main d-flex align-items-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 mx-auto">
+          <div class="card-group">
+            <div class="card p-4">
+              <div class="card-body">
+                <form autocomplete="off" (ngSubmit)="login()" [formGroup]="formLogin" class="login--form">
+                  <h1 class="header-title text-primary">Đăng nhập</h1>
+                  <div class="form-group">
+                    <label class="form-label required text-light">Tài khoản</label>
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="icon-user"></i></span>
+                      </div>
+                      <input type="text" id="username" formControlName="username" class="form-control" placeholder="Tài khoản" [ngClass]="displayFieldCss('username')">
+                      <ng-container *ngIf="formLogin.get('username')?.errors?.required">
+                        <div class="invalid-feedback">Tài khoản không được để trống</div>
+                      </ng-container>
+                      <ng-container *ngIf="formLogin.get('username')?.errors?.minlength">
+                        <div class="invalid-feedback">Tài khoản có ít nhất 4 ký tự</div>
+                      </ng-container>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label required text-light">Mật khẩu</label>
+                    <div class="input-group mb-4">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="icon-lock"></i></span>
+                      </div>
+                      <input type="password" id="password" formControlName="password" class="form-control" placeholder="Mật khẩu" [ngClass]="displayFieldCss('password')">
+                      <ng-container *ngIf="formLogin.get('password')?.errors?.required">
+                        <div class="invalid-feedback">Mật khẩu không được để trống</div>
+                      </ng-container>
+                      <ng-container *ngIf="formLogin.get('password')?.errors?.minlength">
+                        <div class="invalid-feedback">Mật khẩu có ít nhất 4 ký tự</div>
+                      </ng-container>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-6">
+                      <button type="submit" class="btn btn-primary px-4">Đăng nhập</button>
+                    </div>
+                    <div class="col-6 text-right">
+                      <button type="button" class="btn btn-link px-0 text-light">Quên mật khẩu?</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
