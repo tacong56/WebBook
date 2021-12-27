@@ -2,13 +2,13 @@
     <div class="form-group col-3">
         <label class="form-label">Ngày từ</label>
         <div>
-            <input class="form-control" id="ngaytu" [max]="request.NgayDen" type="date" [(ngModel)]="request.NgayTu" (change)="filter()" placeholder="Ngày từ">
+            <input class="form-control" id="ngaytu" [max]="NgayDen" type="date" [(ngModel)]="NgayTu" (change)="filter()" placeholder="Ngày từ">
         </div>
     </div>
     <div class="form-group col-3">
         <label class="form-label">Ngày đến</label>
         <div>
-            <input class="form-control" id="ngayden" [min]="request.NgayTu" type="date" [(ngModel)]="request.NgayDen" (change)="filter()" placeholder="Ngày đến">
+            <input class="form-control" id="ngayden" [min]="NgayTu" type="date" [(ngModel)]="NgayDen" (change)="filter()" placeholder="Ngày đến">
         </div>
     </div>
 </div>
@@ -32,19 +32,18 @@
                     <th>Người nhận</th>
                     <th>Địa chỉ nhận</th>
                     <th>SĐT nhận</th>
-                    <th>Ngày sinh</th>
                     <th style="width: 120px">Tác vụ</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let item of dataSource.items; let index = index">
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{item.OrderDate | date: 'dd/MM/yyyy HH:mm'}}</td>
+                    <td>{{item.ShipName}}</td>
+                    <td>{{item.ShipName}}</td>
+                    <td>{{item.ShipAddress}}</td>
+                    <td>{{item.ShipPhoneNumber}}</td>
                     <td>
-                        <a routerLink="/admin/tai-khoan/cap-nhat/1" class="btn btn-sm btn-primary"><i class="fa fa-pencil text-white"></i></a>
+                        <button type="button" class="btn btn-sm btn-primary" (click)="openModalEdit(templateEdit, item)"><i class="fa fa-pencil"></i></button>
                         <button type="button" class="btn btn-sm btn-danger" (click)="openModalDelete(templateDelete, item)"><i class="fa fa-trash"></i></button>
                     </td>
                 </tr>
@@ -52,19 +51,45 @@
         </table>
         <nav>
             <ul class="pagination">
-                <li class="page-item" [ngClass]="{'disabled': dataSource.page == 1}" title="Trang đầu" (click)="onClickPaging(1)" style="cursor: pointer;">
+                <li class="page-item" [ngClass]="{'disabled': dataSource.Page == 1}" title="Trang đầu" (click)="onClickPaging(1)" style="cursor: pointer;">
                     <span class="page-link"><i class="fa fa-angle-double-left"></i></span>
                 </li>
-                <li class="page-item active" [ngClass]="{'active': dataSource.page == item}" *ngFor="let item of listNumberPaging; let index = index" (click)="onClickPaging(item)" style="cursor: pointer;">
+                <li class="page-item active" [ngClass]="{'active': dataSource.Page == item}" *ngFor="let item of listNumberPaging; let index = index" (click)="onClickPaging(item)" style="cursor: pointer;">
                     <span class="page-link" href="#">{{item}}</span>
                 </li>
-                <li class="page-item" [ngClass]="{'disabled': dataSource.page == totalPage}" (click)="onClickPaging(totalPage)" style="cursor: pointer;">
+                <li class="page-item" [ngClass]="{'disabled': dataSource.Page == totalPage}" (click)="onClickPaging(totalPage)" style="cursor: pointer;">
                     <span class="page-link" href="#" title="Trang cuối"><i class="fa fa-angle-double-right"></i></span>
                 </li>
             </ul>
         </nav>
     </div>
 </div>
+
+
+<ng-template #templateEdit>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Thay đổi trạng thái</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRefEdit.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <ul class="col-12">
+                <li (click)="saveChangeSatatus(0)">1. Chờ xác nhận</li>
+                <li (click)="saveChangeSatatus(1)">2. Xác nhận</li>
+                <li (click)="saveChangeSatatus(2)">3. Đang giao</li>
+                <li (click)="saveChangeSatatus(3)">4. Hoàn thành</li>
+                <li (click)="saveChangeSatatus(4)">5. Hủy</li>
+            </ul>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="text-right">
+            <button class="btn btn-light" (click)="closeChangeStatus()">Hủy</button>
+        </div>
+    </div>
+</ng-template>
 
 <ng-template #templateDelete>
     <div class="modal-header">

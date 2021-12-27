@@ -2,8 +2,15 @@
     <header class="container">
         <div class="header-top">
             <ul>
-                <li style="cursor: pointer;" (click)="openModal(template)">Tạo tài khoản</li>
-                <li style="cursor: pointer;" (click)="openModal1(template1)">Đăng nhập</li>
+                <ng-container *ngIf="!isLogin">
+                    <li style="cursor: pointer;" (click)="openModal(template)">Tạo tài khoản</li>
+                    <li style="cursor: pointer;" (click)="openModal1(template1)">Đăng nhập</li>
+                </ng-container>
+                <ng-container *ngIf="isLogin">
+                    <li style="cursor: pointer;" (click)="openModal(template)">Tạo tài khoản</li>
+                    <li style="cursor: pointer;">{{user.UserName}}</li>
+                    <li style="cursor: pointer;" (click)="logout()">Đăng xuất</li>
+                </ng-container>
             </ul>
         </div>
         <div class="header-center row">

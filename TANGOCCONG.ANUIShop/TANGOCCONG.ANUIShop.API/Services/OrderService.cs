@@ -9,6 +9,7 @@ using TANGOCCONG.ANUIShop.API.Models;
 using TANGOCCONG.ANUIShop.API.Objects;
 using TANGOCCONG.ANUIShop.Data.EF;
 using TANGOCCONG.ANUIShop.Data.Entities;
+using TANGOCCONG.ANUIShop.Data.Enums;
 
 namespace TANGOCCONG.ANUIShop.API.Services
 {
@@ -110,11 +111,24 @@ namespace TANGOCCONG.ANUIShop.API.Services
             return data;
         }
 
-        public async Task<PaginationResult<OrderModel>> GetPaging(int limit, int page, string sort, int userID, string keyword = null)
+        public async Task<int> ChangeStatus(int id, int status)
+        {
+            var data = _context.Orders.FirstOrDefault(x => x.Id == id);
+            if (data == null)
+                return 0;
+            data.Status = (OrderStatus)status;
+
+            _context.Orders.Update(data);
+            await _context.SaveChangesAsync();
+
+            return 1;
+        }
+
+        public async Task<PaginationResult<OrderModel>> GetPaging(int limit, int page, string sort, int? userID = null, string keyword = null)
         {
             var data = (from od in _context.Orders
                         join user in _context.Users on od.UserId equals user.Id
-                        where (od.UserId == userID)
+                        where (userID == null || userID == 0 || od.UserId == userID)
                         && (keyword == null || keyword == "" || od.ShipName.Contains(keyword)
                         || od.ShipEmail.Contains(keyword)
                         || od.ShipAddress.Contains(keyword)
@@ -139,7 +153,7 @@ namespace TANGOCCONG.ANUIShop.API.Services
                 data = data.OrderByDescending(x => x.ShipPhoneNumber);
 
             var totalCount = data.Count();
-            var listData = data.Skip(page == 0 ? 0 : page + 1).Take(limit).ToList();
+            var listData = data.Skip((page - 1) * limit).Take(limit).ToList();
 
             return new PaginationResult<OrderModel>(page, totalCount, limit, listData);
         }

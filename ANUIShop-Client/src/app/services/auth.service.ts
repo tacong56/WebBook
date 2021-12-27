@@ -30,6 +30,11 @@ export class AuthService  {
       this.tokenStorageService.signOut();
     }
 
+    
+    logoutClient(): void {
+      this.tokenStorageService.signOutClient();
+    }
+
     /**
      * Hàm đăng ký tài khoản
      * @param data dữ liệu từ form đăng ký

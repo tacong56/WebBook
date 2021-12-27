@@ -13,15 +13,16 @@ import { UtiltiesService } from '../../services/utilties.service';
 export class OrderComponent implements OnInit {
 
   modalRefDelete: BsModalRef;
+  modalRefEdit: BsModalRef;
   dataSource: any = {};
-  request: any = {
-    Page: 1,
-    Limit: 10,
-    Keyword: "",
-    NgayTu: null,
-    NgayDen: null
-  };
-  totalPage: number = 0;
+  Page: any = 1;
+  Limit: any = 1;
+  Keyword: any = "";
+  NgayTu: any = null;
+  NgayDen: any = null;
+  totalPage: any = 0;
+  sort: any = "";
+  userID: any = 0;
 
   constructor(
     private orderService: OrderService,
@@ -35,16 +36,17 @@ export class OrderComponent implements OnInit {
     const dateNow = new Date();
     const date = new Date();
     date.setFullYear(date.getFullYear() - 1);
-    this.request.NgayTu = this.heplerService.converDateTime(date, "yyyy-mm-dd");
-    this.request.NgayDen =this.heplerService.converDateTime(dateNow, "yyyy-mm-dd");
-    console.log(this.request.NgayTu)
+    this.NgayTu = this.heplerService.converDateTime(date, "yyyy-mm-dd");
+    this.NgayDen =this.heplerService.converDateTime(dateNow, "yyyy-mm-dd");
+    console.log(this.NgayTu);
+    this.load();
   }
 
   load() {
-    this.orderService.getpaging(this.request)
+    this.orderService.getpaging(this.Limit, this.Page, this.sort, this.userID, this.Keyword)
       .subscribe(
         (res: any) => {
-          console.log(res);
+
           this.dataSource = res;
           this.totalPage = Math.ceil(Math.ceil(this.dataSource.totalRecord / this.dataSource.limit));
           this.setListPaging();
@@ -65,8 +67,8 @@ export class OrderComponent implements OnInit {
   }
 
   onClickPaging(page) {
-    if(page != this.request.Page) {
-      this.request.Page = page;
+    if(page != this.Page) {
+      this.Page = page;
       this.load();
     }
   }
@@ -78,6 +80,32 @@ export class OrderComponent implements OnInit {
       animated: true,
       backdrop: 'static'
     });
+  }
+
+  openModalEdit(template: TemplateRef<any>, item) {
+    this.itemSelected = item != null ? item : {};
+    this.modalRefEdit = this.modalService.show(template, {
+      animated: true,
+      backdrop: 'static'
+    });
+  }
+
+  saveChangeSatatus(status) {
+    this.orderService.updateStatus(this.itemSelected.Id, status)
+      .subscribe(
+        (res: any) => {
+          this.toastr.success("Thay đổi trạng thái thành công");
+          console.log(res);
+        },
+        err => {
+          console.error(err);
+        }
+      )
+  }
+
+  closeChangeStatus() {
+    this.modalRefEdit.hide();
+    this.load();
   }
 
   deleteItem() {

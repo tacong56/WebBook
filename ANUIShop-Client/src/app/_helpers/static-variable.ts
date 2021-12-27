@@ -39,6 +39,11 @@ export class StaticVaribale {
             delete: "account/delete",
             create: "account/create",
             update: "account/update"
+        },
+        order: {
+            getpaging: "order/get-paging",
+            create: 'order/create',
+            updateStatus: 'update-status'
         }
     }
 

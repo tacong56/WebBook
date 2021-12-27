@@ -100,6 +100,7 @@ namespace TANGOCCONG.ANUIShop.API.Models
         public string PhoneNumber { get; set; }
         public DateTime Dob { get; set; }
         public string Token { get; set; }
+        public string Address { get; set; }
 
         public AuthenticateResponse() { }
 
@@ -113,6 +114,7 @@ namespace TANGOCCONG.ANUIShop.API.Models
             Dob = user.Dob;
             PhoneNumber = user.PhoneNumber;
             Token = token;
+            Address = user.Address;
         }
 
         public AuthenticateResponse(AppUser user)

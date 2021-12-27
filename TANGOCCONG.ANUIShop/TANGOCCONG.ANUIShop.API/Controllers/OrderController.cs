@@ -17,7 +17,7 @@ namespace TANGOCCONG.ANUIShop.API.Controllers
         }
 
         [HttpGet("get-paging")]
-        public async Task<IActionResult> Get(int limit, int page, string sort, int userID, string keyword)
+        public async Task<IActionResult> Get(int limit, int page, string sort, int? userID = null, string keyword = null)
         {
             var result = await _orderService.GetPaging(limit, page, sort, userID, keyword);
             return Ok(result);
@@ -46,6 +46,13 @@ namespace TANGOCCONG.ANUIShop.API.Controllers
             return Ok(result);
         }
 
+        [HttpPut("update-status")]
+        public async Task<IActionResult> changeStatus(int id, int status)
+        {
+            var result = await _orderService.ChangeStatus(id, status);
+            return Ok(result);
+        }
+
         [HttpGet("detail/{id}")]
         public IActionResult Detail(int id)
         {
@@ -57,7 +64,7 @@ namespace TANGOCCONG.ANUIShop.API.Controllers
         [HttpGet("getorderdetail")]
         public IActionResult GetOrderDetail(int orderID, int productID)
         {
-            var result = _orderService.GetOrderDetail(orderID,productID);
+            var result = _orderService.GetOrderDetail(orderID, productID);
             if (result != null && result.Error != 1) return Ok(result);
             return NotFound(result);
         }
