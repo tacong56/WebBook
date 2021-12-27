@@ -2,45 +2,25 @@
     <div class="row">
         <div class="col-md-8">
             <div class="checkout-box">
-                <p>Giỏ hàng (2) sản phẩm</p>
+                <p>Giỏ hàng {{ listProductInCart.length }} sản phẩm</p>
                 <ul class="p-0 checkout">
-                    <li class="item">
+                    <li class="item" *ngFor="let item of listProductInCart; let index = index">
                         <div class="d-flex">
                             <div class="mr-2">
-                                <img src="https://newshop.vn/public/thumbs/100x135/products/30821/ngon-ngu-va-van-hoa-nhat-ban-so-trung-cap-a2b1-1.jpg">
+                                <img [src]="url.URL_IMAGE + item.ImageMain" style="width: 120px; height: 120px; object-fit: cover;">
                             </div>
-                            <div class="mr-2">
-                                <p>Combo PENBOOK 2022 - Luyện Đề Thi Tốt Nghiệp THPT Khối D: Toán + Ngữ Văn + Tiếng Anh (Bộ 3 Cuốn)</p>
-                                <span class="text-primary"><i class="fa fa-times"></i> Bỏ sản phẩm</span>
+                            <div class="mr-2" style="flex: 1;">
+                                <p>{{item.ProductName}}</p>
+                                <span class="text-primary" (click)="deleteItem(item)" style="cursor: pointer;"><i class="fa fa-times"></i> Bỏ sản phẩm</span>
                             </div>
                             <div class="mr-2">
                                 <small class="text-secondary" style="text-decoration: line-through;">675.000đ</small>
-                                <p>573.000đ</p>
+                                <p>{{item.Price * item.Quantity | number}}đ</p>
                             </div>
                             <div class="d-flex" style="justify-content: center; height: 35px;">
-                                <button class="btn btn-sm btn-outline-danger"><i class="fa fa-minus"></i></button>
-                                <input type="number" class="input-table" style="width: 40px;text-align: center;">
-                                <button class="btn btn-sm btn-outline-primary"><i class="fa fa-plus"></i></button>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="d-flex">
-                            <div class="mr-2">
-                                <img src="https://newshop.vn/public/thumbs/100x135/products/30821/ngon-ngu-va-van-hoa-nhat-ban-so-trung-cap-a2b1-1.jpg">
-                            </div>
-                            <div class="mr-2">
-                                <p>Combo PENBOOK 2022 - Luyện Đề Thi Tốt Nghiệp THPT Khối D: Toán + Ngữ Văn + Tiếng Anh (Bộ 3 Cuốn)</p>
-                                <span class="text-primary"><i class="fa fa-times"></i> Bỏ sản phẩm</span>
-                            </div>
-                            <div class="mr-2">
-                                <small class="text-secondary" style="text-decoration: line-through;">675.000đ</small>
-                                <p>573.000đ</p>
-                            </div>
-                            <div class="d-flex" style="justify-content: center; height: 35px;">
-                                <button class="btn btn-sm btn-outline-danger"><i class="fa fa-minus"></i></button>
-                                <input type="number" class="input-table" style="width: 40px;text-align: center;">
-                                <button class="btn btn-sm btn-outline-primary"><i class="fa fa-plus"></i></button>
+                                <button class="btn btn-sm btn-outline-danger" (click)="clickChangeQuantity(item, 'MINUS')"><i class="fa fa-minus"></i></button>
+                                <input type="number" class="input-table" name="quantity--{{index}}" [(ngModel)]="item.Quantity" (change)="changeQuantity($event, null)" style="width: 40px;text-align: center;">
+                                <button class="btn btn-sm btn-outline-primary" (click)="clickChangeQuantity(item, 'PLUS')"><i class="fa fa-plus"></i></button>
                             </div>
                         </div>
                     </li>
@@ -56,11 +36,22 @@
                 <div class="d-flex" style="justify-content: space-between;padding: 1rem .625rem; border-bottom: 1px solid white;">
                     <span>Thành tiền: </span>
                     <div class="text-right">
-                        <h5 class="text-danger">718.250đ</h5>
+                        <h5 class="text-danger">{{totalMoney}}</h5>
                         <small class="text-secondary" style="text-decoration: line-through;">718.250đ</small>
                     </div>
                 </div>
-                <div style="padding: 1rem .625rem">
+                <div style="padding: 1rem .625rem" *ngIf="isLogin">
+                    <div class="form-group row">
+                        <span class="col-12 text-center">Đã đăng nhập với tài khoản, {{user.username}}</span>
+                    </div>
+
+                    <div class="form-group row text-center">
+                        <div class="col-12">
+                            <button class="btn btn-danger" style="width: 100%;" (click)="onClickCheckout()">Tiếp tục <i class="fa fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div style="padding: 1rem .625rem" *ngIf="!isLogin">
                     <div class="form-group row">
                         <span class="col-12 text-center">Đăng nhập để thanh toán dễ dàng</span>
                     </div>
@@ -81,7 +72,7 @@
                             <button class="btn btn-primary" style="width: 100%;">Đăng nhập</button>
                         </div>
                         <div class="col-12">
-                            <button class="btn btn-danger" style="width: 100%;">Tiếp tục <i class="fa fa-arrow-right"></i></button>
+                            <button class="btn btn-danger" style="width: 100%;" (click)="onClickCheckout()">Tiếp tục <i class="fa fa-arrow-right"></i></button>
                         </div>
                     </div>
                 </div>

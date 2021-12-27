@@ -15,6 +15,7 @@ namespace TANGOCCONG.ANUIShop.API.Comons
         public const string USER_NAME = "user_name";
         public const string USER_ROLE = "user_role";
         public const string USER_EMAIL = "user_email";
+        public const string ADDRESS = "user_address";
         public readonly static List<string> LIST_CLAIMS = new List<string>() { USER_ID, FIRST_NAME, LAST_NAME, USER_NAME };
 
         public class SystemContant

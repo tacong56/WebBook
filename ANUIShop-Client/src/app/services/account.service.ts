@@ -26,7 +26,7 @@ export class AccountService {
     params = params.append('Keyword', request.Keyword);
     params = params.append('CategoryId', request.CategoryId);
 
-    return this.http.get(StaticVaribale.URL + StaticVaribale.PATH.product.getpaging, {params});
+    return this.http.get(StaticVaribale.URL + StaticVaribale.PATH.account.getpaging, {params});
   }
 
   create(data: any) : Observable<any> {

@@ -15,7 +15,8 @@ namespace TANGOCCONG.ANUIShop.API.Interfaces
         Task<ResponseData<string>> Delete(int id);
         ResponseData<OrderModel> Detail(int id);
         ResponseData<OrderDetail> GetOrderDetail(int orderID, int productID);
-        Task<PaginationResult<OrderModel>> GetPaging(int limit, int page, string sort, int userID, string keyword = null);
+        Task<PaginationResult<OrderModel>> GetPaging(int limit, int page, string sort, int? userID = null, string keyword = null);
         Task<List<OrderModel>> GetList(int userID);
+        Task<int> ChangeStatus(int id, int status);
     }
 }

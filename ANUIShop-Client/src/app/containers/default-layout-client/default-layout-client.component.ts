@@ -14,6 +14,8 @@ export class DefaultLayoutClientComponent implements OnInit {
   modalRef: BsModalRef;
   modalRef1: BsModalRef;
   submitted: boolean = false;
+  user: any = {};
+  isLogin: boolean = false;
 
   item1: any = {
     username: "",
@@ -34,7 +36,7 @@ export class DefaultLayoutClientComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    this.checkLogin();
   }
 
   openModal(template: TemplateRef<any>) {
@@ -53,7 +55,6 @@ export class DefaultLayoutClientComponent implements OnInit {
   }
 
   login() {
-    debugger;
     this.submitted = true;
     if(this.item1.username == "" || this.item1.password == "" || this.item1.username.length < 4 || this.item1.password.length < 4) {
       return;
@@ -66,6 +67,7 @@ export class DefaultLayoutClientComponent implements OnInit {
             this.tokenService.saveTokenClient(res.Data.Token);
             this.tokenService.saveUserClient(res.Data);
             this.modalRef1.hide();
+            this.checkLogin();
           },
           err => {
             let msg = '';
@@ -79,5 +81,18 @@ export class DefaultLayoutClientComponent implements OnInit {
           }
         )
     }
+  }
+
+  checkLogin() {
+    this.user = this.tokenService.getUserClient();
+    if(Object.keys(this.user).length > 0) {
+      this.isLogin = true;
+    }
+    else this.isLogin = false;
+  }
+
+  logout() {
+    this.authService.logoutClient();
+    window.location.reload();
   }
 }

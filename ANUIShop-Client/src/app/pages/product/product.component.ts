@@ -16,7 +16,7 @@ export class ProductComponent implements OnInit {
   dataSource: any = {};
   request: any = {
     Page: 1,
-    Limit: 10,
+    Limit: 1,
     Keyword: "",
     CategoryId: 0
   };
