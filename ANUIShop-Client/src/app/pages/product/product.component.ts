@@ -41,7 +41,7 @@ export class ProductComponent implements OnInit {
         (res: any) => {
           console.log(res);
           this.dataSource = res;
-          this.totalPage = Math.ceil(Math.ceil(this.dataSource.totalRecord / this.dataSource.limit));
+          this.totalPage = Math.ceil(Math.ceil(this.dataSource.TotalRecord / this.dataSource.Limit));
           this.setListPaging();
         },
         err => {
@@ -69,7 +69,7 @@ export class ProductComponent implements OnInit {
 
   confirmAlert: any = new Ngxalert;
   deleteItem() {
-    this.productService.delete(this.itemSelected.productId)
+    this.productService.delete(this.itemSelected.ProductId)
     .subscribe(
       (res: any) => {
         if(res == 1) this.toastr.success("Xóa sách thành công.");

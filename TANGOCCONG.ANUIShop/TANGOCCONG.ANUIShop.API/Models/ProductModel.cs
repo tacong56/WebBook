@@ -48,8 +48,8 @@ namespace TANGOCCONG.ANUIShop.API.Models
         public string Images { get; set; }
         public bool IsActive { get; set; }
         public int View { get; set; }
-        public DateTime TimeCreated { get; set; }
-        public DateTime TimeUpdated { get; set; }
+        public DateTime? TimeCreated { get; set; }
+        public DateTime? TimeUpdated { get; set; }
         public int UserUpdate { get; set; }
     }
     #endregion

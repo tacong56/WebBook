@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,6 +56,31 @@ namespace TANGOCCONG.ANUIShop.API.Controllers
                 Page = page
             };
             var result = await _productService.GetPaging(request);
+            if (result != null) return Ok(result);
+            return NotFound(result);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("get-paging-no-auth")]
+        public async Task<IActionResult> GetPagingNoAuth(int limit, int page, int? categoryId, string keyword)
+        {
+            var request = new ProductPagingRequest()
+            {
+                CategoryId = categoryId,
+                Keyword = keyword,
+                Limit = limit,
+                Page = page
+            };
+            var result = await _productService.GetPaging(request);
+            if (result != null) return Ok(result);
+            return NotFound(result);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("get-list")]
+        public async Task<IActionResult> GetList(int top, string sort, string keyword, int? priceFrom, int? priceTo)
+        {
+            var result = await _productService.GetList(top, sort, keyword, priceFrom, priceTo);
             if (result != null) return Ok(result);
             return NotFound(result);
         }

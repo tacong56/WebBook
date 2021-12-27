@@ -1,0 +1,11 @@
+.checkout-box {
+    background: #f5f5f5;
+    padding: 0.625rem 1rem;
+    margin-bottom: 1rem;
+    .checkout {
+        .item {
+            margin-bottom: .625rem;
+            border-bottom: 1px solid white;
+        }
+    }
+}

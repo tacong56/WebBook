@@ -36,16 +36,16 @@ export class ProfileComponent implements OnInit {
       this.authService.info()
       .subscribe(
         (res: any) => {
-          var d = this.formatDateByCurrentTimeZone(res.data.dob);
-          var url_img = res.data.urlImage != null ? StaticVaribale.URL_IMAGE + res.data.urlImage : "";
+          var d = this.formatDateByCurrentTimeZone(res.Data.Dob);
+          var url_img = res.Data.UrlImage != null ? StaticVaribale.URL_IMAGE + res.Data.UrlImage : "";
 
-          this.formInfo.get('id')?.patchValue(res.data.id);
-          this.formInfo.get('username')?.patchValue(res.data.userName);
-          this.formInfo.get('email')?.patchValue(res.data.email);
-          this.formInfo.get('firstname')?.patchValue(res.data.firstName);
-          this.formInfo.get('lastname')?.patchValue(res.data.lastName);
-          this.formInfo.get('phonenumber')?.patchValue(res.data.phoneNumber);
-          this.formInfo.get('address')?.patchValue(res.data.address);
+          this.formInfo.get('id')?.patchValue(res.Data.Id);
+          this.formInfo.get('username')?.patchValue(res.Data.UserName);
+          this.formInfo.get('email')?.patchValue(res.Data.Email);
+          this.formInfo.get('firstname')?.patchValue(res.Data.FirstName);
+          this.formInfo.get('lastname')?.patchValue(res.Data.LastName);
+          this.formInfo.get('phonenumber')?.patchValue(res.Data.PhoneNumber);
+          this.formInfo.get('address')?.patchValue(res.Data.Address);
           this.formInfo.get('urlimage')?.patchValue(url_img);
           this.formInfo.get('dob')?.patchValue(this.datePipe.transform(d, 'yyyy-MM-dd'));
         },
@@ -87,17 +87,17 @@ export class ProfileComponent implements OnInit {
     this.authService.update(this.formInfo.value)
       .subscribe(
         (res: any) => {
-          this.toastr.success(res.msg);
+          this.toastr.success(res.Msg);
           window.location.reload();
         },
         err => {
           let msg = '';
-          if(err.error.errors != undefined && err.error.errors != null) {
-            const key = Object.keys(err.error.errors)[0];
-            msg = err.error.errors[key][0];
+          if(err.error.Errors != undefined && err.error.Errors != null) {
+            const key = Object.keys(err.error.Errors)[0];
+            msg = err.error.Errors[key][0];
           }
-          else if(err.error.msg != undefined && err.error.msg != null) 
-            msg = err.error.msg;
+          else if(err.error.Msg != undefined && err.error.Msg != null) 
+            msg = err.error.Msg;
           this.toastr.error(msg)
         }
       )

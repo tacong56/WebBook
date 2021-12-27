@@ -92,8 +92,8 @@ export const routes: Routes = [
     component: DefaultLayoutClientComponent,
     children: [
       {
-        path: "trang-chu",
-        component: HomeComponent
+        path: '',
+        loadChildren: () => import('./clients/clients.module').then(m => m.ClientsModule),
       }
     ]
     // loadChildren: () => import('./clients/clients.module').then(m => m.ClientsModule)

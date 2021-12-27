@@ -3,15 +3,24 @@ import { CommonModule } from '@angular/common';
 
 import { ClientsRoutingModule } from './clients-routing.module';
 import { HomeComponent } from './home/home.component';
+import { ToastrModule } from 'ngx-toastr';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CheckoutComponent } from './checkout/checkout.component';
 
 
 @NgModule({
   declarations: [
-    HomeComponent
+    HomeComponent,
+    CheckoutComponent
   ],
   imports: [
     CommonModule,
-    ClientsRoutingModule
+    ToastrModule,
+    ModalModule.forRoot(),
+    FormsModule,
+    ReactiveFormsModule,
+    ClientsRoutingModule,
   ]
 })
 export class ClientsModule { }

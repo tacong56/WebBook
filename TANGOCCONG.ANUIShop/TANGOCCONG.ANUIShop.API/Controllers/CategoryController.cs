@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +33,18 @@ namespace TANGOCCONG.ANUIShop.API.Controllers
 
         [HttpGet("getlist")]
         public async Task<IActionResult> GetList(int? level)
+        {
+            CategoryGetListRequest request = new CategoryGetListRequest()
+            {
+                Level = level
+            };
+            var result = await _categoryService.GetList(request);
+            return Ok(result);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("getlist-no-auth")]
+        public async Task<IActionResult> GetListNoAuth(int? level)
         {
             CategoryGetListRequest request = new CategoryGetListRequest()
             {

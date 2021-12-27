@@ -37,20 +37,21 @@ export class LoginComponent implements OnInit, AfterViewInit {
       this.authService.login(this.formLogin.value)
       .subscribe(
         (res: any) => {
-          if(res.error == 0) {
-            this.tokenService.saveToken(res.data.token);
-            this.tokenService.saveUser(res.data);
+          if(res.Error == 0) {
+            debugger;
+            this.tokenService.saveToken(res.Data.Token);
+            this.tokenService.saveUser(res.Data);
             this.router.navigateByUrl('/admin/dashboard');
           }
         },
         err => {
           let msg = '';
-          if(err.error.errors != undefined && err.error.errors != null) {
-            const key = Object.keys(err.error.errors)[0];
-            msg = err.error.errors[key][0];
+          if(err.error.Errors != undefined && err.error.Errors != null) {
+            const key = Object.keys(err.error.Errors)[0];
+            msg = err.error.Errors[key][0];
           }
-          else if(err.error.msg != undefined && err.error.msg != null) 
-            msg = err.error.msg;
+          else if(err.error.Msg != undefined && err.error.Msg != null) 
+            msg = err.error.Msg;
           this.toastr.error(msg)
         }
       )

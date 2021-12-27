@@ -9,7 +9,7 @@
         <label class="form-label" for="">Danh mục</label>
         <select class="form-control" [(ngModel)]="request.CategoryId" (change)="filter()">
             <option value="0">Chọn danh mục</option>
-            <option *ngFor="let category of listCategory" value="{{category.id}}">{{category.name}}</option>
+            <option *ngFor="let category of listCategory" value="{{category.Id}}">{{category.Name}}</option>
         </select>
     </div>
 </div>
@@ -39,14 +39,14 @@
             <tbody>
                 <tr *ngFor="let item of dataSource.items; let index = index">
                     <td>
-                        <img [src]="url.URL_IMAGE + item.imageMain" style="width: 60px; height: 60px; object-fit: cover;">
+                        <img [src]="url.URL_IMAGE + item.ImageMain" style="width: 60px; height: 60px; object-fit: cover;">
                     </td>
-                    <td>{{item.productCode}}</td>
-                    <td>{{item.productName}}</td>
-                    <td>{{item.price | number}}</td>
-                    <td>{{item.categoryName}}</td>
+                    <td>{{item.ProductCode}}</td>
+                    <td>{{item.ProductName}}</td>
+                    <td>{{item.Price | number}}</td>
+                    <td>{{item.CategoryName}}</td>
                     <td>
-                        <a routerLink="/admin/san-pham/cap-nhat/{{item.productId}}" class="btn btn-sm btn-primary"><i class="fa fa-pencil"></i></a>
+                        <a routerLink="/admin/san-pham/cap-nhat/{{item.ProductId}}" class="btn btn-sm btn-primary"><i class="fa fa-pencil"></i></a>
                         <button type="button" class="btn btn-sm btn-danger" (click)="openModalDelete(templateDelete, item)"><i class="fa fa-trash"></i></button>
                     </td>
                 </tr>
@@ -54,13 +54,13 @@
         </table>
         <nav>
             <ul class="pagination">
-                <li class="page-item" [ngClass]="{'disabled': dataSource.page == 1}" title="Trang đầu" (click)="onClickPaging(1)" style="cursor: pointer;">
+                <li class="page-item" [ngClass]="{'disabled': dataSource.Page == 1}" title="Trang đầu" (click)="onClickPaging(1)" style="cursor: pointer;">
                     <span class="page-link"><i class="fa fa-angle-double-left"></i></span>
                 </li>
-                <li class="page-item active" [ngClass]="{'active': dataSource.page == item}" *ngFor="let item of listNumberPaging; let index = index" (click)="onClickPaging(item)" style="cursor: pointer;">
+                <li class="page-item active" [ngClass]="{'active': dataSource.Page == item}" *ngFor="let item of listNumberPaging; let index = index" (click)="onClickPaging(item)" style="cursor: pointer;">
                     <span class="page-link" href="#">{{item}}</span>
                 </li>
-                <li class="page-item" [ngClass]="{'disabled': dataSource.page == totalPage}" (click)="onClickPaging(totalPage)" style="cursor: pointer;">
+                <li class="page-item" [ngClass]="{'disabled': dataSource.Page == totalPage}" (click)="onClickPaging(totalPage)" style="cursor: pointer;">
                     <span class="page-link" href="#" title="Trang cuối"><i class="fa fa-angle-double-right"></i></span>
                 </li>
             </ul>

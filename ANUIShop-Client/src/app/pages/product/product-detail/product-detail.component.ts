@@ -89,23 +89,23 @@ export class ProductDetailComponent extends BaseComponent implements OnInit {
     this.productService.get(id)
       .subscribe(
         (res: any) => {
-          if(res.data.imageMain != '' && res.data.imageMain != null) {
-            this.imageMainUrl = StaticVaribale.URL_IMAGE + res.data.imageMain;
-            this.imageMainUrlOld = StaticVaribale.URL_IMAGE + res.data.imageMain;
+          if(res.Data.ImageMain != '' && res.Data.ImageMain != null) {
+            this.imageMainUrl = StaticVaribale.URL_IMAGE + res.Data.ImageMain;
+            this.imageMainUrlOld = StaticVaribale.URL_IMAGE + res.Data.ImageMain;
           }
-          this.dataCKEditor = res.data.description;
+          this.dataCKEditor = res.Data.Description;
 
-          this.formDetail.get('ID')?.patchValue(res.data.productId);
-          this.formDetail.get('CategoryID')?.patchValue(res.data.categoryId);
-          this.formDetail.get('Name')?.patchValue(res.data.productName);
-          this.formDetail.get('Code')?.patchValue(res.data.productCode);
-          this.formDetail.get('Price')?.patchValue(res.data.price);
-          this.formDetail.get('Title')?.patchValue(res.data.title);
-          this.formDetail.get('Description')?.patchValue(res.data.description);
-          this.formDetail.get('ImageID')?.patchValue(res.data.imageId);
-          this.formDetail.get('TimeCreated')?.patchValue(res.data.timeCreated);
-          this.formDetail.get('TimeUpdated')?.patchValue(res.data.userUpdate);
-          this.formDetail.get('View')?.patchValue(res.data.view);
+          this.formDetail.get('ID')?.patchValue(res.Data.ProductId);
+          this.formDetail.get('CategoryID')?.patchValue(res.Data.CategoryId);
+          this.formDetail.get('Name')?.patchValue(res.Data.ProductName);
+          this.formDetail.get('Code')?.patchValue(res.Data.ProductCode);
+          this.formDetail.get('Price')?.patchValue(res.Data.Price);
+          this.formDetail.get('Title')?.patchValue(res.Data.Title);
+          this.formDetail.get('Description')?.patchValue(res.Data.Description);
+          this.formDetail.get('ImageID')?.patchValue(res.Data.ImageId);
+          this.formDetail.get('TimeCreated')?.patchValue(res.Data.TimeCreated);
+          this.formDetail.get('TimeUpdated')?.patchValue(res.Data.UserUpdate);
+          this.formDetail.get('View')?.patchValue(res.Data.View);
         },
         err => {
           console.error(err);
@@ -132,6 +132,7 @@ export class ProductDetailComponent extends BaseComponent implements OnInit {
       this.requiredImage = true;
       return false;
     }
+    debugger;
     if (this.formDetail.valid) { 
       if (this.imageMain != null) {
         this.imageService.upload(this.imageMain)
@@ -158,15 +159,15 @@ export class ProductDetailComponent extends BaseComponent implements OnInit {
   }
 
   afterUploadFile(imageId) {
-    if(this.formDetail.get('ID').value == 0) {
+    debugger;
+    if(imageId != null)
       this.formDetail.get('ImageID')?.patchValue(imageId);
+    if(this.formDetail.get('ID').value == 0) {
       this.productService.create(this.formDetail.value)
       .subscribe(
         (res: any) => {
-          if(res.error == 0) {
-            this.toastr.success('Thêm mới sản phẩm thành công.');
-            this.resetForm();
-          }
+          this.toastr.success('Thêm mới sản phẩm thành công.');
+          this.resetForm();
         },
         err => {
           console.error(err);
@@ -177,9 +178,7 @@ export class ProductDetailComponent extends BaseComponent implements OnInit {
       this.productService.update(this.formDetail.value)
       .subscribe(
         (res: any) => {
-          if(res.error == 0) {
-            this.toastr.success('Cập nhật sản phẩm thành công.');
-          }
+          this.toastr.success('Cập nhật sản phẩm thành công.');
         },
         err => {
           console.error(err);

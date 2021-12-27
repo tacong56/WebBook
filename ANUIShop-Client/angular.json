@@ -24,10 +24,6 @@
                             "node_modules/flag-icon-css/css/flag-icon.css",
                             "node_modules/font-awesome/css/font-awesome.css",
                             "node_modules/simple-line-icons/dist/styles/simple-line-icons.css",
-                            "src/assets/css/style.css",
-                            "src/assets/css/main.scss",
-                            "src/assets/css/color.css",
-                            "src/assets/css/responsive.css",
                             "src/scss/style.scss"
                         ],
                         "stylePreprocessorOptions": {
@@ -35,19 +31,7 @@
                                 "./node_modules"
                             ]
                         },
-                        "scripts": [
-                            "src/assets/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js",
-                            "src/assets/js/vendor/jquery-library.js",
-                            "src/assets/js/owl.carousel.min.js",
-                            "src/assets/js/jquery.vide.min.js",
-                            "src/assets/js/countdown.js",
-                            "src/assets/js/jquery-ui.js",
-                            "src/assets/js/parallax.js",
-                            "src/assets/js/countTo.js",
-                            "src/assets/js/appear.js",
-                            "src/assets/js/gmap3.js",
-                            "src/assets/js/main.js"
-                        ],
+                        "scripts": [],
                         "allowedCommonJsDependencies": [
                             "chart.js",
                             "classnames"

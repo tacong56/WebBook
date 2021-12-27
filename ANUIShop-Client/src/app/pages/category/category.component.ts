@@ -41,7 +41,7 @@ export class CategoryComponent implements OnInit {
         (res: any) => {
           console.log(res);
           this.dataSource = res;
-          this.totalPage = Math.ceil(Math.ceil(this.dataSource.totalRecord / this.dataSource.limit));
+          this.totalPage = Math.ceil(Math.ceil(this.dataSource.TotalRecord / this.dataSource.Limit));
           this.setListPaging();
         },
         err => {
@@ -81,10 +81,10 @@ export class CategoryComponent implements OnInit {
 
   customSave() {
     console.log(this.itemSelected);
-    this.itemSelected.parentId = parseInt(this.itemSelected.parentId);
-    if(this.itemSelected.parentId == 0) this.itemSelected.level = 0;
-    else this.itemSelected.level = 1;
-    if(this.itemSelected.id > 0) {
+    this.itemSelected.ParentId = parseInt(this.itemSelected.ParentId);
+    if(this.itemSelected.ParentId == 0) this.itemSelected.Level = 0;
+    else this.itemSelected.Level = 1;
+    if(this.itemSelected.Id > 0) {
       this.categoryService.update(this.itemSelected)
       .subscribe(
         (res: any) => {

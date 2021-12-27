@@ -13,11 +13,12 @@ export class DefaultLayoutComponent implements OnInit {
   
   url_img = StaticVaribale.URL_IMAGE;
   avatar: string;
-  user = this.authServie.info()
+  user: any = this.authServie.info()
     .subscribe(
       (res: any) => {
+        debugger;
         this.user = res;
-        this.avatar = res.data.urlImage != null ? this.url_img + res.data.urlImage : "assets/img/avatars/avatar-default.png";
+        this.avatar = res.Data.UrlImage != null ? this.url_img + res.Data.UrlImage : "assets/img/avatars/avatar-default.png";
       },
       err => {
       }

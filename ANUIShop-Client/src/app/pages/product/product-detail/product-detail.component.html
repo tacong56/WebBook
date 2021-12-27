@@ -21,7 +21,7 @@
             <label class="form-label required" for="">Danh mục</label>
             <select class="form-control" formControlName="CategoryID" [ngClass]="displayFieldCss('CategoryID')">
                 <option value="">Chọn danh mục</option>
-                <option *ngFor="let category of listCategory" value="{{category.id}}">{{category.name}}</option>
+                <option *ngFor="let category of listCategory" value="{{category.Id}}">{{category.Name}}</option>
             </select>
             <ng-container *ngIf="formDetail.get('CategoryID')?.errors?.required">
                 <div class="invalid-feedback">Trường không được để trống</div>

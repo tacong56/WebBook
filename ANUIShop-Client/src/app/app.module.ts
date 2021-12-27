@@ -50,7 +50,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { authInterceptorProviders } from './_helpers/auth.interceptor';
 import { UploadImageComponent } from './components/upload-image/upload-image.component';
 import { ProfileComponent } from './pages/profile/profile.component';
-import { HomeComponent } from './clients/home/home.component';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   imports: [
@@ -70,6 +70,7 @@ import { HomeComponent } from './clients/home/home.component';
     PerfectScrollbarModule,
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
+    ModalModule.forRoot(),
     ChartsModule,
     IconModule,
     IconSetModule.forRoot(),
@@ -82,8 +83,7 @@ import { HomeComponent } from './clients/home/home.component';
     LoginComponent,
     RegisterComponent,
     UploadImageComponent,
-    ProfileComponent,
-    HomeComponent
+    ProfileComponent
   ],
   providers: [
     {
