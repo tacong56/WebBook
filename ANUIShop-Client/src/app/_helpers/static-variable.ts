@@ -6,6 +6,7 @@ export class StaticVaribale {
     static PATH = {
         user: {
             login: 'users/authenticate',
+            loginClient: 'users/authenticate-client',
             register: 'users/register',
             info: 'users/info',
             update: 'users/update',
@@ -18,6 +19,7 @@ export class StaticVaribale {
         },
         categogry: {
             getList: 'category/getlist',
+            getListnoauth: 'category/getlist-no-auth',
             getpaging: "category/get-paging",
             detail: "category/detail",
             create: "category/create",
@@ -26,6 +28,8 @@ export class StaticVaribale {
         },
         product: {
             getpaging: "product/get-paging",
+            getpagingnoauth: "product/get-paging-no-auth",
+            getlist: "product/get-list",
             delete: "product/delete",
             create: "product/create",
             update: "product/update"

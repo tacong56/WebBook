@@ -116,15 +116,16 @@ namespace TANGOCCONG.ANUIShop.API.Services
 
         public async Task<List<CategoryDataReponse>> GetList(CategoryGetListRequest request)
         {
-            var where = "WHERE IsDelete = 0";
+            var where = "WHERE c.IsDelete = 0";
             if (request.Level != null)
             {
-                where += " AND Level = " + request.Level;
+                where += " AND c.Level = " + request.Level;
             }
 
             using var connection = new MySqlConnection(_conn.DefaultConnection);
             await connection.OpenAsync();
-            string query = "SELECT * FROM categories c " + where + " ORDER BY ID";
+            string query = @"SELECT c.*, p.Name ParentName FROM categories c 
+                             LEFT JOIN categories p ON p.Id = c.ParentId " + where + " ORDER BY ID DESC";
             using var command = new MySqlCommand(query, connection);
             using var reader = await command.ExecuteReaderAsync();
             List<CategoryDataReponse> categories = new List<CategoryDataReponse>();
@@ -141,7 +142,8 @@ namespace TANGOCCONG.ANUIShop.API.Services
                         IsShowOnHome = (bool)reader["IsShowOnHome"],
                         Level = Convert.ToInt32(reader["Level"]),
                         SortOrder = Convert.ToInt32(reader["SortOrder"]),
-                        Status = reader["Status"] as Status? ?? Status.Active
+                        Status = reader["Status"] as Status? ?? Status.Active,
+                        ParentName = reader["ParentName"].ToString()
                     };
                     categories.Add(category);
                     // do something with 'value'

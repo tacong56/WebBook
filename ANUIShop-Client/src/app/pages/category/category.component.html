@@ -40,10 +40,10 @@
             </thead>
             <tbody>
                 <tr *ngFor="let item of dataSource.items; let index = index">
-                    <td>{{item.name}}</td>
-                    <td>{{item.parentName}}</td>
-                    <td>{{item.sortOrder}}</td>
-                    <td>{{item.isShowOnHome ? 'Có' : 'Không'}}</td>
+                    <td>{{item.Name}}</td>
+                    <td>{{item.ParentName}}</td>
+                    <td>{{item.SortOrder}}</td>
+                    <td>{{item.IsShowOnHome ? 'Có' : 'Không'}}</td>
                     <td>
                         <button type="button" (click)="openModal(template, item)" class="btn btn-sm btn-primary"><i class="fa fa-pencil"></i></button>
                         <button type="button" class="btn btn-sm btn-danger" (click)="openModalDelete(templateDelete, item)"><i class="fa fa-trash"></i></button>
@@ -53,13 +53,13 @@
         </table>
         <nav>
             <ul class="pagination">
-                <li class="page-item" [ngClass]="{'disabled': dataSource?.page == 1}" title="Trang đầu" (click)="onClickPaging(1)" style="cursor: pointer;">
+                <li class="page-item" [ngClass]="{'disabled': dataSource?.Page == 1}" title="Trang đầu" (click)="onClickPaging(1)" style="cursor: pointer;">
                     <span class="page-link"><i class="fa fa-angle-double-left"></i></span>
                 </li>
-                <li class="page-item active" [ngClass]="{'active': dataSource.page == item}" *ngFor="let item of listNumberPaging; let index = index" (click)="onClickPaging(item)" style="cursor: pointer;">
+                <li class="page-item active" [ngClass]="{'active': dataSource.Page == item}" *ngFor="let item of listNumberPaging; let index = index" (click)="onClickPaging(item)" style="cursor: pointer;">
                     <span class="page-link" href="#">{{item}}</span>
                 </li>
-                <li class="page-item" [ngClass]="{'disabled': dataSource.page == totalPage}" (click)="onClickPaging(totalPage)" style="cursor: pointer;">
+                <li class="page-item" [ngClass]="{'disabled': dataSource.Page == totalPage}" (click)="onClickPaging(totalPage)" style="cursor: pointer;">
                     <span class="page-link" href="#" title="Trang cuối"><i class="fa fa-angle-double-right"></i></span>
                 </li>
             </ul>

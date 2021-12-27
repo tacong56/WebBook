@@ -1,0 +1,73 @@
+<div class="wrapper">
+    <header class="container">
+        <div class="header-top">
+            <ul>
+                <li style="cursor: pointer;" (click)="openModal(template)">Tạo tài khoản</li>
+                <li style="cursor: pointer;" (click)="openModal1(template1)">Đăng nhập</li>
+            </ul>
+        </div>
+        <div class="header-center row">
+            <div class="logo col-2">
+                <img src="../../assets/img/brand/logo.png" width="100%">
+            </div>
+            <div class="col-6">
+                <input class="form-control" placeholder="Tìm kiếm tên sách" style="height: 45px;">
+            </div>
+            <div class="col-4 text-right">
+                <button class="btn btn-primary"><i class="fa fa-shopping-cart"></i></button>
+            </div>
+        </div>
+    </header>
+    <div class="line-full"></div>
+    <router-outlet></router-outlet>
+</div>
+
+
+<ng-template #template>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Đăng ký</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+
+    </div>
+    <div class="modal-footer">
+        <div class="text-right">
+            <button class="btn btn-primary">Lưu</button>
+            <button class="btn btn-light" (click)="modalRef.hide()">Đóng</button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #template1>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Đăng nhập</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef1.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group row">
+            <label for="" class="col-12 control-label">Tài khoản</label>
+            <div class="col-12">
+                <input class="form-control" name="l-username" [(ngModel)]="item1.username" minlength="4" placeholder="Tài khoản">
+            </div>
+            <div *ngIf="submitted && item1.username == ''" class="col-12 invalid-feedback" style="display: block;">Tài khoản không được để trống</div>
+        </div>
+        <div class="form-group row">
+            <label for="" class="col-12 control-label">Mật khẩu</label>
+            <div class="col-12">
+                <input type="password" class="form-control" name="l-password" [(ngModel)]="item1.password" minlength="4" placeholder="Mật khẩu">
+            </div>
+            <div *ngIf="submitted && item1.password == ''" class="col-12 invalid-feedback" style="display: block;">Mật khẩu không được để trống</div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="text-right">
+            <button class="btn btn-primary" (click)="login()">Xác nhận</button>
+            <button class="btn btn-light" (click)="modalRef1.hide()">Hủy</button>
+        </div>
+    </div>
+</ng-template>

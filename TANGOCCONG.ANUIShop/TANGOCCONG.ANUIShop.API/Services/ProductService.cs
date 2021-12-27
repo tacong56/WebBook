@@ -32,8 +32,8 @@ namespace TANGOCCONG.ANUIShop.API.Services
             using var connection = new MySqlConnection(_conn.DefaultConnection);
             await connection.OpenAsync();
 
-            string query = @"INSERT INTO products (ID, Name, Code, Title, ImageID, Price, TimeCreated, Description, IsActive, View)
-                             VALUES(@ID, @Name, @Code, @Title, @ImageID, @Price, @TimeCreated, @Description, @IsActive, @View);
+            string query = @"INSERT INTO products (ID, Name, Code, Title, ImageID, Price, TimeCreated, Description, IsActive, View, TimeUpdated, UserUpdate)
+                             VALUES(@ID, @Name, @Code, @Title, @ImageID, @Price, @TimeCreated, @Description, @IsActive, @View, @TimeUpdated, @UserUpdate);
                              SELECT last_insert_id();";
 
             // Tạo đối tượng SqlCommand
@@ -46,6 +46,8 @@ namespace TANGOCCONG.ANUIShop.API.Services
             command.Parameters.AddWithValue("@ImageID", request.ImageID);
             command.Parameters.AddWithValue("@Description", request.Description.Trim());
             command.Parameters.AddWithValue("@TimeCreated", DateTime.Now);
+            command.Parameters.AddWithValue("@TimeUpdated", DateTime.Now);
+            command.Parameters.AddWithValue("@UserUpdate", 0);
             command.Parameters.AddWithValue("@IsActive", request.IsActive != null ? request.IsActive.Value : true);
             command.Parameters.AddWithValue("@View", 0);
             try
@@ -130,7 +132,7 @@ namespace TANGOCCONG.ANUIShop.API.Services
                         CategoryName = reader["CategoryName"].ToString(),
                         Description = reader["Description"].ToString(),
                         TimeCreated = Convert.ToDateTime(reader["TimeCreated"]),
-                        TimeUpdated = Convert.ToDateTime(reader["TimeUpdated"]),
+                        TimeUpdated = reader["TimeUpdated"] == DBNull.Value ? null : (DateTime?)reader["TimeUpdated"],
                         Title = reader["Title"].ToString(),
                         IsActive = Convert.ToBoolean(reader["IsActive"]),
                         Price = Convert.ToDecimal(reader["Price"]),
@@ -205,10 +207,88 @@ namespace TANGOCCONG.ANUIShop.API.Services
 
         }
 
+        public async Task<List<ProductDataResponse>> GetList(int top, string sort, string keyword, int? priceFrom, int? priceTo)
+        {
+            //1. Select join
+            var query = from p in _context.Products
+                        join pic in _context.ProductInCategories on p.Id equals pic.ProductId into ppic
+                        from pic in ppic.DefaultIfEmpty()
+                        join c in _context.Categories on pic.CategoryId equals c.Id into picc
+                        from c in picc.DefaultIfEmpty()
+                        join i in _context.Images on p.ImageId equals i.Id into pi
+                        from i in pi.DefaultIfEmpty()
+                        where p.IsActive == true && p.IsDeleted == false
+                        select new { p, pic, i, c };
+            //2. filter
+            if (!string.IsNullOrEmpty(keyword))
+                query = query.Where(x => x.p.Name.Contains(keyword) || x.p.Code.Contains(keyword));
+
+            if (priceFrom != null)
+            {
+                query = query.Where(p => p.p.Price >= priceFrom.Value);
+            }
+            if (priceTo != null)
+            {
+                query = query.Where(p => p.p.Price <= priceTo.Value);
+            }
+            if (sort == "DATE_DESC")
+            {
+                query = query.OrderByDescending(x => x.p.TimeCreated);
+            }
+            else if (sort == "DATE_ASC")
+            {
+                query = query.OrderBy(x => x.p.TimeCreated);
+            }
+            else if (sort == "PRICE_DESC")
+            {
+                query = query.OrderByDescending(x => x.p.Price);
+            }
+            else if (sort == "PRICE_ASC")
+            {
+                query = query.OrderBy(x => x.p.Price);
+            }
+
+            try
+            {
+                var data = await query.Skip(0)
+                            .Take(top)
+                            .Select(x => new ProductDataResponse()
+                            {
+                                ProductId = x.p.Id,
+                                ProductName = x.p.Name,
+                                ProductCode = x.p.Code,
+                                TimeCreated = x.p.TimeCreated,
+                                Title = x.p.Title,
+                                Price = x.p.Price,
+                                CategoryId = x.pic.CategoryId,
+                                CategoryName = x.c.Name,
+                                ImageMain = x.i.UrlPath,
+                                Description = x.p.Description
+                            }).ToListAsync();
+
+                return data;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+
         public async Task<ResponseData<int>> Update(ProductInsertRequest request)
         {
-            var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == request.ID);
-            if (product == null) return new ErrorResponseData<int>("Sản phẩm không tồn tại trong hệ thống.");
+            try
+            {
+                var product = _context.Products.FirstOrDefault(x => x.Id == request.ID);
+
+                if (product == null) return new ErrorResponseData<int>("Sản phẩm không tồn tại trong hệ thống.");
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
 
             using var connection = new MySqlConnection(_conn.DefaultConnection);
             await connection.OpenAsync();

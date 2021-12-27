@@ -17,27 +17,41 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let authRequest = request;
     const token = this.token.getToken();
-    if(token != null) {
-      authRequest = request.clone({ headers: request.headers.set(TOKEN_HEADER_KEY, 'Bearer ' + token) });
-
-      return next.handle(authRequest).pipe(
-        tap(
-          succ => {
-
-          },
-          err => {
-            if (err.status == 401) {
-              this.tokenStorageService.signOut();
-              this.router.navigateByUrl('admin/login');
+    const tokenClient = this.token.getTokenClient();
+    const href = window.location.href.includes('/admin');
+    if(href) {
+      if(token != null) {
+        authRequest = request.clone({ headers: request.headers.set(TOKEN_HEADER_KEY, 'Bearer ' + token) });
+  
+        return next.handle(authRequest).pipe(
+          tap(
+            succ => {
+  
+            },
+            err => {
+              if (err.status == 401) {
+                this.tokenStorageService.signOut();
+                this.router.navigateByUrl('admin/login');
+              }
+              else if (err.status == 403)
+                this.router.navigateByUrl('/forbidden');
             }
-            else if (err.status == 403)
-              this.router.navigateByUrl('/forbidden');
-          }
+          )
         )
-      )
+      }
+      else {
+        return next.handle(authRequest);
+      }
     }
-    else 
-      return next.handle(authRequest);
+    else {
+      if(tokenClient != null) {
+        authRequest = request.clone({ headers: request.headers.set(TOKEN_HEADER_KEY, 'Bearer ' + tokenClient) });
+        return next.handle(authRequest)
+      }
+      else {
+        return next.handle(authRequest);
+      }
+    }
   }
 }
 

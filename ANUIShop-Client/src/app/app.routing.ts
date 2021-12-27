@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { HomeComponent } from './clients/home/home.component';
 
 // Import Containers
 import { DefaultLayoutComponent } from './containers';
+import { DefaultLayoutClientComponent } from './containers/default-layout-client/default-layout-client.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 
 import { P404Component } from './views/error/404.component';
@@ -15,7 +17,7 @@ import { AuthGuard } from './_helpers/auth.guard';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'admin/dashboard',
+    redirectTo: '/trang-chu',
     pathMatch: 'full',
   },
   {
@@ -60,36 +62,8 @@ export const routes: Routes = [
         data: { title: 'Thông tin cá nhân' }
       },
       {
-        path: 'base',
-        loadChildren: () => import('./views/base/base.module').then(m => m.BaseModule)
-      },
-      {
-        path: 'buttons',
-        loadChildren: () => import('./views/buttons/buttons.module').then(m => m.ButtonsModule)
-      },
-      {
-        path: 'charts',
-        loadChildren: () => import('./views/chartjs/chartjs.module').then(m => m.ChartJSModule)
-      },
-      {
         path: 'dashboard',
         loadChildren: () => import('./views/dashboard/dashboard.module').then(m => m.DashboardModule)
-      },
-      {
-        path: 'icons',
-        loadChildren: () => import('./views/icons/icons.module').then(m => m.IconsModule)
-      },
-      {
-        path: 'notifications',
-        loadChildren: () => import('./views/notifications/notifications.module').then(m => m.NotificationsModule)
-      },
-      {
-        path: 'theme',
-        loadChildren: () => import('./views/theme/theme.module').then(m => m.ThemeModule)
-      },
-      {
-        path: 'widgets',
-        loadChildren: () => import('./views/widgets/widgets.module').then(m => m.WidgetsModule),
       },
       {
         path: 'san-pham',
@@ -103,7 +77,26 @@ export const routes: Routes = [
         path: 'tai-khoan',
         loadChildren: () => import('./pages/account/account.module').then(m => m.AccountModule),
       },
+      {
+        path: 'don-hang',
+        loadChildren: () => import('./pages/order/order.module').then(m => m.OrderModule),
+      },
+      {
+        path: 'khuyen-mai',
+        loadChildren: () => import('./pages/promotion/promotion.module').then(m => m.PromotionModule),
+      },
     ]
+  },
+  {
+    path: "",
+    component: DefaultLayoutClientComponent,
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('./clients/clients.module').then(m => m.ClientsModule),
+      }
+    ]
+    // loadChildren: () => import('./clients/clients.module').then(m => m.ClientsModule)
   },
   { path: '**', component: P404Component }
 ];

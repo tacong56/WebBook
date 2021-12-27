@@ -6,10 +6,10 @@
         </div>
     </div>
     <div class="form-group col-3">
-        <label class="form-label" for="">Danh mục</label>
-        <select class="form-control" [(ngModel)]="request.CategoryId" (change)="filter()">
-            <option value="0">Chọn danh mục</option>
-            <option *ngFor="let category of listCategory" value="{{category.id}}">{{category.name}}</option>
+        <label class="form-label" for="">Quyền</label>
+        <select class="form-control" [(ngModel)]="request.RoleId" (change)="filter()">
+            <option value="0">Chọn quyền</option>
+            <option *ngFor="let role of listRole" value="{{role.id}}">{{role.name}}</option>
         </select>
     </div>
 </div>
@@ -19,3 +19,72 @@
         <a routerLink="/admin/tai-khoan/them-moi" class="btn btn-primary"><i class="fa fa-plus"></i> Thêm mới</a>
     </div>
 </div>
+
+<div class="card">
+    <div class="card-header">
+        <i class="fa fa-align-justify"></i> Danh sách sách
+    </div>
+    <div class="card-body">
+        <table class="table-custom table table-bordered table-striped table-sm">
+            <thead>
+                <tr>
+                    <th style="width: 80px">Ảnh</th>
+                    <th>Tài khoản</th>
+                    <th>Chức vụ</th>
+                    <th>Họ tên</th>
+                    <th>Ngày sinh</th>
+                    <th>Ngày tạo</th>
+                    <th style="width: 120px">Tác vụ</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of dataSource.items; let index = index">
+                    <td>
+                        <img [src]="url.URL_IMAGE + item.imageMain" style="width: 60px; height: 60px; object-fit: cover;">
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <a routerLink="/admin/tai-khoan/cap-nhat/1" class="btn btn-sm btn-primary"><i class="fa fa-pencil text-white"></i></a>
+                        <button type="button" class="btn btn-sm btn-success" (click)="openModalDelete(templateDelete, item)"><i class="fa fa-lock"></i></button>
+                        <button type="button" class="btn btn-sm btn-danger" (click)="openModalDelete(templateDelete, item)"><i class="fa fa-trash"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <nav>
+            <ul class="pagination">
+                <li class="page-item" [ngClass]="{'disabled': dataSource.page == 1}" title="Trang đầu" (click)="onClickPaging(1)" style="cursor: pointer;">
+                    <span class="page-link"><i class="fa fa-angle-double-left"></i></span>
+                </li>
+                <li class="page-item active" [ngClass]="{'active': dataSource.page == item}" *ngFor="let item of listNumberPaging; let index = index" (click)="onClickPaging(item)" style="cursor: pointer;">
+                    <span class="page-link" href="#">{{item}}</span>
+                </li>
+                <li class="page-item" [ngClass]="{'disabled': dataSource.page == totalPage}" (click)="onClickPaging(totalPage)" style="cursor: pointer;">
+                    <span class="page-link" href="#" title="Trang cuối"><i class="fa fa-angle-double-right"></i></span>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<ng-template #templateDelete>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Xóa</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRefDelete.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        Chọn xác nhận để xóa
+    </div>
+    <div class="modal-footer">
+        <div class="text-right">
+            <button class="btn btn-primary" (click)="deleteItem()">Xác nhận</button>
+            <button class="btn btn-light" (click)="modalRefDelete.hide()">Hủy</button>
+        </div>
+    </div>
+</ng-template>

@@ -14,5 +14,6 @@ namespace TANGOCCONG.ANUIShop.API.Interfaces
         Task<ResponseData<int>> Create(ProductInsertRequest request);
         Task<ResponseData<int>> Update(ProductInsertRequest request);
         Task<PaginationResult<ProductDataResponse>> GetPaging(ProductPagingRequest request);
+        Task<List<ProductDataResponse>> GetList(int top, string sort, string keyword, int? priceFrom, int? priceTo);
     }
 }

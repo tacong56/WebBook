@@ -10,7 +10,7 @@ namespace TANGOCCONG.ANUIShop.API.Interfaces
 {
     public interface IUserService
     {
-        Task<ResponseData<AuthenticateResponse>> Authenticate(AuthenticateRequest request);
+        Task<ResponseData<AuthenticateResponse>> Authenticate(AuthenticateRequest request, string type);
         Task<IEnumerable<AppUser>> GetAll();
         Task<ResponseData<AuthenticateResponse>> GetById(GetDetailRequest request);
         Task<ResponseData<AccountInfoResponseData>> AccountInfo();

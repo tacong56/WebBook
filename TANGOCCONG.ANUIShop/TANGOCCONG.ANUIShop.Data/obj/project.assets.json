@@ -2049,23 +2049,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Admin\\.nuget\\packages\\": {},
+    "C:\\Users\\Ta Cong\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\Congtn\\WebBook\\TANGOCCONG.ANUIShop\\TANGOCCONG.ANUIShop.Data\\TANGOCCONG.ANUIShop.Data.csproj",
+      "projectUniqueName": "C:\\Users\\Ta Cong\\Desktop\\WEB-Book\\ANUIShop-Client\\TANGOCCONG.ANUIShop\\TANGOCCONG.ANUIShop.Data\\TANGOCCONG.ANUIShop.Data.csproj",
       "projectName": "TANGOCCONG.ANUIShop.Data",
-      "projectPath": "F:\\Congtn\\WebBook\\TANGOCCONG.ANUIShop\\TANGOCCONG.ANUIShop.Data\\TANGOCCONG.ANUIShop.Data.csproj",
-      "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "F:\\Congtn\\WebBook\\TANGOCCONG.ANUIShop\\TANGOCCONG.ANUIShop.Data\\obj\\",
+      "projectPath": "C:\\Users\\Ta Cong\\Desktop\\WEB-Book\\ANUIShop-Client\\TANGOCCONG.ANUIShop\\TANGOCCONG.ANUIShop.Data\\TANGOCCONG.ANUIShop.Data.csproj",
+      "packagesPath": "C:\\Users\\Ta Cong\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Ta Cong\\Desktop\\WEB-Book\\ANUIShop-Client\\TANGOCCONG.ANUIShop\\TANGOCCONG.ANUIShop.Data\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Ta Cong\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -2143,7 +2143,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.203\\RuntimeIdentifierGraph.json"
       }
     }
   }

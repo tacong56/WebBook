@@ -21,6 +21,13 @@ export class CategoryService {
     return this.http.get(StaticVaribale.URL + StaticVaribale.PATH.categogry.getList, {params: params})
   }
 
+  getListNoAuth(level: any = null) : Observable<any> {
+    let params = new HttpParams();
+    if(level != null)
+        params = params.append('Level', level);
+    return this.http.get(StaticVaribale.URL + StaticVaribale.PATH.categogry.getListnoauth, {params: params})
+  }
+
   getpaging(request: any) : Observable<any> {
     let params = new HttpParams();
     params = params.append('Page', request.Page);

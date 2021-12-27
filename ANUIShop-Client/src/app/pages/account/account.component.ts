@@ -17,7 +17,7 @@ export class AccountComponent implements OnInit {
     Page: 1,
     Limit: 10,
     Keyword: "",
-    CategoryId: 0
+    RoleId: 0
   };
   totalPage: number = 0;
   

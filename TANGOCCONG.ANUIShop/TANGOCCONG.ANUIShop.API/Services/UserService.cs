@@ -72,7 +72,7 @@ namespace TANGOCCONG.ANUIShop.API.Services
             return new SuccessResponseData<AccountInfoResponseData>("", acc);
         }
 
-        public async Task<ResponseData<AuthenticateResponse>> Authenticate(AuthenticateRequest request)
+        public async Task<ResponseData<AuthenticateResponse>> Authenticate(AuthenticateRequest request, string type)
         {
             var user = await _userManager.FindByNameAsync(request.UserName);
             if (user == null)
@@ -85,6 +85,8 @@ namespace TANGOCCONG.ANUIShop.API.Services
             var roles = await _userManager.GetRolesAsync(user);
             // authentication successful so generate jwt token
             string token = generateJwtToken(user, roles);
+            if (type == "ADMIN" && roles.Contains("Khách hàng"))
+                return new ErrorResponseData<AuthenticateResponse>("Tài khoản không có quyền đăng nhập.");
             var resData = new AuthenticateResponse(user, token);
 
             return new SuccessResponseData<AuthenticateResponse>("", resData);

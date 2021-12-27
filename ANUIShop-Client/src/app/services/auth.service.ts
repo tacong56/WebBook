@@ -21,6 +21,11 @@ export class AuthService  {
       return this.http.post(StaticVaribale.URL + StaticVaribale.PATH.user.login, body, StaticVaribale.httpOptions)
     }
 
+    loginClient(value: any) : Observable<any> {
+      const body = JSON.stringify(value);
+      return this.http.post(StaticVaribale.URL + StaticVaribale.PATH.user.loginClient, body, StaticVaribale.httpOptions)
+    }
+
     logout(): void {
       this.tokenStorageService.signOut();
     }

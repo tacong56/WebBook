@@ -18,10 +18,10 @@ export class CategoryDetailComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.getListCategory();
     if(Object.keys(this.item).length == 0) {
-      this.item["isShowOnHome"] = true;
-      this.item["parentId"] = 0;
-      this.item["status"] = 0;
-      this.item["level"] = 0;
+      this.item["IsShowOnHome"] = true;
+      this.item["ParentId"] = 0;
+      this.item["Status"] = 0;
+      this.item["Level"] = 0;
     }
   }
 
