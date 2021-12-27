@@ -7,6 +7,8 @@ using TANGOCCONG.ANUIShop.API.Helpers;
 using TANGOCCONG.ANUIShop.API.Interfaces;
 using TANGOCCONG.ANUIShop.API.Models;
 using TANGOCCONG.ANUIShop.API.Objects;
+using TANGOCCONG.ANUIShop.API.Payment.Model;
+using TANGOCCONG.ANUIShop.API.Payment.VNPay;
 using TANGOCCONG.ANUIShop.Data.EF;
 using TANGOCCONG.ANUIShop.Data.Entities;
 using TANGOCCONG.ANUIShop.Data.Enums;
@@ -222,6 +224,52 @@ namespace TANGOCCONG.ANUIShop.API.Services
             catch (Exception ex)
             {
                 return new ErrorResponseData<OrderIURequest>(ex.Message);
+            }
+        }
+
+        public string CreateOrderVNPay(MerchantAccount merchantAccount, int orderID, string domainName)
+        {
+            Order order = _context.Orders.Where(x => x.Id == orderID).FirstOrDefault();
+            InfoRedirect pharma = new InfoRedirect
+            {
+                Title = "Thanh toán đơn hàng",
+                AgainLink = domainName + "api/Order/checkout",
+                ReturnURL = domainName + "api/Order/receiptPaymentVNPay"
+            };
+            return new VNPay().Payment(order, merchantAccount, pharma);
+        }
+
+        public ResponseData<Transaction> UpdateOrderAfterPayment(int orderID, int transactionID, string transactionCode, int paymentMothod,
+            decimal vnp_Amount, string vnp_BankCode, string vnp_BankTranNo, string vnp_CardType, string vnp_TmnCode)
+        {
+            try
+            {
+                Transaction payments = new Transaction();
+                payments.OrderId = orderID;
+                payments.TransactionID = transactionID;
+                payments.TransactionCode = transactionCode;
+                payments.PaymentMethod = paymentMothod;
+                payments.Amount = vnp_Amount / 100;
+                payments.BankCode = vnp_BankCode;
+                payments.BankTranNo = vnp_BankTranNo;
+                payments.CardType = vnp_CardType;
+                payments.TransactionDate = DateTime.Now;
+                payments.TmnCode = vnp_TmnCode;
+
+                _context.Transactions.Add(payments);
+                _context.SaveChanges();
+                if (payments.Id >0)
+                {
+                    return new SuccessResponseData<Transaction>("Tạo đơn hàng thành công", payments);
+                }
+                else
+                {
+                    return new ErrorResponseData<Transaction>("Cập nhật đơn hàng thất bại");
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
             }
         }
     }

@@ -16,6 +16,7 @@ namespace TANGOCCONG.ANUIShop.Data.Entities
         public string ShipPhoneNumber { set; get; }
         public OrderStatus Status { set; get; }
         public bool IsDelete { set; get; }
+        public decimal? TotalAmount { get; set; }
         public List<OrderDetail> OrderDetails { get; set; }
         public AppUser AppUser { get; set; }
     }

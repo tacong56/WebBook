@@ -14,7 +14,14 @@ namespace TANGOCCONG.ANUIShop.Data.Entities
         public string Message { set; get; }
         public TransactionStatus Status { set; get; }
         public string Provider { set; get; }
-
+        public int OrderId { get; set; }
+        public int TransactionID { get; set; }
+        public string TransactionCode { get; set; }
+        public int PaymentMethod { get; set; }
+        public string BankCode { get; set; }
+        public string BankTranNo { get; set; }
+        public string CardType { get; set; }
+        public string TmnCode { get; set; }
         public int UserId { get; set; }
 
         public AppUser AppUser { get; set; }
