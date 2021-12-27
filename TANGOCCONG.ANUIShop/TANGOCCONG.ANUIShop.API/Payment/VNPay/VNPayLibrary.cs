@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -52,14 +53,21 @@ namespace TANGOCCONG.ANUIShop.API.Payment.VNPay
             {
                 if (!String.IsNullOrEmpty(kv.Value))
                 {
-                    data.Append(kv.Key + "=" + HttpUtility.UrlEncode(kv.Value) + "&");
+                    data.Append(WebUtility.UrlEncode(kv.Key) + "=" + WebUtility.UrlEncode(kv.Value) + "&");
                 }
             }
             string queryString = data.ToString();
-            string rawData = GetRequestRaw();
+
             baseUrl += "?" + queryString;
-            string vnp_SecureHash = Utils.Sha256(vnp_HashSecret + rawData);
+            String signData = queryString;
+            if (signData.Length > 0)
+            {
+
+                signData = signData.Remove(data.Length - 1, 1);
+            }
+            string vnp_SecureHash = Utils.HmacSHA512(vnp_HashSecret, signData);
             baseUrl += "vnp_SecureHash=" + vnp_SecureHash;
+
             return baseUrl;
         }
 
