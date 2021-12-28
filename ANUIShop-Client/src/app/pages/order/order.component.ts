@@ -16,7 +16,7 @@ export class OrderComponent implements OnInit {
   modalRefEdit: BsModalRef;
   dataSource: any = {};
   Page: any = 1;
-  Limit: any = 1;
+  Limit: any = 10;
   Keyword: any = "";
   NgayTu: any = null;
   NgayDen: any = null;
@@ -48,7 +48,7 @@ export class OrderComponent implements OnInit {
         (res: any) => {
 
           this.dataSource = res;
-          this.totalPage = Math.ceil(Math.ceil(this.dataSource.totalRecord / this.dataSource.limit));
+          this.totalPage = Math.ceil(Math.ceil(this.dataSource.TotalRecord / this.dataSource.Limit));
           this.setListPaging();
         },
         err => {
@@ -109,7 +109,7 @@ export class OrderComponent implements OnInit {
   }
 
   deleteItem() {
-    this.orderService.delete(this.itemSelected.productId)
+    this.orderService.delete(this.itemSelected.ProductId)
     .subscribe(
       (res: any) => {
         if(res == 1) this.toastr.success("Xóa thành công.");

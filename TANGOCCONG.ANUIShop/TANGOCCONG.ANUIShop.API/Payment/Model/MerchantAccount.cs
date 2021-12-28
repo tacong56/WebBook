@@ -13,5 +13,6 @@ namespace TANGOCCONG.ANUIShop.API.Payment.Model
         public string TmnCode { get; set; }
         public string HashSecret { get; set; }
         public string GateWay_VNPAY { get; set; }
+        public string UrlReturnClient { get; set; }
     }
 }

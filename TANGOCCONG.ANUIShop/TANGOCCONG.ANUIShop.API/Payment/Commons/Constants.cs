@@ -7,7 +7,7 @@ namespace TANGOCCONG.ANUIShop.API.Payment.Commons
 {
     public class Constants
     {
-        public static string GATEWAY_VERSION = "2";
+        public static string GATEWAY_VERSION = "2.2.0";
         public static string GATEWAY_COMMAND = "pay";
         public static string GATEWAY_LOCALE = "vn";
         public static string GATEWAY_CURRENCY = "VND";

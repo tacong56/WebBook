@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using TANGOCCONG.ANUIShop.API.Interfaces;
 using TANGOCCONG.ANUIShop.API.Models;
 using TANGOCCONG.ANUIShop.API.Payment.Commons;
@@ -82,19 +84,21 @@ namespace TANGOCCONG.ANUIShop.API.Controllers
             return NotFound(result);
         }
 
-        [HttpPost]
+        [AllowAnonymous]
+        [HttpGet("CreateOrderVNPay")]
         public IActionResult CreateOrderVNPay(int orderID, string domainName)
         {
-            var result = _orderService.CreateOrderVNPay(_merchantAccount,orderID, domainName);
+            var result = _orderService.CreateOrderVNPay(_merchantAccount, orderID, domainName);
             return NotFound(result);
         }
 
-        [HttpGet]
-        public IActionResult receiptPaymentVNPay(string vnp_Amount, string vnp_BankCode, string vnp_BankTranNo, string vnp_CardType,
+        [AllowAnonymous]
+        [HttpGet("receiptPaymentVNPay")]
+        public ActionResult receiptPaymentVNPay(string vnp_Amount, string vnp_BankCode, string vnp_BankTranNo, string vnp_CardType,
           string vnp_OrderInfo, string vnp_PayDate, string vnp_ResponseCode, string vnp_TmnCode, string vnp_TransactionNo,
           string vnp_TxnRef, string vnp_SecureHashType, string vnp_SecureHash)
         {
-            var urlRedirect = "/notify-payment";
+            var urlRedirect = _merchantAccount.UrlReturnClient + "/notify-payment";
             int orderID = 0;
             int TransactionID = 0;
             try
@@ -163,11 +167,11 @@ namespace TANGOCCONG.ANUIShop.API.Controllers
                         break;
                 }
                 // Check vnp_TmnCode nếu 00 mới được update, ngược lại thì k https://sandbox.vnpayment.vn/apis/docs/bang-ma-loi/
-                return Redirect(urlRedirect+"?orderID=" +orderID +"&transactionID=" +TransactionID +"&msg=" +stringMessage);
+                return RedirectPermanent(HttpUtility.UrlEncode(urlRedirect + "?orderID=" + orderID + "&transactionID=" + TransactionID + "&msg=" + stringMessage));
             }
             catch (Exception ex)
             {
-                return Redirect(urlRedirect + "?orderID=0&transactionID=0&msg=Lỗi:" + ex.Message);
+                return RedirectPermanent(HttpUtility.UrlEncode(urlRedirect + "?orderID=0&transactionID=0&msg=Lỗi:" + ex.Message));
             }
         }
     }

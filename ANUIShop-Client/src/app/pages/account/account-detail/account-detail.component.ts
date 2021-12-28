@@ -80,22 +80,23 @@ load() {
   this.accountService.get(id)
     .subscribe(
       (res: any) => {
-        if(res.data.imageMain != '' && res.data.imageMain != null) {
-          this.imageMainUrl = StaticVaribale.URL_IMAGE + res.data.imageMain;
-          this.imageMainUrlOld = StaticVaribale.URL_IMAGE + res.data.imageMain;
-        }
+        // if(res.data.imageMain != '' && res.data.imageMain != null) {
+        //   this.imageMainUrl = StaticVaribale.URL_IMAGE + res.data.imageMain;
+        //   this.imageMainUrlOld = StaticVaribale.URL_IMAGE + res.data.imageMain;
+        // }
 
-        this.formDetail.get('ID')?.patchValue(res.data.productId);
-        this.formDetail.get('CategoryID')?.patchValue(res.data.categoryId);
-        this.formDetail.get('Name')?.patchValue(res.data.productName);
-        this.formDetail.get('Code')?.patchValue(res.data.productCode);
-        this.formDetail.get('Price')?.patchValue(res.data.price);
-        this.formDetail.get('Title')?.patchValue(res.data.title);
-        this.formDetail.get('Description')?.patchValue(res.data.description);
-        this.formDetail.get('ImageID')?.patchValue(res.data.imageId);
-        this.formDetail.get('TimeCreated')?.patchValue(res.data.timeCreated);
-        this.formDetail.get('TimeUpdated')?.patchValue(res.data.userUpdate);
-        this.formDetail.get('View')?.patchValue(res.data.view);
+        var d = this.formatDateByCurrentTimeZone(res.Data.Dob);
+        var url_img = res.Data.UrlImage != null ? StaticVaribale.URL_IMAGE + res.Data.UrlImage : "";
+
+        this.formInfo.get('id')?.patchValue(res.Data.Id);
+        this.formInfo.get('username')?.patchValue(res.Data.UserName);
+        this.formInfo.get('email')?.patchValue(res.Data.Email);
+        this.formInfo.get('firstname')?.patchValue(res.Data.FirstName);
+        this.formInfo.get('lastname')?.patchValue(res.Data.LastName);
+        this.formInfo.get('phonenumber')?.patchValue(res.Data.PhoneNumber);
+        this.formInfo.get('address')?.patchValue(res.Data.Address);
+        this.formInfo.get('urlimage')?.patchValue(url_img);
+        this.formInfo.get('dob')?.patchValue(this.datePipe.transform(d, 'yyyy-MM-dd'));
       },
       err => {
         console.error(err);

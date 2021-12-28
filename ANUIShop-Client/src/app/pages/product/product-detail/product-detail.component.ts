@@ -128,11 +128,11 @@ export class ProductDetailComponent extends BaseComponent implements OnInit {
 
   requiredImage: boolean = false;
   customSave() {
-    if(this.imageMain == null) {
+    if(this.formDetail.get('ID').value == 0 && this.imageMain == null) {
       this.requiredImage = true;
       return false;
     }
-    debugger;
+
     if (this.formDetail.valid) { 
       if (this.imageMain != null) {
         this.imageService.upload(this.imageMain)

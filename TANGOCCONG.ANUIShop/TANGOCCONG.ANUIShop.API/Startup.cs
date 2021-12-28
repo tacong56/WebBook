@@ -19,6 +19,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TANGOCCONG.ANUIShop.API.Helpers;
 using TANGOCCONG.ANUIShop.API.Interfaces;
+using TANGOCCONG.ANUIShop.API.Payment.Model;
 using TANGOCCONG.ANUIShop.API.Services;
 using TANGOCCONG.ANUIShop.Data.EF;
 using TANGOCCONG.ANUIShop.Data.Entities;
@@ -63,6 +64,8 @@ namespace TANGOCCONG.ANUIShop.API
             // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
+            var merchantAccount = Configuration.GetSection("MerchantAccount");
+            services.Configure<MerchantAccount>(merchantAccount);
             var connectionStringsSection = Configuration.GetSection("ConnectionStrings");
             services.Configure<ConnectionStrings>(connectionStringsSection);
 

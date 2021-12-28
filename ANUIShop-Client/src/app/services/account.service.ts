@@ -16,7 +16,7 @@ export class AccountService {
   // }
 
   get(id: any) : Observable<any> {
-    return this.http.get(StaticVaribale.URL + StaticVaribale.PATH.product.update, StaticVaribale.httpOptions)
+    return this.http.get(StaticVaribale.URL + StaticVaribale.PATH.account.get + '/' + id, StaticVaribale.httpOptions)
   }
 
   getpaging(request: any) : Observable<any> {

@@ -16,6 +16,7 @@ export class DefaultLayoutClientComponent implements OnInit {
   submitted: boolean = false;
   user: any = {};
   isLogin: boolean = false;
+  listCategory: any[] = [];
 
   item1: any = {
     username: "",
@@ -37,6 +38,33 @@ export class DefaultLayoutClientComponent implements OnInit {
 
   ngOnInit(): void {
     this.checkLogin();
+    this.getListCategory();
+  }
+
+  getListCategory() {
+    this.categoryService.getListNoAuth()
+      .subscribe(
+        (res: any) => {
+          this.listCategory = [...this.groupArr(res)]
+        },
+        err => {
+          console.error(err);
+        }
+      )
+  }
+
+  groupArr(arr) {
+    let arrParent = [];
+    arr.map((el, index) => {
+      if(el.ParentId == 0) arrParent.push(el);
+      return el;
+    })
+    arrParent.map((el, index) => {
+      el["value"] = arr.filter(x => x.ParentId == el.Id);
+      return el;
+    })
+    console.log(arrParent);
+    return arrParent;
   }
 
   openModal(template: TemplateRef<any>) {

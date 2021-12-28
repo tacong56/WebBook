@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TANGOCCONG.ANUIShop.Data.EF;
 
 namespace TANGOCCONG.ANUIShop.Data.Migrations
 {
     [DbContext(typeof(ANUIShopDbContext))]
-    partial class ANUIShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211227171442_update-db-19")]
+    partial class updatedb19
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -147,7 +149,7 @@ namespace TANGOCCONG.ANUIShop.Data.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "5cb184b2-3b04-487c-8de6-65b46d36cf33",
+                            ConcurrencyStamp = "80b748dc-2aad-4766-b1aa-eadc4ee96c79",
                             Description = "Admintrator role",
                             Name = "Admin",
                             NormalizedName = "admin"
@@ -155,7 +157,7 @@ namespace TANGOCCONG.ANUIShop.Data.Migrations
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "457a67d8-6022-46db-a583-341bd18dd540",
+                            ConcurrencyStamp = "56a83349-aed9-45e9-a872-1c1f9e84f12e",
                             Description = "Employee role",
                             Name = "Nhân viên",
                             NormalizedName = "employee"
@@ -163,7 +165,7 @@ namespace TANGOCCONG.ANUIShop.Data.Migrations
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "0849a020-50d5-48ad-aa08-74c2b742eeea",
+                            ConcurrencyStamp = "b994bfdb-f37e-475a-9eec-95372bc8c383",
                             Description = "Customer role",
                             Name = "Khách hàng",
                             NormalizedName = "customer"
@@ -241,7 +243,7 @@ namespace TANGOCCONG.ANUIShop.Data.Migrations
                     b.Property<DateTime>("TimeCreated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2021, 12, 28, 1, 53, 26, 79, DateTimeKind.Local).AddTicks(5631));
+                        .HasDefaultValue(new DateTime(2021, 12, 28, 0, 14, 39, 944, DateTimeKind.Local).AddTicks(7438));
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("tinyint(1)");
@@ -258,7 +260,7 @@ namespace TANGOCCONG.ANUIShop.Data.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7dcca001-9169-4e7d-ad21-ea16b48cd2a2",
+                            ConcurrencyStamp = "8e36bcf9-6f75-4cf6-9087-1c84e4ff9a3b",
                             Dob = new DateTime(1997, 6, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "tacong56@gmail.com",
                             EmailConfirmed = true,
@@ -269,11 +271,11 @@ namespace TANGOCCONG.ANUIShop.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "tacong56@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEN6vYX56rLvSATqIv3tZ2FpNKik+RGd9pY2dWaiz23auuUS6MWxpraNU3CIOnpfsfA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDufrKXwLWCR+V6IplYB9FgNkLBjPr52blsdlf76drAA4lO6D9SOWy5A9N5hLrS9aA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             State = 0,
-                            TimeCreated = new DateTime(2021, 12, 28, 1, 53, 26, 336, DateTimeKind.Local).AddTicks(6814),
+                            TimeCreated = new DateTime(2021, 12, 28, 0, 14, 40, 112, DateTimeKind.Local).AddTicks(9177),
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -430,7 +432,7 @@ namespace TANGOCCONG.ANUIShop.Data.Migrations
                     b.Property<DateTime>("TimeCreated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2021, 12, 28, 1, 53, 26, 87, DateTimeKind.Local).AddTicks(273));
+                        .HasDefaultValue(new DateTime(2021, 12, 28, 0, 14, 39, 951, DateTimeKind.Local).AddTicks(6075));
 
                     b.Property<string>("UrlPath")
                         .HasColumnType("longtext");
@@ -550,7 +552,7 @@ namespace TANGOCCONG.ANUIShop.Data.Migrations
                     b.Property<DateTime>("TimeCreated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2021, 12, 28, 1, 53, 26, 172, DateTimeKind.Local).AddTicks(4071));
+                        .HasDefaultValue(new DateTime(2021, 12, 28, 0, 14, 40, 28, DateTimeKind.Local).AddTicks(2281));
 
                     b.Property<DateTime>("TimeUpdated")
                         .HasColumnType("datetime(6)");
@@ -846,9 +848,6 @@ namespace TANGOCCONG.ANUIShop.Data.Migrations
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(65,30)");
 
-                    b.Property<int?>("AppUserId")
-                        .HasColumnType("int");
-
                     b.Property<string>("BankCode")
                         .HasColumnType("longtext");
 
@@ -894,9 +893,12 @@ namespace TANGOCCONG.ANUIShop.Data.Migrations
                     b.Property<int>("TransactionID")
                         .HasColumnType("int");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Transactions");
                 });
@@ -1005,9 +1007,13 @@ namespace TANGOCCONG.ANUIShop.Data.Migrations
 
             modelBuilder.Entity("TANGOCCONG.ANUIShop.Data.Entities.Transaction", b =>
                 {
-                    b.HasOne("TANGOCCONG.ANUIShop.Data.Entities.AppUser", null)
+                    b.HasOne("TANGOCCONG.ANUIShop.Data.Entities.AppUser", "AppUser")
                         .WithMany("Transactions")
-                        .HasForeignKey("AppUserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
                 });
 
             modelBuilder.Entity("TANGOCCONG.ANUIShop.Data.Entities.AppUser", b =>

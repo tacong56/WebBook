@@ -38,7 +38,8 @@ export class StaticVaribale {
             getpaging: "account/get-paging",
             delete: "account/delete",
             create: "account/create",
-            update: "account/update"
+            update: "account/update",
+            get: 'account/get'
         },
         order: {
             getpaging: "order/get-paging",

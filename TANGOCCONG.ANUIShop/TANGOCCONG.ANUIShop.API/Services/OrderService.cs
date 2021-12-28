@@ -58,7 +58,8 @@ namespace TANGOCCONG.ANUIShop.API.Services
                          ShipName = od.ShipName,
                          ShipPhoneNumber = od.ShipPhoneNumber,
                          Status = od.Status,
-                         UserId = od.UserId
+                         UserId = od.UserId,
+                         TotalAmount = od.TotalAmount
                      }).FirstOrDefault();
             o.OrderDetails = (from odt in _context.OrderDetails
                               join pd in _context.Products on odt.ProductId equals pd.Id
@@ -178,7 +179,8 @@ namespace TANGOCCONG.ANUIShop.API.Services
                     ShipPhoneNumber = request.ShipPhoneNumber,
                     Status = Data.Enums.OrderStatus.InProgress,
                     UserId = request.UserId,
-                    OrderDetails = request.OrderDetails
+                    OrderDetails = request.OrderDetails,
+                    TotalAmount = request.OrderDetails.Sum(x => x.Price * x.Quantity)
                 };
                 _context.Orders.Add(data);
                 var kq = await _context.SaveChangesAsync();
@@ -214,7 +216,7 @@ namespace TANGOCCONG.ANUIShop.API.Services
                     findOrder.Status = Data.Enums.OrderStatus.InProgress;
                     findOrder.UserId = request.UserId;
                     findOrder.OrderDetails = request.OrderDetails;
-
+                    findOrder.TotalAmount = request.OrderDetails.Sum(x => x.Price * x.Quantity);
                     var kq = await _context.SaveChangesAsync();
                     request.OrderDetails = null;
                     return new SuccessResponseData<OrderIURequest>("Cập nhật đơn hàng thành công", request);
@@ -258,7 +260,7 @@ namespace TANGOCCONG.ANUIShop.API.Services
 
                 _context.Transactions.Add(payments);
                 _context.SaveChanges();
-                if (payments.Id >0)
+                if (payments.Id > 0)
                 {
                     return new SuccessResponseData<Transaction>("Tạo đơn hàng thành công", payments);
                 }
