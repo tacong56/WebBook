@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -27,7 +28,8 @@ export class AccountDetailComponent extends BaseComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService,
     private accountService: AccountService,
-    private imageService: ImageService
+    private imageService: ImageService,
+    private datePipe: DatePipe
   ) { 
     super(fb);
   }
@@ -88,20 +90,24 @@ load() {
         var d = this.formatDateByCurrentTimeZone(res.Data.Dob);
         var url_img = res.Data.UrlImage != null ? StaticVaribale.URL_IMAGE + res.Data.UrlImage : "";
 
-        this.formInfo.get('id')?.patchValue(res.Data.Id);
-        this.formInfo.get('username')?.patchValue(res.Data.UserName);
-        this.formInfo.get('email')?.patchValue(res.Data.Email);
-        this.formInfo.get('firstname')?.patchValue(res.Data.FirstName);
-        this.formInfo.get('lastname')?.patchValue(res.Data.LastName);
-        this.formInfo.get('phonenumber')?.patchValue(res.Data.PhoneNumber);
-        this.formInfo.get('address')?.patchValue(res.Data.Address);
-        this.formInfo.get('urlimage')?.patchValue(url_img);
-        this.formInfo.get('dob')?.patchValue(this.datePipe.transform(d, 'yyyy-MM-dd'));
+        this.formDetail.get('Id')?.patchValue(res.Data.Id);
+        this.formDetail.get('UserName')?.patchValue(res.Data.UserName);
+        this.formDetail.get('Email')?.patchValue(res.Data.Email);
+        this.formDetail.get('FirstName')?.patchValue(res.Data.FirstName);
+        this.formDetail.get('LastName')?.patchValue(res.Data.LastName);
+        this.formDetail.get('PhoneNumber')?.patchValue(res.Data.PhoneNumber);
+        this.formDetail.get('Address')?.patchValue(res.Data.Address);
+        this.formDetail.get('Avatar')?.patchValue(url_img);
+        this.formDetail.get('dob')?.patchValue(this.datePipe.transform(d, 'yyyy-MM-dd'));
       },
       err => {
         console.error(err);
       }
     )
+}
+
+formatDateByCurrentTimeZone(date: string | null) {
+  return this.datePipe.transform(new Date(Date.parse(date + '+0000')), 'yyyy-MM-dd HH:mm:ss');
 }
 
 getRole() {
