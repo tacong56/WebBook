@@ -35,6 +35,8 @@ namespace TANGOCCONG.ANUIShop.Data.EF
             modelBuilder.ApplyConfiguration(new WardConfiguration());
             modelBuilder.ApplyConfiguration(new SystemParameterConfiguration());
             modelBuilder.ApplyConfiguration(new ProductImageConfiguration());
+            modelBuilder.ApplyConfiguration(new ImportStorageConfiguration());
+            modelBuilder.ApplyConfiguration(new ExportStorageConfiguration());
 
             modelBuilder.Entity<IdentityUserClaim<int>>().ToTable("AppUserClaims");
             modelBuilder.Entity<IdentityUserRole<int>>().ToTable("AppUserRoles").HasKey(x => new { x.UserId, x.RoleId });
@@ -65,5 +67,7 @@ namespace TANGOCCONG.ANUIShop.Data.EF
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<SystemParameter> SystemParameters { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
+        public DbSet<ImportStorage> ImportStorages { get; set; }
+        public DbSet<ExportStorage> ExportStorages { get; set; }
     }
 }

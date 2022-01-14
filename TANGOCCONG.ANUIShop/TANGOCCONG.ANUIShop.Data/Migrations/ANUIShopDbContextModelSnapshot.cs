@@ -89,13 +89,6 @@ namespace TANGOCCONG.ANUIShop.Data.Migrations
                     b.HasKey("UserId", "RoleId");
 
                     b.ToTable("AppUserRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = 1,
-                            RoleId = 1
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
@@ -147,7 +140,7 @@ namespace TANGOCCONG.ANUIShop.Data.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "b3108a67-5098-40b8-b903-5341157ace6c",
+                            ConcurrencyStamp = "d154c070-8565-41b1-b268-34acdf4384e1",
                             Description = "Admintrator role",
                             Name = "Admin",
                             NormalizedName = "admin"
@@ -155,7 +148,7 @@ namespace TANGOCCONG.ANUIShop.Data.Migrations
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "79f5fe18-6630-42a2-8f96-1c2fec4eca8a",
+                            ConcurrencyStamp = "2ec2377e-61a6-4336-af27-a46d9d6e4bfc",
                             Description = "Employee role",
                             Name = "Nhân viên",
                             NormalizedName = "employee"
@@ -163,7 +156,7 @@ namespace TANGOCCONG.ANUIShop.Data.Migrations
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "d00803d5-54b1-4f1f-b459-21ea47d87d74",
+                            ConcurrencyStamp = "8e9945a3-c9a9-4ce5-a2be-5d7c4abd146c",
                             Description = "Customer role",
                             Name = "Khách hàng",
                             NormalizedName = "customer"
@@ -241,7 +234,7 @@ namespace TANGOCCONG.ANUIShop.Data.Migrations
                     b.Property<DateTime>("TimeCreated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2021, 12, 27, 23, 42, 1, 295, DateTimeKind.Local).AddTicks(587));
+                        .HasDefaultValue(new DateTime(2022, 1, 2, 16, 31, 54, 49, DateTimeKind.Local).AddTicks(2384));
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("tinyint(1)");
@@ -258,7 +251,7 @@ namespace TANGOCCONG.ANUIShop.Data.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "98dd9623-fa89-4583-a098-59df2f521b42",
+                            ConcurrencyStamp = "b928cda7-147c-4a13-a26c-7e861c214854",
                             Dob = new DateTime(1997, 6, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "tacong56@gmail.com",
                             EmailConfirmed = true,
@@ -269,11 +262,11 @@ namespace TANGOCCONG.ANUIShop.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "tacong56@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDAddgDqD5DDHS4VYN/sWTOUovn/eMgBKWUSXKmAxLhXnExresCoxRO/x6SJGfLCEQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEK1Lp1xHZEWe+GRqcV9jqYIrAgNHTANI+afbBfHZ9xDUm9xIQfW9GDjXtyDdsHpiOg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             State = 0,
-                            TimeCreated = new DateTime(2021, 12, 27, 23, 42, 1, 363, DateTimeKind.Local).AddTicks(3489),
+                            TimeCreated = new DateTime(2022, 1, 2, 16, 31, 54, 229, DateTimeKind.Local).AddTicks(3424),
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -345,41 +338,6 @@ namespace TANGOCCONG.ANUIShop.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            IsDelete = false,
-                            IsShowOnHome = true,
-                            Level = 0,
-                            Name = "Danh mục 1",
-                            ParentId = 0,
-                            SortOrder = 1,
-                            Status = 0
-                        },
-                        new
-                        {
-                            Id = 2,
-                            IsDelete = false,
-                            IsShowOnHome = true,
-                            Level = 0,
-                            Name = "Danh mục 2",
-                            ParentId = 0,
-                            SortOrder = 2,
-                            Status = 0
-                        },
-                        new
-                        {
-                            Id = 3,
-                            IsDelete = false,
-                            IsShowOnHome = true,
-                            Level = 0,
-                            Name = "Danh mục 3",
-                            ParentId = 0,
-                            SortOrder = 3,
-                            Status = 0
-                        });
                 });
 
             modelBuilder.Entity("TANGOCCONG.ANUIShop.Data.Entities.District", b =>
@@ -403,6 +361,33 @@ namespace TANGOCCONG.ANUIShop.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Districts");
+                });
+
+            modelBuilder.Entity("TANGOCCONG.ANUIShop.Data.Entities.ExportStorage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ExportStorages");
                 });
 
             modelBuilder.Entity("TANGOCCONG.ANUIShop.Data.Entities.Image", b =>
@@ -430,7 +415,7 @@ namespace TANGOCCONG.ANUIShop.Data.Migrations
                     b.Property<DateTime>("TimeCreated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2021, 12, 27, 23, 42, 1, 298, DateTimeKind.Local).AddTicks(4615));
+                        .HasDefaultValue(new DateTime(2022, 1, 2, 16, 31, 54, 56, DateTimeKind.Local).AddTicks(10));
 
                     b.Property<string>("UrlPath")
                         .HasColumnType("longtext");
@@ -440,12 +425,42 @@ namespace TANGOCCONG.ANUIShop.Data.Migrations
                     b.ToTable("Images");
                 });
 
+            modelBuilder.Entity("TANGOCCONG.ANUIShop.Data.Entities.ImportStorage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ImportStorages");
+                });
+
             modelBuilder.Entity("TANGOCCONG.ANUIShop.Data.Entities.Order", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("AppUserId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsDelete")
                         .HasColumnType("tinyint(1)");
@@ -485,7 +500,7 @@ namespace TANGOCCONG.ANUIShop.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("AppUserId");
 
                     b.ToTable("Orders");
                 });
@@ -550,7 +565,7 @@ namespace TANGOCCONG.ANUIShop.Data.Migrations
                     b.Property<DateTime>("TimeCreated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2021, 12, 27, 23, 42, 1, 329, DateTimeKind.Local).AddTicks(425));
+                        .HasDefaultValue(new DateTime(2022, 1, 2, 16, 31, 54, 131, DateTimeKind.Local).AddTicks(2001));
 
                     b.Property<DateTime>("TimeUpdated")
                         .HasColumnType("datetime(6)");
@@ -567,104 +582,6 @@ namespace TANGOCCONG.ANUIShop.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Products");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Code = "SACH0001",
-                            Description = "Sách 01",
-                            ImageId = 0,
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Sách 01",
-                            Price = 100000m,
-                            TimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TimeUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Title = "Sách 01",
-                            UserUpdate = 0,
-                            View = 0
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Code = "SACH0002",
-                            Description = "Sách 01",
-                            ImageId = 0,
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Sách 02",
-                            Price = 100000m,
-                            TimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TimeUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Title = "Sách 01",
-                            UserUpdate = 0,
-                            View = 0
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Code = "SACH0003",
-                            Description = "Sách 03",
-                            ImageId = 0,
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Sách 03",
-                            Price = 100000m,
-                            TimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TimeUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Title = "Sách 01",
-                            UserUpdate = 0,
-                            View = 0
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Code = "SACH0004",
-                            Description = "Sách 04",
-                            ImageId = 0,
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Sách 04",
-                            Price = 100000m,
-                            TimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TimeUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Title = "Sách 01",
-                            UserUpdate = 0,
-                            View = 0
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Code = "SACH0005",
-                            Description = "Sách 03",
-                            ImageId = 0,
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Sách 05",
-                            Price = 100000m,
-                            TimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TimeUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Title = "Sách 01",
-                            UserUpdate = 0,
-                            View = 0
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Code = "SACH0006",
-                            Description = "Sách 03",
-                            ImageId = 0,
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Sách 06",
-                            Price = 100000m,
-                            TimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TimeUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Title = "Sách 01",
-                            UserUpdate = 0,
-                            View = 0
-                        });
                 });
 
             modelBuilder.Entity("TANGOCCONG.ANUIShop.Data.Entities.ProductImage", b =>
@@ -718,38 +635,6 @@ namespace TANGOCCONG.ANUIShop.Data.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("ProductInCategories");
-
-                    b.HasData(
-                        new
-                        {
-                            CategoryId = 1,
-                            ProductId = 1
-                        },
-                        new
-                        {
-                            CategoryId = 2,
-                            ProductId = 2
-                        },
-                        new
-                        {
-                            CategoryId = 3,
-                            ProductId = 3
-                        },
-                        new
-                        {
-                            CategoryId = 1,
-                            ProductId = 4
-                        },
-                        new
-                        {
-                            CategoryId = 1,
-                            ProductId = 5
-                        },
-                        new
-                        {
-                            CategoryId = 1,
-                            ProductId = 6
-                        });
                 });
 
             modelBuilder.Entity("TANGOCCONG.ANUIShop.Data.Entities.Promotion", b =>
@@ -846,6 +731,9 @@ namespace TANGOCCONG.ANUIShop.Data.Migrations
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(65,30)");
 
+                    b.Property<int?>("AppUserId")
+                        .HasColumnType("int");
+
                     b.Property<string>("BankCode")
                         .HasColumnType("longtext");
 
@@ -891,12 +779,9 @@ namespace TANGOCCONG.ANUIShop.Data.Migrations
                     b.Property<int>("TransactionID")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("AppUserId");
 
                     b.ToTable("Transactions");
                 });
@@ -945,13 +830,9 @@ namespace TANGOCCONG.ANUIShop.Data.Migrations
 
             modelBuilder.Entity("TANGOCCONG.ANUIShop.Data.Entities.Order", b =>
                 {
-                    b.HasOne("TANGOCCONG.ANUIShop.Data.Entities.AppUser", "AppUser")
+                    b.HasOne("TANGOCCONG.ANUIShop.Data.Entities.AppUser", null)
                         .WithMany("Orders")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AppUser");
+                        .HasForeignKey("AppUserId");
                 });
 
             modelBuilder.Entity("TANGOCCONG.ANUIShop.Data.Entities.OrderDetail", b =>
@@ -962,15 +843,13 @@ namespace TANGOCCONG.ANUIShop.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TANGOCCONG.ANUIShop.Data.Entities.Product", "Product")
+                    b.HasOne("TANGOCCONG.ANUIShop.Data.Entities.Product", null)
                         .WithMany("OrderDetails")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Order");
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("TANGOCCONG.ANUIShop.Data.Entities.ProductImage", b =>
@@ -1005,13 +884,9 @@ namespace TANGOCCONG.ANUIShop.Data.Migrations
 
             modelBuilder.Entity("TANGOCCONG.ANUIShop.Data.Entities.Transaction", b =>
                 {
-                    b.HasOne("TANGOCCONG.ANUIShop.Data.Entities.AppUser", "AppUser")
+                    b.HasOne("TANGOCCONG.ANUIShop.Data.Entities.AppUser", null)
                         .WithMany("Transactions")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AppUser");
+                        .HasForeignKey("AppUserId");
                 });
 
             modelBuilder.Entity("TANGOCCONG.ANUIShop.Data.Entities.AppUser", b =>

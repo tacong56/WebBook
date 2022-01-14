@@ -4,7 +4,9 @@ using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using TANGOCCONG.ANUIShop.API.Comons;
 using TANGOCCONG.ANUIShop.API.Helpers;
 using TANGOCCONG.ANUIShop.API.Interfaces;
 using TANGOCCONG.ANUIShop.API.Models;
@@ -163,10 +165,29 @@ namespace TANGOCCONG.ANUIShop.API.Services
                         join i in _context.Images on p.ImageId equals i.Id into pi
                         from i in pi.DefaultIfEmpty()
                         where p.IsActive == true && p.IsDeleted == false
-                        select new { p, pic, i, c };
+                        orderby p.Id descending
+                        select new
+                        {
+                            p,
+                            pic,
+                            i,
+                            c,
+                            quantity = _context.ImportStorages.Where(im => im.ProductId == p.Id).Sum(im => im.Quantity) - _context.ExportStorages.Where(ex => ex.ProductId == p.Id).Sum(ex => ex.Quantity)
+                        };
+
             //2. filter
-            if (!string.IsNullOrEmpty(request.Keyword))
-                query = query.Where(x => x.p.Name.Contains(request.Keyword) || x.p.Code.Contains(request.Keyword));
+            try
+            {
+                if (!string.IsNullOrEmpty(request.Keyword))
+                    query = query.Where(x => x.p.Name.Contains(request.Keyword)
+                                             || x.p.Code.Contains(request.Keyword));
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
 
             if (request.CategoryId != null && request.CategoryId != 0)
             {
@@ -191,11 +212,158 @@ namespace TANGOCCONG.ANUIShop.API.Services
                                 CategoryId = x.pic.CategoryId,
                                 CategoryName = x.c.Name,
                                 ImageMain = x.i.UrlPath,
-                                Description = x.p.Description
+                                Description = x.p.Description,
+                                LuongTon = x.quantity
                             }).ToListAsync();
 
                 //4. Select and projection
                 var pagedResult = new PaginationResult<ProductDataResponse>(request.Page, totalRow, request.Limit, data);
+
+                return pagedResult;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+
+        public async Task<PaginationResult<ProductDataResponse>> GetPaging2(int page, int limit, int? categoryid, string keyword, string sortprice, string sortname, string where)
+        {
+            //1. Select join
+            var query = from p in _context.Products
+                        join pic in _context.ProductInCategories on p.Id equals pic.ProductId into ppic
+                        from pic in ppic.DefaultIfEmpty()
+                        join c in _context.Categories on pic.CategoryId equals c.Id into picc
+                        from c in picc.DefaultIfEmpty()
+                        join i in _context.Images on p.ImageId equals i.Id into pi
+                        from i in pi.DefaultIfEmpty()
+                        where p.IsActive == true && p.IsDeleted == false
+                        select new
+                        {
+                            p,
+                            pic,
+                            i,
+                            c,
+                            quantity = _context.ImportStorages.Where(im => im.ProductId == p.Id).Sum(im => im.Quantity) - _context.ExportStorages.Where(ex => ex.ProductId == p.Id).Sum(ex => ex.Quantity),
+                            daban = _context.OrderDetails.Where(od => od.ProductId == p.Id).Sum(od => od.Quantity)
+                        };
+
+            //2. filter
+            if (!string.IsNullOrEmpty(keyword))
+                query = query.Where(x => x.p.Name.Contains(keyword));
+            //query = query.Where(x => Encoding.UTF8.GetString(Encoding.Default.GetBytes(x.p.Name)).Contains(Encoding.UTF8.GetString(Encoding.Default.GetBytes(keyword))));
+
+            if (categoryid != null && categoryid.Value != 0)
+            {
+                query = query.Where(p => p.pic.CategoryId == categoryid.Value);
+            }
+
+            if (!string.IsNullOrEmpty(sortprice))
+            {
+                if (sortprice == "PRICE_DESC")
+                {
+                    query = query.OrderByDescending(x => x.p.Price);
+                }
+                else if (sortprice == "PRICE_ASC")
+                    query = query.OrderBy(x => x.p.Price);
+                else if (sortprice == "BAN_CHAY")
+                    query = query.OrderByDescending(x => x.daban);
+            }
+
+            if (!string.IsNullOrEmpty(sortname))
+            {
+                if (sortprice == "NAME_DESC")
+                {
+                    query = query.OrderByDescending(x => x.p.Name);
+                }
+                else if (sortprice == "NAME_ASC")
+                    query = query.OrderBy(x => x.p.Name);
+            }
+
+            //3. Paging
+            int totalRow = await query.CountAsync();
+
+            try
+            {
+                var data = await query.Skip((page - 1) * limit)
+                            .Take(limit)
+                            .Select(x => new ProductDataResponse()
+                            {
+                                ProductId = x.p.Id,
+                                ProductName = x.p.Name,
+                                ProductCode = x.p.Code,
+                                TimeCreated = x.p.TimeCreated,
+                                Title = x.p.Title,
+                                Price = x.p.Price,
+                                CategoryId = x.pic.CategoryId,
+                                CategoryName = x.c.Name,
+                                ImageMain = x.i.UrlPath,
+                                Description = x.p.Description,
+                                LuongTon = x.quantity,
+                                daban = x.daban
+                            }).ToListAsync();
+
+                //4. Select and projection
+                var pagedResult = new PaginationResult<ProductDataResponse>(page, totalRow, limit, data);
+
+                return pagedResult;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+
+        public async Task<PaginationResult<ProductDataResponse>> GetByParentCategory(int page, int limit, int? categoryid)
+        {
+            //1. Select join
+            var query = from p in _context.Products
+                        join pic in _context.ProductInCategories on p.Id equals pic.ProductId into ppic
+                        from pic in ppic.DefaultIfEmpty()
+                        join c in _context.Categories on pic.CategoryId equals c.Id into picc
+                        from c in picc.DefaultIfEmpty()
+                        join i in _context.Images on p.ImageId equals i.Id into pi
+                        from i in pi.DefaultIfEmpty()
+                        where p.IsActive == true && p.IsDeleted == false && (categoryid == null || c.ParentId == categoryid.Value)
+                        select new
+                        {
+                            p,
+                            pic,
+                            i,
+                            c,
+                            quantity = _context.ImportStorages.Where(im => im.ProductId == p.Id).Sum(im => im.Quantity) - _context.ExportStorages.Where(ex => ex.ProductId == p.Id).Sum(ex => ex.Quantity),
+                            daban = _context.OrderDetails.Where(od => od.ProductId == p.Id).Sum(od => od.Quantity)
+                        };
+
+            //3. Paging
+            int totalRow = await query.CountAsync();
+
+            try
+            {
+                var data = await query.Skip((page - 1) * limit)
+                            .Take(limit)
+                            .Select(x => new ProductDataResponse()
+                            {
+                                ProductId = x.p.Id,
+                                ProductName = x.p.Name,
+                                ProductCode = x.p.Code,
+                                TimeCreated = x.p.TimeCreated,
+                                Title = x.p.Title,
+                                Price = x.p.Price,
+                                CategoryId = x.pic.CategoryId,
+                                CategoryName = x.c.Name,
+                                ImageMain = x.i.UrlPath,
+                                Description = x.p.Description,
+                                LuongTon = x.quantity,
+                                daban = x.daban
+                            }).ToListAsync();
+
+                //4. Select and projection
+                var pagedResult = new PaginationResult<ProductDataResponse>(page, totalRow, limit, data);
 
                 return pagedResult;
             }
@@ -218,7 +386,14 @@ namespace TANGOCCONG.ANUIShop.API.Services
                         join i in _context.Images on p.ImageId equals i.Id into pi
                         from i in pi.DefaultIfEmpty()
                         where p.IsActive == true && p.IsDeleted == false
-                        select new { p, pic, i, c };
+                        select new
+                        {
+                            p,
+                            pic,
+                            i,
+                            c,
+                            quantity = _context.ImportStorages.Where(im => im.ProductId == p.Id).Sum(im => im.Quantity) - _context.ExportStorages.Where(ex => ex.ProductId == p.Id).Sum(ex => ex.Quantity)
+                        };
             //2. filter
             if (!string.IsNullOrEmpty(keyword))
                 query = query.Where(x => x.p.Name.Contains(keyword) || x.p.Code.Contains(keyword));
@@ -263,7 +438,61 @@ namespace TANGOCCONG.ANUIShop.API.Services
                                 CategoryId = x.pic.CategoryId,
                                 CategoryName = x.c.Name,
                                 ImageMain = x.i.UrlPath,
-                                Description = x.p.Description
+                                Description = x.p.Description,
+                                LuongTon = x.quantity
+                            }).ToListAsync();
+
+                return data;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+
+        public async Task<List<ProductDataResponse>> GetAll(string keyword)
+        {
+            //1. Select join
+            var query = from p in _context.Products
+                        join pic in _context.ProductInCategories on p.Id equals pic.ProductId into ppic
+                        from pic in ppic.DefaultIfEmpty()
+                        join c in _context.Categories on pic.CategoryId equals c.Id into picc
+                        from c in picc.DefaultIfEmpty()
+                        join i in _context.Images on p.ImageId equals i.Id into pi
+                        from i in pi.DefaultIfEmpty()
+                        where p.IsActive == true && p.IsDeleted == false
+                        select new
+                        {
+                            p,
+                            pic,
+                            i,
+                            c,
+                            quantity = _context.ImportStorages.Where(im => im.ProductId == p.Id).Sum(im => im.Quantity) - _context.ExportStorages.Where(ex => ex.ProductId == p.Id).Sum(ex => ex.Quantity)
+                        };
+
+            if (!string.IsNullOrEmpty(keyword))
+                query = query.Where(x => x.p.Code.Contains(keyword) || x.p.Name.Contains(keyword));
+
+            query = query.OrderByDescending(x => x.p.TimeCreated);
+
+            try
+            {
+                var data = await query
+                            .Select(x => new ProductDataResponse()
+                            {
+                                ProductId = x.p.Id,
+                                ProductName = x.p.Name,
+                                ProductCode = x.p.Code,
+                                TimeCreated = x.p.TimeCreated,
+                                Title = x.p.Title,
+                                Price = x.p.Price,
+                                CategoryId = x.pic.CategoryId,
+                                CategoryName = x.c.Name,
+                                ImageMain = x.i.UrlPath,
+                                Description = x.p.Description,
+                                LuongTon = x.quantity
                             }).ToListAsync();
 
                 return data;

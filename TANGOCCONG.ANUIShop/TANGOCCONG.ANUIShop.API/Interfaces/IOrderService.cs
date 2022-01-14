@@ -16,11 +16,15 @@ namespace TANGOCCONG.ANUIShop.API.Interfaces
         Task<ResponseData<string>> Delete(int id);
         ResponseData<OrderModel> Detail(int id);
         ResponseData<OrderDetail> GetOrderDetail(int orderID, int productID);
-        Task<PaginationResult<OrderModel>> GetPaging(int limit, int page, string sort, int? userID = null, string keyword = null);
+        Task<PaginationResult<OrderModel>> GetPaging(int limit, int page, int? status, DateTime? ngaytu, DateTime? ngayden, string sort, int? userID = null, string keyword = null);
         Task<List<OrderModel>> GetList(int userID);
         Task<int> ChangeStatus(int id, int status);
         string CreateOrderVNPay(MerchantAccount merchantAccount, int orderID, string domainName);
         ResponseData<Transaction> UpdateOrderAfterPayment(int orderID, int transactionID, string transactionCode, int paymentMothod,
             decimal vnp_Amount, string vnp_BankCode, string vnp_BankTranNo, string vnp_CardType, string vnp_TmnCode);
+        dynamic DOrder();
+        dynamic DPieOrder(DateTime? ngaytu, DateTime? ngayden);
+        dynamic TopProduct(DateTime? ngaytu, DateTime? ngayden);
+        Task<PaginationResult<Transaction>> GetPagingTran(int limit, int page, DateTime? ngaytu, DateTime? ngayden, string sort);
     }
 }

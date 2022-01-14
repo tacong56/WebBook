@@ -35,7 +35,7 @@ namespace TANGOCCONG.ANUIShop.API.Services
             var existUserByEmail = await _context.AppUsers.FirstOrDefaultAsync(x => x.Email == request.Email);
 
             if (existUserByName != null) return new ErrorResponseData<string>("Tài khoản đã tồn tại");
-            if (existUserByEmail != null) return new ErrorResponseData<string>("Email đã được sử dụng");
+            if (existUserByEmail != null && !string.IsNullOrEmpty(request.Email)) return new ErrorResponseData<string>("Email đã được sử dụng");
             if (request.Password != request.Password_Repeat) return new ErrorResponseData<string>("Mật khẩu không trùng khớp");
 
             var user = new AppUser()
@@ -85,31 +85,27 @@ namespace TANGOCCONG.ANUIShop.API.Services
 
         public async Task<ResponseData<AccountDataResponse>> Detail(int id)
         {
+            var where = " where au.IsDelete = 0 and au.Id = " + id;
             using var connection = new MySqlConnection(_conn.DefaultConnection);
             await connection.OpenAsync();
 
-            string query = @"SELECT * FROM (
-	                            SELECT 
-		                            p.Id AS ProductId,
-                                    p.Code AS ProductCode,
-		                            p.Name AS ProductName,
-                                    p.Description,
-                                    p.IsActive,
-                                    p.Price,
-                                    p.TimeCreated,
-                                    p.TimeUpdated,
-                                    p.Title,
-                                    p.View,
-                                    c.Id AS CategoryId,
-                                    c.Name AS CategoryName,
-                                    i.Id AS ImageId,
-                                    i.UrlPath
-	                            FROM products p
-                                LEFT JOIN productincategories pic ON pic.ProductId = p.Id
-                                LEFT JOIN categories c ON c.Id = pic.CategoryId 
-                                LEFT JOIN images i ON i.Id = p.ImageId"
-                                + " WHERE p.Id = " + id
-                            + " ) AS temp;";
+            string query = @"select au.Id UserId,
+	                           au.UserName UserName,	
+	                           au.FirstName,
+                               au.LastName,
+                               au.dob,
+                               au.UserName,
+                               au.Email,
+                               au.PhoneNumber,
+                               au.ImageId,
+                               ar.Id RoleId,
+                               ar.Name RoleName,
+                               i.UrlPath
+                        from appusers au
+                        left join appuserroles aur on aur.UserId = au.Id
+                        left join approles ar on ar.Id = aur.RoleId
+                        left join images i on i.Id = au.ImageId"
+                        + where;
 
             // Tạo đối tượng SqlCommand
             using var command = new MySqlCommand(query, connection);
@@ -121,19 +117,15 @@ namespace TANGOCCONG.ANUIShop.API.Services
                 {
                     data = new AccountDataResponse()
                     {
-                        //ProductId = Convert.ToInt32(reader["ProductId"]),
-                        //ProductName = reader["ProductName"].ToString(),
-                        //ProductCode = reader["ProductCode"].ToString(),
-                        //CategoryId = Convert.ToInt32(reader["CategoryId"]),
-                        //CategoryName = reader["CategoryName"].ToString(),
-                        //Description = reader["Description"].ToString(),
-                        //TimeCreated = Convert.ToDateTime(reader["TimeCreated"]),
-                        //TimeUpdated = Convert.ToDateTime(reader["TimeUpdated"]),
-                        //Title = reader["Title"].ToString(),
-                        //IsActive = Convert.ToBoolean(reader["IsActive"]),
-                        //Price = Convert.ToDecimal(reader["Price"]),
-                        //View = Convert.ToInt32(reader["View"]),
-                        //ImageMain = reader["UrlPath"].ToString(),
+                        Id = Convert.ToInt32(reader["UserId"]),
+                        UserName = reader["UserName"].ToString(),
+                        FirstName = reader["FirstName"].ToString(),
+                        LastName = reader["LastName"].ToString(),
+                        Dob = Convert.ToDateTime(reader["Dob"]),
+                        Email = reader["Email"].ToString(),
+                        Avatar = reader["UrlPath"].ToString(),
+                        RoleId = Convert.ToInt32(reader["RoleId"]),
+                        RoleName = reader["RoleName"].ToString(),
                         ImageId = Convert.ToInt32(reader["ImageId"])
                     };
 
@@ -153,10 +145,10 @@ namespace TANGOCCONG.ANUIShop.API.Services
             using var connection = new MySqlConnection(_conn.DefaultConnection);
             await connection.OpenAsync();
 
-            var where = " where au.IsDelete = 0 and ar.Id <> 1 ";
+            var where = " where ar.Id <> 1 ";
             if (!string.IsNullOrEmpty(request.Keyword))
             {
-                where += " and (au.UserName like N'%" + request.Keyword + "%') ";
+                where += " and (au.UserName like N'%" + request.Keyword + "%' or au.PhoneNumber like N'%" + request.Keyword + "%') ";
             }
             if (request.RoleId != null)
             {
@@ -172,6 +164,7 @@ namespace TANGOCCONG.ANUIShop.API.Services
                                au.Email,
                                au.PhoneNumber,
                                au.ImageId,
+                               au.IsDelete,
                                ar.Id RoleId,
                                ar.Name RoleName,
                                i.UrlPath
@@ -192,25 +185,25 @@ namespace TANGOCCONG.ANUIShop.API.Services
                 {
                     AccountDataResponse data = new AccountDataResponse()
                     {
-                        //ProductId = Convert.ToInt32(reader["ProductId"]),
-                        //ProductName = reader["ProductName"].ToString(),
-                        //ProductCode = reader["ProductCode"].ToString(),
-                        //CategoryId = Convert.ToInt32(reader["CategoryId"]),
-                        //CategoryName = reader["CategoryName"].ToString(),
-                        //Description = reader["Description"].ToString(),
-                        //TimeCreated = Convert.ToDateTime(reader["TimeCreated"]),
-                        //TimeUpdated = Convert.ToDateTime(reader["TimeUpdated"]),
-                        //Title = reader["Title"].ToString(),
-                        //IsActive = Convert.ToBoolean(reader["IsActive"]),
-                        //Price = Convert.ToDecimal(reader["Price"]),
-                        //View = Convert.ToInt32(reader["View"]),
-                        //ImageMain = reader["UrlPath"].ToString(),
-                        ImageId = Convert.ToInt32(reader["ImageId"])
+                        Id = Convert.ToInt32(reader["UserId"]),
+                        UserName = reader["UserName"].ToString(),
+                        FirstName = reader["FirstName"].ToString(),
+                        LastName = reader["LastName"].ToString(),
+                        Dob = Convert.ToDateTime(reader["Dob"]),
+                        Email = reader["Email"].ToString(),
+                        Avatar = reader["UrlPath"].ToString(),
+                        RoleId = Convert.ToInt32(reader["RoleId"]),
+                        RoleName = reader["RoleName"].ToString(),
+                        ImageId = Convert.ToInt32(reader["ImageId"]),
+                        PhoneNumber = reader["PhoneNumber"].ToString(),
+                        IsDelete = Convert.ToBoolean(reader["IsDelete"]),
                     };
                     entries.Add(data);
                 }
+                var count = entries.Count();
+                var data1 = entries.Skip((request.Page - 1) * request.Limit).Take(request.Limit).ToList();
                 await connection.CloseAsync();
-                return new PaginationResult<AccountDataResponse>(request.Page, 0, request.Limit, entries);
+                return new PaginationResult<AccountDataResponse>(request.Page, count, request.Limit, entries);
             }
             catch (Exception ex)
             {
@@ -218,6 +211,36 @@ namespace TANGOCCONG.ANUIShop.API.Services
                 throw ex;
             }
 
+        }
+
+        public string ChangePassword(ChangePasswordRequest request)
+        {
+            var user = _context.Users.FirstOrDefault(x => x.Id == request.Id);
+            if (user == null)
+                return "Tài khoản không tồn tại";
+            user.PasswordHash = Utilities.HassPass(request.Password);
+
+            _context.Users.Update(user);
+            _context.SaveChanges();
+
+            return "Thay đổi mật khẩu thành công";
+        }
+
+
+        public string LockAccount(int id)
+        {
+            var user = _context.Users.FirstOrDefault(x => x.Id == id);
+            if (user == null)
+                return "Tài khoản không tồn tại";
+
+            var result = user.IsDelete ? "Mở tài khoản thành công" : "Khóa tài khoản thành công";
+
+            user.IsDelete = !user.IsDelete;
+
+            _context.Users.Update(user);
+            _context.SaveChanges();
+
+            return result;
         }
 
         public async Task<ResponseData<int>> Update(AccountUpdateRequest request)

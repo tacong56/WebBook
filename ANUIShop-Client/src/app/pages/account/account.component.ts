@@ -3,6 +3,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Ngxalert } from 'ngx-dialogs';
 import { ToastrService } from 'ngx-toastr';
 import { AccountService } from '../../services/account.service';
+import { StaticVaribale } from '../../_helpers/static-variable';
 
 @Component({
   selector: 'app-account',
@@ -20,6 +21,7 @@ export class AccountComponent implements OnInit {
     RoleId: 0
   };
   totalPage: number = 0;
+  url: any = StaticVaribale;
   
   constructor(
     private accountService: AccountService,
@@ -38,7 +40,7 @@ export class AccountComponent implements OnInit {
         (res: any) => {
           console.log(res);
           this.dataSource = res;
-          this.totalPage = Math.ceil(Math.ceil(this.dataSource.totalRecord / this.dataSource.limit));
+          this.totalPage = Math.ceil(Math.ceil(this.dataSource.TotalRecord / this.dataSource.Limit));
           this.setListPaging();
         },
         err => {

@@ -10,6 +10,7 @@ namespace TANGOCCONG.ANUIShop.Data.Enums
         Confirmed,
         Shipping,
         Success,
+        Cancelling,
         Canceled
     }
 }

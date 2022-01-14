@@ -61,6 +61,24 @@ namespace TANGOCCONG.ANUIShop.API.Controllers
         }
 
         [AllowAnonymous]
+        [HttpGet("get-paging2")]
+        public async Task<IActionResult> GetPaging2(int page, int limit, int? categoryid, string keyword, string sortprice, string sortname, string where)
+        {
+            var result = await _productService.GetPaging2(page, limit, categoryid, keyword, sortprice, sortname, where);
+            if (result != null) return Ok(result);
+            return NotFound(result);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("get-by-parent-category")]
+        public async Task<IActionResult> GetByParentCategory(int page, int limit, int? categoryid)
+        {
+            var result = await _productService.GetByParentCategory(page, limit, categoryid);
+            if (result != null) return Ok(result);
+            return NotFound(result);
+        }
+
+        [AllowAnonymous]
         [HttpGet("get-paging-no-auth")]
         public async Task<IActionResult> GetPagingNoAuth(int limit, int page, int? categoryId, string keyword)
         {
@@ -81,6 +99,15 @@ namespace TANGOCCONG.ANUIShop.API.Controllers
         public async Task<IActionResult> GetList(int top, string sort, string keyword, int? priceFrom, int? priceTo)
         {
             var result = await _productService.GetList(top, sort, keyword, priceFrom, priceTo);
+            if (result != null) return Ok(result);
+            return NotFound(result);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("get-all")]
+        public async Task<IActionResult> GetAll(string keyword)
+        {
+            var result = await _productService.GetAll(keyword);
             if (result != null) return Ok(result);
             return NotFound(result);
         }

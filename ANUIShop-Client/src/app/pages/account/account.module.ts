@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
 import { AccountRoutingModule } from './account-routing.module';
 import { AccountComponent } from './account.component';
@@ -23,6 +23,7 @@ import { AccountDetailComponent } from './account-detail/account-detail.componen
     ModalModule.forRoot(),
     ToastrModule,
     AccountRoutingModule
-  ]
+  ],
+  providers: [DatePipe]
 })
 export class AccountModule { }

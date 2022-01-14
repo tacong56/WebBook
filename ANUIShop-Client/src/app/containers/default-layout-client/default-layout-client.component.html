@@ -27,6 +27,64 @@
     </header>
     <div class="line-full"></div>
     <router-outlet></router-outlet>
+    <footer class="footer">
+        <div class="container d-flex">
+            <div class="footer-left">
+                <h4 class="mb-3" style="color:white;text-transform: uppercase;">Danh mục</h4>
+                <ul>
+                    <li *ngFor="let item of listCategory; let index = index" style="margin-bottom: 1rem;">
+                        <a *ngIf="index < 6" href="#" class="text-uppercase text-white">{{item.Name}}</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer-center">
+                <h4 class="mb-3" style="color:white;text-transform: uppercase;">Thông tin</h4>
+                <ul>
+                    <li class="mb-3">Địa chỉ: <span class="font-italic">163 Thái Hà, Đống Đa, Hà Nội</span></li>
+                    <li class="mb-3">Số điện thoại: <span class="font-italic">037 435 9305</span></li>
+                    <li class="mb-3">Email: <span class="font-italic">bookshop163@gmail.com</span></li>
+                </ul>
+            </div>
+            <div class="footer-right">
+                <ul>
+                    <li class="mb-3 d-flex">
+                        <div>
+                            <span style="width: 30px; height: 30px;background-color: white;position: relative;border-radius: 50%;display: block;">
+                                <i class="fa fa-truck text-success" style="position: absolute;left: 50%;top:50%;transform: translate(-50%,-50%);"></i>
+                            </span>
+                        </div>
+                        <div class="ml-3" style="color: white;">
+                            <span class="text-uppercase">GIAO HÀNG MIỄN PHÍ</span>
+                            <br>
+                            <span>Miễn phí vận đơn cho đơn hàng trền 250,000 VNĐ</span>
+                        </div>
+                    </li>
+                    <li class="mb-3 d-flex">
+                        <div>
+                            <span style="width: 30px; height: 30px;background-color: white;position: relative;border-radius: 50%;display: block;">
+                                <i class="fa fa-clock-o text-success" style="position: absolute;left: 50%;top:50%;transform: translate(-50%,-50%);"></i>
+                            </span>
+                        </div>
+                        <div class="ml-3" style="color: white;">
+                            <span class="text-uppercase">CHUYỂN HÀNG ĐÚNG GIỜ</span>
+                            <br>
+                            <span>Cam kết chuyển hang nhanh nhất</span>
+                        </div>
+                    </li>
+                    <li class="mb-3 d-flex">
+                        <div style="color: white;">
+                            <span style="width: 30px; height: 30px;background-color: white;position: relative;border-radius: 50%;display: block;">
+                                <i class="fa fa-cloud text-success" style="position: absolute;left: 50%;top:50%;transform: translate(-50%,-50%);"></i>
+                            </span>
+                        </div>
+                        <div class="ml-3" style="color: white;">
+                            <span class="text-uppercase">DỊCH VỤ TỐT NHẤT</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </footer>
 </div>
 
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using TANGOCCONG.ANUIShop.Data.Enums;
 
 namespace TANGOCCONG.ANUIShop.Data.Entities
@@ -22,8 +23,9 @@ namespace TANGOCCONG.ANUIShop.Data.Entities
         public string BankTranNo { get; set; }
         public string CardType { get; set; }
         public string TmnCode { get; set; }
+        [NotMapped]
         public int UserId { get; set; }
-
+        [NotMapped]
         public AppUser AppUser { get; set; }
 
     }

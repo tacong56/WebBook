@@ -18,6 +18,7 @@ namespace TANGOCCONG.ANUIShop.API.Controllers
             _imageService = imageService;
         }
 
+        [AllowAnonymous]
         [HttpPost("upload")]
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> UploadImage([FromForm] UploadImageRequest request)
