@@ -1,0 +1,27 @@
+.status-box {
+    display: flex;
+    text-align: center;
+    .status {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        flex: 1;
+        &-item {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: rgb(111, 111, 111);
+            // margin-right: 1rem;
+            text-align: center;
+            color: white;
+        }
+        &.active {
+            color: rgb(14, 96, 220);
+            ;
+            .status-item {
+                background-color: rgb(14, 96, 220);
+            }
+        }
+    }
+}

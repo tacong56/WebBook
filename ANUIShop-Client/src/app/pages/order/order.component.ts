@@ -1,5 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit, TemplateRef } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { OrderService } from '../../services/order.service';
@@ -21,15 +22,26 @@ export class OrderComponent implements OnInit {
   NgayTu: any = null;
   NgayDen: any = null;
   totalPage: any = 0;
+  status: any = null
   sort: any = "";
   userID: any = 0;
+  statusArr: any[] = [
+    {id: 0, name: "Chờ xác nhận"},
+    {id: 1, name: "Xác nhận"},
+    {id: 2, name: "Đang giao"},
+    {id: 3, name: "Hoàn thành"},
+    {id: 4, name: "Chờ hủy"},
+    {id: 5, name: "Hủy"},
+  ]
 
   constructor(
     private orderService: OrderService,
+    private route: ActivatedRoute,
     private modalService: BsModalService,
     private toastr: ToastrService,
     private datePipe: DatePipe,
-    private heplerService: UtiltiesService
+    private heplerService: UtiltiesService,
+
   ) { }
 
   ngOnInit(): void {
@@ -38,12 +50,12 @@ export class OrderComponent implements OnInit {
     date.setFullYear(date.getFullYear() - 1);
     this.NgayTu = this.heplerService.converDateTime(date, "yyyy-mm-dd");
     this.NgayDen =this.heplerService.converDateTime(dateNow, "yyyy-mm-dd");
-    console.log(this.NgayTu);
+    
     this.load();
   }
 
   load() {
-    this.orderService.getpaging(this.Limit, this.Page, this.sort, this.userID, this.Keyword)
+    this.orderService.getpaging(this.Limit, this.Page, this.status, this.NgayTu, this.NgayDen, this.sort, this.userID, this.Keyword)
       .subscribe(
         (res: any) => {
 
@@ -91,9 +103,14 @@ export class OrderComponent implements OnInit {
   }
 
   saveChangeSatatus(status) {
+    if(status < this.itemSelected.Status) {
+      this.toastr.error('Không thể quay lại trạng thái trước')
+      return false;
+    }
     this.orderService.updateStatus(this.itemSelected.Id, status)
       .subscribe(
         (res: any) => {
+          this.itemSelected.Status = status;
           this.toastr.success("Thay đổi trạng thái thành công");
           console.log(res);
         },
@@ -124,6 +141,7 @@ export class OrderComponent implements OnInit {
   }
 
   filter() {
+    this.status = this.status == "" ? null : this.status;
     this.load();
   }
 }

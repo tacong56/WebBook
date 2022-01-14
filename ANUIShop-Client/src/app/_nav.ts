@@ -34,9 +34,24 @@ export const navItems: INavData[] = [
     url: 'don-hang',
     icon: 'icon-drop'
   },
+  // {
+  //   name: 'Khuyến mãi',
+  //   url: 'khuyen-mai',
+  //   icon: 'icon-drop'
+  // },
   {
-    name: 'Khuyến mãi',
-    url: 'khuyen-mai',
+    name: 'Thanh toán',
+    url: 'thanh-toan',
+    icon: 'icon-drop'
+  },
+  {
+    name: 'Phiếu nhập',
+    url: 'phieu-nhap',
+    icon: 'icon-drop'
+  },
+  {
+    name: 'Phiếu xuất',
+    url: 'phieu-xuat',
     icon: 'icon-drop'
   }
   // {

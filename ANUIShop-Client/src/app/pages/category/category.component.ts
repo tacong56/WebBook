@@ -81,6 +81,15 @@ export class CategoryComponent implements OnInit {
 
   customSave() {
     console.log(this.itemSelected);
+    this.isSubmited = true;
+    if(this.isSubmited && (this.itemSelected.Name == null || this.itemSelected.Name == '')) {
+      this.toastr.error('Tên danh mục không được để trống.')
+      return false;
+    }    
+    if(this.isSubmited && (this.itemSelected.SortOrder == null || this.itemSelected.SortOrder == '')) {
+      this.toastr.error('Vị trí không được để trống.')
+      return false;
+    }
     this.itemSelected.ParentId = parseInt(this.itemSelected.ParentId);
     if(this.itemSelected.ParentId == 0) this.itemSelected.Level = 0;
     else this.itemSelected.Level = 1;
@@ -93,7 +102,7 @@ export class CategoryComponent implements OnInit {
           this.reset();
         },
         err => {
-          this.toastr.error(err.error.msg);
+          this.toastr.error(err.error.Msg);
         }
       )
     }
@@ -106,7 +115,7 @@ export class CategoryComponent implements OnInit {
           this.reset();
         },
         err => {
-          this.toastr.error(err.error.msg);
+          this.toastr.error(err.error.Msg);
         }
       )
     }
@@ -122,7 +131,7 @@ export class CategoryComponent implements OnInit {
   }
 
   deleteItem() {
-    this.categoryService.delete(this.itemSelected.id)
+    this.categoryService.delete(this.itemSelected.Id)
     .subscribe(
       (res: any) => {
         this.toastr.success('Xóa thành công.');

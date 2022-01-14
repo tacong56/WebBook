@@ -33,6 +33,7 @@
                     <th>Tên sách</th>
                     <th>Giá</th>
                     <th>Danh mục</th>
+                    <th>SL tồn</th>
                     <th style="width: 90px">Tác vụ</th>
                 </tr>
             </thead>
@@ -45,6 +46,7 @@
                     <td>{{item.ProductName}}</td>
                     <td>{{item.Price | number}}</td>
                     <td>{{item.CategoryName}}</td>
+                    <td>{{item.LuongTon}}</td>
                     <td>
                         <a routerLink="/admin/san-pham/cap-nhat/{{item.ProductId}}" class="btn btn-sm btn-primary"><i class="fa fa-pencil"></i></a>
                         <button type="button" class="btn btn-sm btn-danger" (click)="openModalDelete(templateDelete, item)"><i class="fa fa-trash"></i></button>

@@ -1,0 +1,26 @@
+.sort {
+    padding: 0;
+    li {
+        align-items: center;
+        display: block;
+        text-align: left;
+        margin-right: 0;
+        margin-bottom: 1rem;
+        cursor: pointer;
+        span {
+            margin-right: 2rem;
+        }
+        &:hover {
+            opacity: .8;
+        }
+    }
+}
+
+.sticky {
+    position: -webkit-sticky;
+    /* Safari */
+    position: sticky;
+    top: 0;
+    color: white;
+    padding: 1.5rem 0;
+}

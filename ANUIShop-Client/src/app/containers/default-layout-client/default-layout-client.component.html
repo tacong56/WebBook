@@ -15,13 +15,14 @@
         </div>
         <div class="header-center row">
             <div class="logo col-2">
-                <img src="../../assets/img/brand/logo.png" width="100%">
+                <img src="../../assets/img/brand/logo.png" width="100%" (click)="goToHome()">
             </div>
             <div class="col-6">
-                <input class="form-control" placeholder="Tìm kiếm tên sách" style="height: 45px;">
+                <input class="form-control" placeholder="Tìm kiếm tên sách" style="height: 45px;" (keyup.enter)="redirectFilterKeyword($event)">
             </div>
             <div class="col-4 text-right">
-                <button class="btn btn-primary"><i class="fa fa-shopping-cart"></i></button>
+                <button *ngIf="isLogin" class="btn btn-primary" (click)="openModalOrder(templateOrder, null)" title="Đơn hàng"><i class="fa fa-ticket"></i></button>
+                <button class="btn btn-primary" (click)="openModalCart(templateCart, null)" title="Giỏ hàng"><i class="fa fa-shopping-cart"></i></button>
             </div>
         </div>
     </header>
@@ -30,12 +31,11 @@
     <footer class="footer">
         <div class="container d-flex">
             <div class="footer-left">
-                <h4 class="mb-3" style="color:white;text-transform: uppercase;">Danh mục</h4>
-                <ul>
-                    <li *ngFor="let item of listCategory; let index = index" style="margin-bottom: 1rem;">
-                        <a *ngIf="index < 6" href="#" class="text-uppercase text-white">{{item.Name}}</a>
-                    </li>
-                </ul>
+                <div class="mapouter">
+                    <div class="gmap_canvas"><iframe id="gmap_canvas" src="https://maps.google.com/maps?ll=21.0143305,105.8174669&q=Ngõ 163 Thái Hà&t=&z=16&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+                        <a href="https://techwithlove.com/whatsapp-web/">techwithlove.com</a>
+                    </div>
+                </div>
             </div>
             <div class="footer-center">
                 <h4 class="mb-3" style="color:white;text-transform: uppercase;">Thông tin</h4>
@@ -96,12 +96,168 @@
       </button>
     </div>
     <div class="modal-body">
+        <form autocomplete="off" (ngSubmit)="customSave()" [formGroup]="formDetail" class="detail-form">
+            <h1 class="header-title text-primary">{{headerTitle}}</h1>
+            <input formControlName="Id" hidden>
+            <div class="row">
+                <div class="form-group col-6">
+                    <div class="upload-contain">
+                        <label class="hoverable" for="fileInput1">
+                            <img class="upload-display" [src]="imageMainUrl ? imageMainUrl : '/assets/img/avatars/product-default.jpg'"> 
+                            <div class="hover-text">Chọn ảnh</div>
+                            <div class="background"></div>
+                        </label>
+                        <!-- <div class="upload--description">
+                            <span>Dung lượng ảnh không được vượt quá 5MB.</span>
+                        </div> -->
+                        <span class="upload--delete" *ngIf="imageMainUrl" (click)="deleteImageMain()"><i class="fa fa-close"></i></span>
+                        <input #fileInput1 id='fileInput1' name="fileMain" type='file' (change)="onSelectFileMain($event)">
+                    </div>
+                    <!-- <div class="invalid-feedback" [ngStyle]="{'display': requiredImage ? 'block' : 'none'}">Trường không được để trống</div> -->
+                </div>
+                <!-- <div class="form-group col-6">
+                    <label class="form-label required" for="">Quyền</label>
+                    <select class="form-control" formControlName="RoleId" [ngClass]="displayFieldCss('RoleId')">
+                        <option value="">Chọn quyền</option>
+                        <option *ngFor="let item of listRole" value="{{item.Id}}">{{item.Name}}</option>
+                    </select>
+                    <ng-container *ngIf="formDetail.get('RoleId')?.errors?.required">
+                        <div class="invalid-feedback">Trường không được để trống</div>
+                    </ng-container>
+                </div> -->
+                <div class="form-group col-6">
+                    <label class="form-label required">Tài khoản</label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="icon-user"></i></span>
+                        </div>
+                        <input type="text" id="UserName" formControlName="UserName" class="form-control" placeholder="Tài khoản" [ngClass]="displayFieldCss('UserName')">
+                        <ng-container *ngIf="formDetail.get('UserName')?.errors?.required">
+                            <div class="invalid-feedback">Trường không được để trống</div>
+                        </ng-container>
+                        <ng-container *ngIf="formDetail.get('UserName')?.errors?.maxlength">
+                            <div class="invalid-feedback">Không được nhập quá 50 ký tự</div>
+                        </ng-container>
+                    </div>
+                </div>
 
+                <div class="form-group col-6">
+                    <label class="form-label required">Mật khẩu</label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="icon-user"></i></span>
+                        </div>
+                        <input type="password" id="Password" formControlName="Password" class="form-control" placeholder="Mật khẩu" [ngClass]="displayFieldCss('Password')">
+                        <ng-container *ngIf="formDetail.get('Password')?.errors?.required">
+                            <div class="invalid-feedback">Trường không được để trống</div>
+                        </ng-container>
+                    </div>
+                </div>
+                <div class="form-group col-6">
+                    <label class="form-label required">Nhập lại mật khẩu</label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="icon-user"></i></span>
+                        </div>
+                        <input type="password" id="Password_Repeat" formControlName="Password_Repeat" class="form-control" placeholder="Nhập lại mật khẩu" [ngClass]="displayFieldCss('Password_Repeat')">
+                        <ng-container *ngIf="formDetail.get('Password_Repeat')?.errors?.required">
+                            <div class="invalid-feedback">Trường không được để trống</div>
+                        </ng-container>
+                    </div>
+                </div>
+                <div class="form-group col-6">
+                    <label class="form-label">Email</label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="icon-user"></i></span>
+                        </div>
+                        <input type="text" id="Email" name="Email" formControlName="Email" class="form-control" placeholder="Email">
+                    </div>
+                </div>
+                <div class="form-group col-6">
+                    <label class="form-label required">Họ</label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="icon-user"></i></span>
+                        </div>
+                        <input type="text" id="FirstName" name="FirstName" formControlName="FirstName" class="form-control" placeholder="Họ" [ngClass]="displayFieldCss('FirstName')">
+                        <ng-container *ngIf="formDetail.get('FirstName')?.errors?.required">
+                            <div class="invalid-feedback">Trường không được để trống</div>
+                        </ng-container>
+                    </div>
+                </div>
+                <div class="form-group col-6">
+                    <label class="form-label required">Tên</label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="icon-user"></i></span>
+                        </div>
+                        <input type="text" id="LastName" name="LastName" formControlName="LastName" class="form-control" placeholder="Tên" [ngClass]="displayFieldCss('LastName')">
+                        <ng-container *ngIf="formDetail.get('LastName')?.errors?.required">
+                            <div class="invalid-feedback">Trường không được để trống</div>
+                        </ng-container>
+                    </div>
+                </div>
+
+                <div class="form-group col-6">
+                    <label class="form-label">Số điện thoại</label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="icon-user"></i></span>
+                        </div>
+                        <input type="text" id="PhoneNumber" name="PhoneNumber" formControlName="PhoneNumber" class="form-control" placeholder="Số điện thoại">
+                    </div>
+                </div>
+                <div class="form-group col-6">
+                    <label class="form-label">Ngày sinh</label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="icon-user"></i></span>
+                        </div>
+                        <input class="form-control" id="Dob" name="Dob" type="date" formControlName="Dob" placeholder="Ngày sinh">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <button type="submit" class="btn btn-primary px-4">Lưu</button>
+                    <button class="btn btn-light" (click)="modalRef.hide()">Đóng</button>
+                </div>
+            </div>
+        </form>
     </div>
-    <div class="modal-footer">
+    <!-- <div class="modal-footer">
         <div class="text-right">
             <button class="btn btn-primary">Lưu</button>
             <button class="btn btn-light" (click)="modalRef.hide()">Đóng</button>
+        </div>
+    </div> -->
+</ng-template>
+
+<ng-template #templateOrder>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Đơn hàng</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRefOrder.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="row mb-3" *ngFor="let item of listOrder">
+            <div class="col-12">
+                <div class="mb-1 d-flex">
+                    <span style="flex: 1">Đơn hàng: {{item.Id}} - {{item.OrderDate | date:'dd/MM/yyyy HH:mm'}} - <span class="text-{{orderStatus[item.Status].color}}">{{orderStatus[item.Status].name}}</span></span>
+                    <button *ngIf="item.Status != 4 && item.Status != 5" class="btn btn-sm btn-danger" (click)="saveChangeSatatus(item)">Yêu cầu hủy đơn</button>
+                </div>
+                <div class="pl-3">
+                    <div *ngFor="let detail of item.OrderDetails">{{detail.ProductName}} <span class="font-italic font-weight-bold">x{{detail.Quantity}}</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="text-right">
+            <!-- <button class="btn btn-primary">Lưu</button> -->
+            <button class="btn btn-light" (click)="modalRefOrder.hide()">Đóng</button>
         </div>
     </div>
 </ng-template>
@@ -120,6 +276,7 @@
                 <input class="form-control" name="l-username" [(ngModel)]="item1.username" minlength="4" placeholder="Tài khoản">
             </div>
             <div *ngIf="submitted && item1.username == ''" class="col-12 invalid-feedback" style="display: block;">Tài khoản không được để trống</div>
+            <div *ngIf="submitted && item1.username != '' && item1.username < 4" class="col-12 invalid-feedback" style="display: block;">Tài khoản phải nhiều hơn 4 ký tự</div>
         </div>
         <div class="form-group row">
             <label for="" class="col-12 control-label">Mật khẩu</label>
@@ -127,12 +284,61 @@
                 <input type="password" class="form-control" name="l-password" [(ngModel)]="item1.password" minlength="4" placeholder="Mật khẩu">
             </div>
             <div *ngIf="submitted && item1.password == ''" class="col-12 invalid-feedback" style="display: block;">Mật khẩu không được để trống</div>
+            <div *ngIf="submitted && item1.password != '' && item1.password.length < 4" class="col-12 invalid-feedback" style="display: block;">Mật khẩu phải nhiều hơn 4 ký tự</div>
         </div>
     </div>
     <div class="modal-footer">
         <div class="text-right">
             <button class="btn btn-primary" (click)="login()">Xác nhận</button>
             <button class="btn btn-light" (click)="modalRef1.hide()">Hủy</button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #templateCart>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Giỏ hàng</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRefCart.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <table class="table-custom table table-bordered table-striped table-sm">
+            <thead>
+                <tr>
+                    <th>Ảnh</th>
+                    <th>Tên sách</th>
+                    <th>Số lượng</th>
+                    <th>Thành tiền</th>
+                    <th style="width: 90px">Tác vụ</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of listProductInCart; let index = index">
+                    <td><img width="40" [src]="url.URL_IMAGE + item.ImageMain"></td>
+                    <td>{{item.ProductName}}</td>
+                    <td>
+                        <div class="d-flex" style="justify-content: center;">
+                            <button class="btn btn-sm btn-outline-danger" (click)="clickChangeQuantity(item, 'MINUS')"><i class="fa fa-minus"></i></button>
+                            <input type="number" class="input-table" name="quantity--{{index}}" [(ngModel)]="item.Quantity" (change)="changeQuantity($event, null)" style="width: 40px;text-align: center;">
+                            <button class="btn btn-sm btn-outline-primary" (click)="clickChangeQuantity(item, 'PLUS')"><i class="fa fa-plus"></i></button>
+                        </div>
+                    </td>
+                    <td>{{item.Price * item.Quantity | number}}đ</td>
+                    <td>
+                        <button type="button" class="btn btn-sm btn-danger" (click)="deleteItem(item)"><i class="fa fa-trash"></i></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="5" class="text-right"><strong>Tạm tính:</strong> {{totalMoney | number}}đ</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <div class="text-right">
+            <button class="btn btn-primary" (click)="modalRefCart.hide()">Tiếp tục mua hàng</button>
+            <a href="/thanh-toan" class="btn btn-danger" style="color: white;text-decoration: none;">Thanh toán</a>
         </div>
     </div>
 </ng-template>

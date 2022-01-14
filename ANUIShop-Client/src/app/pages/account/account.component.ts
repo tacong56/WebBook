@@ -13,6 +13,8 @@ import { StaticVaribale } from '../../_helpers/static-variable';
 export class AccountComponent implements OnInit {
   listRole: any[] = [];
   modalRefDelete: BsModalRef;
+  modalRefChangePass: BsModalRef;
+  modalRefLock: BsModalRef;
   dataSource: any = {};
   request: any = {
     Page: 1,
@@ -22,6 +24,8 @@ export class AccountComponent implements OnInit {
   };
   totalPage: number = 0;
   url: any = StaticVaribale;
+
+  passreset: any = '';
   
   constructor(
     private accountService: AccountService,
@@ -72,6 +76,55 @@ export class AccountComponent implements OnInit {
       animated: true,
       backdrop: 'static'
     });
+  }
+
+  openModalChangePass(template: TemplateRef<any>, item) {
+    this.itemSelected = item != null ? item : {};
+    this.modalRefChangePass = this.modalService.show(template, {
+      animated: true,
+      backdrop: 'static'
+    });
+  }
+
+  openModalLock(template: TemplateRef<any>, item) {
+    this.itemSelected = item != null ? item : {};
+    this.modalRefLock = this.modalService.show(template, {
+      animated: true,
+      backdrop: 'static'
+    });
+  }
+
+  submitted: boolean = false;
+  changePass() {
+    this.submitted = true;
+    if(this.passreset == null || this.passreset == '' || this.passreset.length < 6) {
+      return false;
+    }
+    this.accountService.changePass(this.itemSelected.Id, this.passreset)
+      .subscribe(
+        (res: any) => {
+          this.toastr.success(res);
+          this.modalRefChangePass.hide();
+          this.load();
+        },
+        err => {
+          this.toastr.error(err);
+        }
+      )
+  }
+
+  lockAccount() {
+    this.accountService.lock(this.itemSelected.Id)
+    .subscribe(
+      (res: any) => {
+        this.toastr.success(res);
+        this.modalRefLock.hide();
+        this.load();
+      },
+      err => {
+        this.toastr.error(err);
+      }
+    )
   }
 
   deleteItem() {

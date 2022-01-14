@@ -47,6 +47,21 @@ export class AccountService {
     return this.http.delete(StaticVaribale.URL + StaticVaribale.PATH.product.delete + '/' + id);
   }
 
+  changePass(id: any, pass: any) : Observable<any> {
+    let data = {
+      Id: id,
+      Password: pass
+    };
+
+    const body = JSON.stringify(data);
+
+    return this.http.post(StaticVaribale.URL + StaticVaribale.PATH.account.changepass, body, StaticVaribale.httpOptions);
+  }
+
+  lock(id: any) : Observable<any> {
+    return this.http.post(StaticVaribale.URL + StaticVaribale.PATH.account.lock + '/' + id, null, StaticVaribale.httpOptions);
+  }
+
   getRole() {
     return this.http.get(StaticVaribale.URL + 'role/getlist');
   }

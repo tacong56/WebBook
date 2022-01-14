@@ -29,6 +29,8 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.load();
     this.getListCategory();
+    this.loadSachBanChay();
+    this.loadSachTN();
   }
 
   load() {
@@ -37,6 +39,33 @@ export class HomeComponent implements OnInit {
         (res: any) => {
           console.log(res);
           this.dataSource = res;
+        },
+        err => {
+          console.error(err);
+        }
+      )
+  }
+
+  dataSourceBC: any = [];
+  loadSachBanChay() {
+    this.productService.getpaging2(1, 4, 0, "", "BAN_CHAY", "", "")
+      .subscribe(
+        (res: any) => {
+          this.dataSourceBC = res.items;
+        },
+        err => {
+          console.error(err);
+        }
+      )
+  }
+
+  
+  dataSourceTN: any = [];
+  loadSachTN() {
+    this.productService.getbyparentcategory(1, 4, 7)
+      .subscribe(
+        (res: any) => {
+          this.dataSourceTN = res.items;
         },
         err => {
           console.error(err);
@@ -103,6 +132,7 @@ export class HomeComponent implements OnInit {
   }
 
   getListCategory() {
+    debugger
     this.categoryService.getListNoAuth()
       .subscribe(
         (res: any) => {

@@ -9,6 +9,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 export class BaseComponent implements OnInit {
 
   formDetail = null;
+  submitted: boolean = false;
 
   constructor(
     protected fb: FormBuilder
