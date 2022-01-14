@@ -31,23 +31,23 @@
             <div style="background-color: #f5f5f5; margin-bottom: 1rem;">
                 <div class="d-flex" style="justify-content: space-between; padding: 1rem .625rem; border-bottom: 1px solid white;">
                     <span>Tạm tính: </span>
-                    <span>718.250đ</span>
+                    <span>{{totalMoney | number}} VNĐ</span>
                 </div>
                 <div class="d-flex" style="justify-content: space-between;padding: 1rem .625rem; border-bottom: 1px solid white;">
                     <span>Thành tiền: </span>
                     <div class="text-right">
-                        <h5 class="text-danger">{{totalMoney}}</h5>
-                        <small class="text-secondary" style="text-decoration: line-through;">718.250đ</small>
+                        <h5 class="text-danger">{{totalMoney | number}} VNĐ</h5>
+                        <!-- <small class="text-secondary" style="text-decoration: line-through;">718.250đ</small> -->
                     </div>
                 </div>
                 <div style="padding: 1rem .625rem" *ngIf="isLogin">
                     <div class="form-group row">
-                        <span class="col-12 text-center">Đã đăng nhập với tài khoản, {{user.username}}</span>
+                        <span class="col-12 text-center">Đã đăng nhập với tài khoản, {{user.UserName}}</span>
                     </div>
 
                     <div class="form-group row text-center">
                         <div class="col-12">
-                            <button class="btn btn-danger" style="width: 100%;" (click)="onClickCheckout()">Tiếp tục <i class="fa fa-arrow-right"></i></button>
+                            <button class="btn btn-danger" style="width: 100%;" (click)="openModal(templateDH)">Tiếp tục <i class="fa fa-arrow-right"></i></button>
                         </div>
                     </div>
                 </div>
@@ -56,23 +56,27 @@
                         <span class="col-12 text-center">Đăng nhập để thanh toán dễ dàng</span>
                     </div>
                     <div class="form-group row">
-                        <label class="control-label col-md-4">Tài khoản: </label>
-                        <div class="col-md-8">
-                            <input class="form-control" name="username" placeholder="Tài khoản">
+                        <label for="" class="col-12 control-label">Tài khoản</label>
+                        <div class="col-12">
+                            <input class="form-control" name="l-username" [(ngModel)]="item1.username" minlength="4" placeholder="Tài khoản">
                         </div>
+                        <div *ngIf="submitted && item1.username == ''" class="col-12 invalid-feedback" style="display: block;">Tài khoản không được để trống</div>
+                        <div *ngIf="submitted && item1.username != '' && item1.username < 4" class="col-12 invalid-feedback" style="display: block;">Tài khoản phải nhiều hơn 4 ký tự</div>
                     </div>
                     <div class="form-group row">
-                        <label class="control-label col-md-4">Mật khẩu: </label>
-                        <div class="col-md-8">
-                            <input class="form-control" name="password" placeholder="Mật khẩu">
+                        <label for="" class="col-12 control-label">Mật khẩu</label>
+                        <div class="col-12">
+                            <input type="password" class="form-control" name="l-password" [(ngModel)]="item1.password" minlength="4" placeholder="Mật khẩu">
                         </div>
+                        <div *ngIf="submitted && item1.password == ''" class="col-12 invalid-feedback" style="display: block;">Mật khẩu không được để trống</div>
+                        <div *ngIf="submitted && item1.password != '' && item1.password.length < 4" class="col-12 invalid-feedback" style="display: block;">Mật khẩu phải nhiều hơn 4 ký tự</div>
                     </div>
                     <div class="form-group row text-center">
                         <div class="col-12 mb-3">
-                            <button class="btn btn-primary" style="width: 100%;">Đăng nhập</button>
+                            <button class="btn btn-primary" style="width: 100%;" (click)="login()">Đăng nhập</button>
                         </div>
                         <div class="col-12">
-                            <button class="btn btn-danger" style="width: 100%;" (click)="onClickCheckout()">Tiếp tục <i class="fa fa-arrow-right"></i></button>
+                            <button class="btn btn-danger" style="width: 100%;" (click)="openModal(templateDH)">Tiếp tục <i class="fa fa-arrow-right"></i></button>
                         </div>
                     </div>
                 </div>
@@ -80,3 +84,48 @@
         </div>
     </div>
 </div>
+
+<ng-template #templateDH>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Thông tin đặt hàng</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRefDH.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group row">
+            <label for="" class="col-12 control-label">Tên người nhận <span class="text-danger">*</span></label>
+            <div class="col-12">
+                <input class="form-control" name="ShipName" [(ngModel)]="item.ShipName" placeholder="Tên người nhận">
+            </div>
+            <div *ngIf="submitted && (item.ShipName == '' || item.ShipName == undefined)" class="col-12 invalid-feedback" style="display: block;">Tên người nhận không được để trống</div>
+        </div>
+        <div class="form-group row">
+            <label for="" class="col-12 control-label">Địa chỉ <span class="text-danger">*</span></label>
+            <div class="col-12">
+                <input class="form-control" name="ShipAddress" [(ngModel)]="item.ShipAddress" placeholder="Địa chỉ">
+            </div>
+            <div *ngIf="submitted && (item.ShipAddress == '' || item.ShipAddress == undefined)" class="col-12 invalid-feedback" style="display: block;">Địa chỉ không được để trống</div>
+        </div>
+        <div class="form-group row">
+            <label for="" class="col-12 control-label">Số điện thoại <span class="text-danger">*</span></label>
+            <div class="col-12">
+                <input class="form-control" name="ShipPhoneNumber" [(ngModel)]="item.ShipPhoneNumber" placeholder="Số điện thoại">
+            </div>
+            <div *ngIf="submitted && (item.ShipPhoneNumber == '' || item.ShipPhoneNumber == undefined)" class="col-12 invalid-feedback" style="display: block;">Số điện thoại không được để trống</div>
+        </div>
+        <div class="form-group row">
+            <label for="" class="col-12 control-label">Email</label>
+            <div class="col-12">
+                <input class="form-control" name="ShipEmail" [(ngModel)]="item.ShipEmail" placeholder="Email">
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="text-right">
+            <button class="btn btn-primary" (click)="onClickCheckout(false)">Đặt hàng</button>
+            <button class="btn btn-primary" (click)="onClickCheckout(true)">Thanh toán Online</button>
+            <button class="btn btn-light" (click)="modalRefDH.hide()">Hủy</button>
+        </div>
+    </div>
+</ng-template>

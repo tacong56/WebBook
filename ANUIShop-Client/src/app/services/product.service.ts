@@ -36,6 +36,28 @@ export class ProductService {
     return this.http.get(StaticVaribale.URL + StaticVaribale.PATH.product.getpaging, {params});
   }
 
+  getpaging2(page: any, limit: any, categoryid: any, keyword: any, sortprice: any, sortname: any, where: any) : Observable<any> {
+    let params = new HttpParams();
+    params = params.append('page', page);
+    params = params.append('limit', limit);
+    if(sortprice != undefined && sortprice != null && sortprice != '') params = params.append('sortprice', sortprice);
+    if(sortname != undefined && sortname != null && sortname != '') params = params.append('sortname', sortname);
+    if(categoryid != undefined && categoryid != null) params = params.append('categoryid',categoryid);
+    if(keyword != undefined && keyword != null) params = params.append('keyword', keyword);
+    if(where != undefined && where != null) params = params.append('where', where);
+
+    return this.http.get(StaticVaribale.URL + StaticVaribale.PATH.product.getpaging2, {params});
+  }
+
+  getbyparentcategory(page: any, limit: any, cateogryId: any) {
+    let params = new HttpParams();
+    params = params.append('page', page);
+    params = params.append('limit', limit);
+    if(cateogryId != undefined && cateogryId != null && cateogryId > 0) params = params.append('categoryid', cateogryId);
+
+    return this.http.get(StaticVaribale.URL + StaticVaribale.PATH.product.getbyparentcategory, {params});
+  }
+
   getpagingnoauth(request: any) : Observable<any> {
     let params = new HttpParams();
     params = params.append('Page', request.Page);
@@ -44,6 +66,13 @@ export class ProductService {
     params = params.append('CategoryId', request.CategoryId);
 
     return this.http.get(StaticVaribale.URL + StaticVaribale.PATH.product.getpagingnoauth, {params});
+  }
+
+  getall(keyword: any) : Observable<any> {
+    let params = new HttpParams();
+    params = params.append('keyword', keyword);
+
+    return this.http.get(StaticVaribale.URL + StaticVaribale.PATH.product.getall, {params});
   }
 
   getList(top: any, sort: any, keyword: any, priceFrom: any, priceTo: any) : Observable<any> {

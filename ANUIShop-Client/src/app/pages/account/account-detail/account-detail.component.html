@@ -9,9 +9,9 @@
                     <div class="hover-text">Chọn ảnh</div>
                     <div class="background"></div>
                 </label>
-                <div class="upload--description">
+                <!-- <div class="upload--description">
                     <span>Dung lượng ảnh không được vượt quá 5MB.</span>
-                </div>
+                </div> -->
                 <span class="upload--delete" *ngIf="imageMainUrl" (click)="deleteImageMain()"><i class="fa fa-close"></i></span>
                 <input #fileInput1 id='fileInput1' name="fileMain" type='file' (change)="onSelectFileMain($event)">
             </div>

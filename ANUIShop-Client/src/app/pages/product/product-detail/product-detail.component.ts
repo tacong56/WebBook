@@ -170,6 +170,7 @@ export class ProductDetailComponent extends BaseComponent implements OnInit {
           this.resetForm();
         },
         err => {
+          this.toastr.error(err.error.Msg);
           console.error(err);
         }
       )
@@ -181,6 +182,7 @@ export class ProductDetailComponent extends BaseComponent implements OnInit {
           this.toastr.success('Cập nhật sản phẩm thành công.');
         },
         err => {
+          this.toastr.error(err.error.Msg);
           console.error(err);
         }
       )
@@ -188,6 +190,8 @@ export class ProductDetailComponent extends BaseComponent implements OnInit {
   }
 
   resetForm() {
+    this.imageMainUrl = '';
+    this.imageMainUrlOld = '/assets/img/avatars/product-default.jpg';
     this.load();
   }
 

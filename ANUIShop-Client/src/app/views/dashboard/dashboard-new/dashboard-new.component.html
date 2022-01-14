@@ -1,0 +1,165 @@
+<div class="animated fadeIn">
+    <div class="row">
+        <div class="col-sm-6 col-lg-3">
+            <div class="card text-white bg-success">
+                <div class="card-body pb-0">
+                    <button type="button" class="btn btn-transparent p-0 float-right">
+                        <i class="icon-location-pin"></i>
+                    </button>
+                    <div class="text-value">{{dataHeader.TongTien | number}} VNĐ</div>
+                    <div>Doanh thu</div>
+                </div>
+                <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
+                </div>
+            </div>
+        </div>
+        <!--/.col-->
+        <div class="col-sm-6 col-lg-3">
+            <div class="card text-white bg-warning">
+                <div class="card-body pb-0">
+                    <button type="button" class="btn btn-transparent p-0 float-right">
+                        <i class="icon-location-pin"></i>
+                    </button>
+                    <div class="text-value">{{dataHeader.DonChuaXacNhan}}</div>
+                    <div>Đơn chưa xác nhận</div>
+                </div>
+                <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
+                    <button class="btn btn-sm btn-light" (click)="openModelOrder(templateOrder, 0)">Chi tiết</button>
+                </div>
+            </div>
+        </div>
+        <!--/.col-->
+        <!--/.col-->
+        <div class="col-sm-6 col-lg-3">
+            <div class="card text-white bg-info">
+                <div class="card-body pb-0">
+                    <button type="button" class="btn btn-transparent p-0 float-right">
+                        <i class="icon-location-pin"></i>
+                    </button>
+                    <div class="text-value">{{dataHeader.DonChoHuy}}</div>
+                    <div>Đơn yêu cầu hủy</div>
+                </div>
+                <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
+                    <button class="btn btn-sm btn-light" (click)="openModelOrder(templateOrder, 4)">Chi tiết</button>
+                </div>
+            </div>
+        </div>
+        <!--/.col-->
+        <div class="col-sm-6 col-lg-3">
+            <div class="card text-white bg-danger">
+                <div class="card-body pb-0">
+                    <button type="button" class="btn btn-transparent p-0 float-right">
+                        <i class="icon-location-pin"></i>
+                    </button>
+                    <div class="text-value">{{dataHeader.DonDaHuy}}</div>
+                    <div>Đơn đã hủy</div>
+                </div>
+                <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
+                    <button class="btn btn-sm btn-light" (click)="openModelOrder(templateOrder, 5)">Chi tiết</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/.row-->
+    <div class="row mt-3">
+        <div class="col-12">
+            <div style="display: block;background-color: white;padding: .625rem">
+                <div class="row">
+                    <div class="form-group col-3">
+                        <label class="form-label">Ngày từ</label>
+                        <div>
+                            <input class="form-control" id="ngaytu" [max]="NgayDen" type="date" [(ngModel)]="NgayTu" (change)="loadPie();loadTopProduct()" placeholder="Ngày từ">
+                        </div>
+                    </div>
+                    <div class="form-group col-3">
+                        <label class="form-label">Ngày đến</label>
+                        <div>
+                            <input class="form-control" id="ngayden" [min]="NgayTu" type="date" [(ngModel)]="NgayDen" (change)="loadPie();loadTopProduct()" placeholder="Ngày đến">
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <h3 class="col-12 text-center">Top 10 sách bán chạy</h3>
+                    <div class="col-12">
+                        <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [plugins]="barChartPlugins" [legend]="barChartLegend" [chartType]="barChartType">
+                        </canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-12">
+            <div style="background-color: white;padding: .625rem">
+                <div class="row">
+                    <div class="col-6">
+                        <h3 class="text-center">Thống kê đơn hàng</h3>
+                        <h4 class="text-center">Tổng đơn: {{tongdon}}</h4>
+                        <div style="display: block;">
+                            <canvas baseChart [data]="pieChartData" (chartClick)="chartClicked($event)" [labels]="pieChartLabels" [chartType]="pieChartType" [options]="pieChartOptions" [plugins]="pieChartPlugins" [legend]="pieChartLegend" [colors]="_backgroundColors">
+                            </canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<ng-template #templateOrder>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Đơn hàng</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table-custom table table-bordered table-striped table-sm">
+            <thead>
+                <tr>
+                    <th>Ngày tạo</th>
+                    <th>Người đặt</th>
+                    <th>Người nhận</th>
+                    <th>Địa chỉ nhận</th>
+                    <th>SĐT nhận</th>
+                    <th>Trạng thái</th>
+                    <th style="width: 120px" *ngIf="status!=5">Tác vụ</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of dataSource.items; let index = index">
+                    <td>{{item.OrderDate | date: 'dd/MM/yyyy HH:mm'}}</td>
+                    <td>{{item.ShipName}}</td>
+                    <td>{{item.ShipName}}</td>
+                    <td>{{item.ShipAddress}}</td>
+                    <td>{{item.ShipPhoneNumber}}</td>
+                    <td>{{statusArr[item.Status]['name']}}</td>
+                    <td *ngIf="status!=5">
+                        <button type="button" class="btn btn-sm btn-primary" (click)="changeStatus(item)"><i class="fa fa-exchange"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <nav>
+            <ul class="pagination">
+                <li class="page-item" [ngClass]="{'disabled': dataSource.Page == 1}" title="Trang đầu" (click)="onClickPaging(1)" style="cursor: pointer;">
+                    <span class="page-link"><i class="fa fa-angle-double-left"></i></span>
+                </li>
+                <li class="page-item active" [ngClass]="{'active': dataSource.Page == item}" *ngFor="let item of listNumberPaging; let index = index" (click)="onClickPaging(item)" style="cursor: pointer;">
+                    <span class="page-link" href="#">{{item}}</span>
+                </li>
+                <li class="page-item" [ngClass]="{'disabled': dataSource.Page == totalPage}" (click)="onClickPaging(totalPage)" style="cursor: pointer;">
+                    <span class="page-link" href="#" title="Trang cuối"><i class="fa fa-angle-double-right"></i></span>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <div class="modal-footer">
+        <div class="text-right">
+            <!-- <button class="btn btn-primary">Lưu</button> -->
+            <button class="btn btn-light" (click)="modalRef.hide()">Đóng</button>
+        </div>
+    </div>
+</ng-template>

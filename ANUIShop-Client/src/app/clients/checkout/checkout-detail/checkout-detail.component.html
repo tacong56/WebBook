@@ -1,0 +1,21 @@
+<div class="container">
+    <div class="alert alert-success" role="alert">
+        {{msg}}
+    </div>
+    <div class="mb-3">
+        <h4 class="text-primary"><i class="fa fa-truck"></i> Thông tin giao hàng: </h4>
+        <p>Mã đơn hàng: <strong>{{orderID}}</strong></p>
+        <p>Mã thanh toán: <strong>{{transactionID}}</strong></p>
+        <p>Địa chỉ nhận hàng: <strong>{{order.ShipAddress}}</strong></p>
+        <p>Người nhận: <strong>{{order.ShipName}}</strong></p>
+        <p>Số điện thoại: <strong>{{order.ShipPhoneNumber}}</strong></p>
+        <p>Tổng tiền: <strong class="text-danger">{{order.TotalAmount | number}}VNĐ</strong></p>
+    </div>
+    <div class="mb-3">
+        <h4 class="text-primary"><i class="fa fa-truck"></i> Thông tin sách: </h4>
+        <p *ngFor="let item of order.OrderDetails">
+            <span>{{item.ProductName}} - {{item.Price | number}} x {{item.Quantity}}</span>
+        </p>
+    </div>
+    <p class="font-italic">Mọi thắc mắc xin vui lòng liên hệ 037 435 9305</p>
+</div>

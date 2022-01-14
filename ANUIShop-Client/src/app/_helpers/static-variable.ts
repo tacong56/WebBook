@@ -28,8 +28,11 @@ export class StaticVaribale {
         },
         product: {
             getpaging: "product/get-paging",
+            getpaging2: "product/get-paging2",
+            getbyparentcategory: "product/get-by-parent-category",
             getpagingnoauth: "product/get-paging-no-auth",
             getlist: "product/get-list",
+            getall: "product/get-all",
             delete: "product/delete",
             create: "product/create",
             update: "product/update"
@@ -39,12 +42,33 @@ export class StaticVaribale {
             delete: "account/delete",
             create: "account/create",
             update: "account/update",
-            get: 'account/get'
+            get: 'account/get',
+            changepass: "account/change-password",
+            lock: "account/lock"
         },
         order: {
             getpaging: "order/get-paging",
+            getpagingtran: "order/get-paging-tran",
             create: 'order/create',
-            updateStatus: 'update-status'
+            updateStatus: 'order/update-status',
+            createVNPay: 'order/CreateOrderVNPay',
+            get: 'order/detail',
+            getlist: 'order/getlist',
+            dorder: 'order/get-d-order',
+            dpie: 'order/get-pie-order',
+            topproduct: 'order/top-product'
+        },
+        importStorage: {
+            getpaging: "importstorage/get-paging",
+            get: "importstorage/detail",
+            create: "importstorage/create",
+            update: "importstorage/update"
+        },
+        exportStorage: {
+            getpaging: "exportstorage/get-paging",
+            get: "exportstorage/detail",
+            create: "exportstorage/create",
+            update: "exportstorage/update"
         }
     }
 

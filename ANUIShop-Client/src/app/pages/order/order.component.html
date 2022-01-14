@@ -11,13 +11,22 @@
             <input class="form-control" id="ngayden" [min]="NgayTu" type="date" [(ngModel)]="NgayDen" (change)="filter()" placeholder="Ngày đến">
         </div>
     </div>
+    <div class="form-group col-3">
+        <label class="form-label">Trạng thái</label>
+        <div>
+            <select class="form-control" [(ngModel)]="status" (change)="filter()">
+                <option value="">Chọn trạng thái</option>
+                <option *ngFor="let category of statusArr" value="{{category.id}}">{{category.name}}</option>
+            </select>
+        </div>
+    </div>
 </div>
 
-<div class="mb-2 row">
+<!-- <div class="mb-2 row">
     <div class="col-12 text-right">
         <a routerLink="/admin/tai-khoan/them-moi" class="btn btn-primary"><i class="fa fa-plus"></i> Thêm mới</a>
     </div>
-</div>
+</div> -->
 
 <div class="card">
     <div class="card-header">
@@ -32,6 +41,7 @@
                     <th>Người nhận</th>
                     <th>Địa chỉ nhận</th>
                     <th>SĐT nhận</th>
+                    <th>Trạng thái</th>
                     <th style="width: 120px">Tác vụ</th>
                 </tr>
             </thead>
@@ -42,9 +52,10 @@
                     <td>{{item.ShipName}}</td>
                     <td>{{item.ShipAddress}}</td>
                     <td>{{item.ShipPhoneNumber}}</td>
+                    <td>{{statusArr[item.Status]['name']}}</td>
                     <td>
                         <button type="button" class="btn btn-sm btn-primary" (click)="openModalEdit(templateEdit, item)"><i class="fa fa-pencil"></i></button>
-                        <button type="button" class="btn btn-sm btn-danger" (click)="openModalDelete(templateDelete, item)"><i class="fa fa-trash"></i></button>
+                        <button type="button" class="btn btn-sm btn-danger" (click)="openModalDelete(templateDelete, item)"><i class="fa fa-ban"></i></button>
                     </td>
                 </tr>
             </tbody>
@@ -75,12 +86,22 @@
     </div>
     <div class="modal-body">
         <div class="row">
-            <ul class="col-12">
-                <li (click)="saveChangeSatatus(0)">1. Chờ xác nhận</li>
-                <li (click)="saveChangeSatatus(1)">2. Xác nhận</li>
-                <li (click)="saveChangeSatatus(2)">3. Đang giao</li>
-                <li (click)="saveChangeSatatus(3)">4. Hoàn thành</li>
-                <li (click)="saveChangeSatatus(4)">5. Hủy</li>
+            <ul class="col-12 status-box">
+                <li (click)="saveChangeSatatus(0)" class="status" [ngClass]="{'active': itemSelected.Status >= 0 && itemSelected.Status != 4}">
+                    <span class="status-item">1</span> Chờ xác nhận
+                </li>
+                <li (click)="saveChangeSatatus(1)" class="status" [ngClass]="{'active': itemSelected.Status >= 1 && itemSelected.Status != 4}">
+                    <span class="status-item">2</span> Xác nhận
+                </li>
+                <li (click)="saveChangeSatatus(2)" class="status" [ngClass]="{'active': itemSelected.Status >= 2 && itemSelected.Status != 4}">
+                    <span class="status-item">3</span> Đang giao
+                </li>
+                <li (click)="saveChangeSatatus(3)" class="status" [ngClass]="{'active': itemSelected.Status >= 3 && itemSelected.Status != 4}">
+                    <span class="status-item">4</span> Hoàn thành
+                </li>
+                <li (click)="saveChangeSatatus(5)" class="status" [ngClass]="{'active': itemSelected.Status >= 5 && itemSelected.Status != 4}">
+                    <span class="status-item">5</span> Hủy
+                </li>
             </ul>
         </div>
     </div>
@@ -93,17 +114,17 @@
 
 <ng-template #templateDelete>
     <div class="modal-header">
-        <h4 class="modal-title pull-left">Xóa</h4>
+        <h4 class="modal-title pull-left">Hủy đơn hàng</h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRefDelete.hide()">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body">
-        Chọn xác nhận để xóa
+        Chọn xác nhận để hủy
     </div>
     <div class="modal-footer">
         <div class="text-right">
-            <button class="btn btn-primary" (click)="deleteItem()">Xác nhận</button>
+            <button class="btn btn-primary" (click)="saveChangeSatatus(5)">Xác nhận</button>
             <button class="btn btn-light" (click)="modalRefDelete.hide()">Hủy</button>
         </div>
     </div>

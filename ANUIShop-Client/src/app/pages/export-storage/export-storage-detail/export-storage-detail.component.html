@@ -1,0 +1,44 @@
+<form autocomplete="off" (ngSubmit)="customSave()" [formGroup]="formDetail" class="detail-form">
+    <h1 class="header-title text-primary">{{headerTitle}}</h1>
+    <div class="row">
+        <div class="form-group col-6">
+            <label class="form-label required" for="">Sản phẩm</label>
+            <select class="form-control" formControlName="ProductId" [ngClass]="displayFieldCss('ProductId')" (change)="onChangeProduct($event)">
+                <option value="">Chọn sản phẩm</option>
+                <option *ngFor="let item of listProduct" value="{{item.ProductId}}">{{item.ProductCode}} - {{item.ProductName}}</option>
+            </select>
+            <ng-container *ngIf="submitted && formDetail.get('ProductId')?.errors?.required">
+                <div class="invalid-feedback">Trường không được để trống</div>
+            </ng-container>
+        </div>
+        <div class="form-group col-6">
+            <label class="form-label required">Giá</label>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="icon-user"></i></span>
+                </div>
+                <input type="text" id="Price" (keyup)="onKeyOnlyNumber($event)" name="Price" formControlName="Price" [value]="formDetail.get('Price').value | number" class="form-control" placeholder="Giá" [ngClass]="displayFieldCss('Price')">
+                <ng-container *ngIf="submitted && formDetail.get('Price')?.errors?.required">
+                    <div class="invalid-feedback">Trường không được để trống</div>
+                </ng-container>
+            </div>
+        </div>
+        <div class="form-group col-6">
+            <label class="form-label required">Số lượng</label>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="icon-user"></i></span>
+                </div>
+                <input type="text" id="" name="Quantity" formControlName="Quantity" value="Quantity" class="form-control" placeholder="Số lượng" [ngClass]="displayFieldCss('Price')">
+                <ng-container *ngIf="submitted && formDetail.get('Quantity')?.errors?.required">
+                    <div class="invalid-feedback">Trường không được để trống</div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <button type="submit" class="btn btn-primary px-4">Lưu</button>
+        </div>
+    </div>
+</form>

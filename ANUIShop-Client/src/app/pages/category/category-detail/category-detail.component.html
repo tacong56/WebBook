@@ -1,25 +1,25 @@
 <form autocomplete="off" #formDetail="ngForm">
     <input name="Id" [(ngModel)]="item.id" hidden>
     <div class="form-group row">
-        <label class="form-label col-12 required" for="">Danh mục cha</label>
+        <label class="form-label col-12" for="">Danh mục cha</label>
         <div class="col-12">
             <select class="form-control" name="parentId" [(ngModel)]="item.ParentId">
                 <option value="0">Chọn danh mục</option>
                 <option *ngFor="let category of listCategory" value="{{category.Id}}">{{category.Name}}</option>
             </select>
         </div>
-        <ng-container>
-            <div class="invalid-feedback">Trường không được để trống</div>
-        </ng-container>
+        <!-- <ng-container>
+            
+        </ng-container> -->
     </div>
     <div class="form-group row">
-        <label class="control-label col-12">Tên danh mục</label>
+        <label class="control-label col-12 required">Tên danh mục</label>
         <div class="col-12">
             <input class="form-control" type="text" name="Name" [(ngModel)]="item.Name" placeholder="Tên danh mục">
         </div>
     </div>
     <div class="form-group row">
-        <label class="control-label col-12">Vị trí</label>
+        <label class="control-label col-12 required">Vị trí</label>
         <div class="col-12">
             <input class="form-control" type="number" name="SortOrder" [(ngModel)]="item.SortOrder" placeholder="Vị trí">
         </div>

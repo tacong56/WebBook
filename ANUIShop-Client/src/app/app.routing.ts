@@ -85,6 +85,18 @@ export const routes: Routes = [
         path: 'khuyen-mai',
         loadChildren: () => import('./pages/promotion/promotion.module').then(m => m.PromotionModule),
       },
+      {
+        path: 'thanh-toan',
+        loadChildren: () => import('./pages/transaction/transaction.module').then(m => m.TransactionModule),
+      },
+      {
+        path: 'phieu-nhap',
+        loadChildren: () => import('./pages/import-storage/import-storage.module').then(m => m.ImportStorageModule),
+      },
+      {
+        path: 'phieu-xuat',
+        loadChildren: () => import('./pages/export-storage/export-storage.module').then(m => m.ExportStorageModule),
+      },
     ]
   },
   {

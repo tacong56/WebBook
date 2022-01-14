@@ -2,7 +2,7 @@
     <div class="form-group col-3">
         <label class="form-label" for="">Từ khóa</label>
         <div>
-            <input class="form-control" placeholder="Tên sách, mã sách" [(ngModel)]="request.Keyword" (keyup.enter)="filter()">
+            <input class="form-control" placeholder="Tên tài khoản, SĐT" [(ngModel)]="request.Keyword" (keyup.enter)="filter()">
         </div>
     </div>
     <div class="form-group col-3">
@@ -32,6 +32,7 @@
                     <th>Tài khoản</th>
                     <th>Chức vụ</th>
                     <th>Họ tên</th>
+                    <th>Số điện thoại</th>
                     <th>Ngày sinh</th>
                     <th style="width: 120px">Tác vụ</th>
                 </tr>
@@ -44,24 +45,26 @@
                     <td>{{item.UserName}}</td>
                     <td>{{item.RoleName}}</td>
                     <td>{{item.FirstName + ' ' + item.LastName}}</td>
+                    <td>{{item.PhoneNumber}}</td>
                     <td>{{item.Dob | date: 'dd/MM/yyyy'}}</td>
                     <td>
-                        <a routerLink="/admin/tai-khoan/cap-nhat/{{item.Id}}" class="btn btn-sm btn-primary"><i class="fa fa-pencil text-white"></i></a>
-                        <button type="button" class="btn btn-sm btn-success" (click)="openModalDelete(templateDelete, item)"><i class="fa fa-lock"></i></button>
-                        <button type="button" class="btn btn-sm btn-danger" (click)="openModalDelete(templateDelete, item)"><i class="fa fa-trash"></i></button>
+                        <!-- <a routerLink="/admin/tai-khoan/cap-nhat/{{item.Id}}" class="btn btn-sm btn-primary"><i class="fa fa-pencil text-white"></i></a> -->
+                        <button type="button" class="btn btn-sm btn-success" title="Đổi mật khẩu" (click)="openModalChangePass(templateChangePass, item)"><i class="fa fa-exchange"></i></button>
+                        <button type="button" class="btn btn-sm" [ngClass]="{'btn-warning': !item.IsDelete, 'btn-danger': item.IsDelete}" title="Khóa tài khoản" (click)="openModalLock(templateLock, item)"><i class="fa" [ngClass]="{'fa-lock': item.IsDelete, 'fa-unlock': !item.IsDelete}"></i></button>
+                        <!-- <button type="button" class="btn btn-sm btn-danger" (click)="openModalDelete(templateDelete, item)"><i class="fa fa-trash"></i></button> -->
                     </td>
                 </tr>
             </tbody>
         </table>
         <nav>
             <ul class="pagination">
-                <li class="page-item" [ngClass]="{'disabled': dataSource.page == 1}" title="Trang đầu" (click)="onClickPaging(1)" style="cursor: pointer;">
+                <li class="page-item" [ngClass]="{'disabled': dataSource.Page == 1}" title="Trang đầu" (click)="onClickPaging(1)" style="cursor: pointer;">
                     <span class="page-link"><i class="fa fa-angle-double-left"></i></span>
                 </li>
-                <li class="page-item active" [ngClass]="{'active': dataSource.page == item}" *ngFor="let item of listNumberPaging; let index = index" (click)="onClickPaging(item)" style="cursor: pointer;">
+                <li class="page-item active" [ngClass]="{'active': dataSource.Page == item}" *ngFor="let item of listNumberPaging; let index = index" (click)="onClickPaging(item)" style="cursor: pointer;">
                     <span class="page-link" href="#">{{item}}</span>
                 </li>
-                <li class="page-item" [ngClass]="{'disabled': dataSource.page == totalPage}" (click)="onClickPaging(totalPage)" style="cursor: pointer;">
+                <li class="page-item" [ngClass]="{'disabled': dataSource.Page == totalPage}" (click)="onClickPaging(totalPage)" style="cursor: pointer;">
                     <span class="page-link" href="#" title="Trang cuối"><i class="fa fa-angle-double-right"></i></span>
                 </li>
             </ul>
@@ -83,6 +86,51 @@
         <div class="text-right">
             <button class="btn btn-primary" (click)="deleteItem()">Xác nhận</button>
             <button class="btn btn-light" (click)="modalRefDelete.hide()">Hủy</button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #templateLock>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">{{itemSelected.IsDelete ? "Mở khóa tài khoản" : "Khóa tài khoản"}}</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRefLock.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        Chọn xác nhận để {{itemSelected.IsDelete ? "Mở khóa tài khoản" : "Khóa tài khoản"}}
+    </div>
+    <div class="modal-footer">
+        <div class="text-right">
+            <button class="btn btn-primary" (click)="lockAccount()">Xác nhận</button>
+            <button class="btn btn-light" (click)="modalRefLock.hide()">Hủy</button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #templateChangePass>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Cấp lại mật khẩu</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRefChangePass.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label>Tài khoản</label>
+            <input type="text" [value]="itemSelected.UserName" class="form-control" readonly>
+        </div>
+        <div class="form-group">
+            <label class="required">Mật khẩu mới</label>
+            <input type="password" class="form-control" [(ngModel)]="passreset" placeholder="Mật khẩu mới">
+            <span *ngIf="submitted && (passreset == null || passreset == '')" class="text-danger">Mật khẩu mới không được để trống</span>
+            <span *ngIf="submitted && (passreset != null && passreset != '') && passreset.length < 6" class="text-danger">Mật khẩu phải nhiều hơn 6 ký tự</span>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="text-right">
+            <button class="btn btn-primary" (click)="changePass()">Xác nhận</button>
+            <button class="btn btn-light" (click)="modalRefChangePass.hide()">Hủy</button>
         </div>
     </div>
 </ng-template>

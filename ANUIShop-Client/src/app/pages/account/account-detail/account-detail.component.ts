@@ -114,14 +114,14 @@ getRole() {
   this.accountService.getRole()
     .subscribe(
       (res: any) => {
-        this.listRole = res;
+        this.listRole = res.filter(x => x.Id != 1);
       },
       err => {
         console.error(err);
       }
     )
 }
-
+ 
 requiredImage: boolean = false;
 customSave() {
   if(this.formDetail.get('Password').value != this.formDetail.get('Password_Repeat').value) {
@@ -159,9 +159,12 @@ afterUploadFile(imageId) {
     this.accountService.create(this.formDetail.value)
     .subscribe(
       (res: any) => {
-        if(res.error == 0) {
+        if(res.Error == 0) {
           this.toastr.success('Thêm mới thành công.');
           this.resetForm();
+        }
+        else if(res.Error == 1) {
+          this.toastr.success(res.Msg);
         }
       },
       err => {
@@ -173,7 +176,7 @@ afterUploadFile(imageId) {
     this.accountService.update(this.formDetail.value)
     .subscribe(
       (res: any) => {
-        if(res.error == 0) {
+        if(res.Error == 0) {
           this.toastr.success('Cập nhật thành công.');
         }
       },

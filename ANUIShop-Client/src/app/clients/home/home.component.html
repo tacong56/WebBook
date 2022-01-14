@@ -26,7 +26,7 @@
                         <!-- <h3>Title</h3> -->
                         <ul>
                             <li *ngFor="let detail of item.value">
-                                <a href="#">{{detail.Name}}</a>
+                                <a href="/sach-theo-danh-muc/{{detail.Id}}">{{detail.Name}}</a>
                             </li>
                         </ul>
                     </div>
@@ -49,10 +49,14 @@
                                     <span>{{item.ProductName}}</span>
                                 </div>
                                 <div class="price">
-                                    <small style="text-decoration: line-through;">{{item.Price | number}}</small>
-                                    <strong class="text-danger">45.500đ</strong>
+                                    <!-- <small style="text-decoration: line-through;">{{item.Price | number}}</small> -->
+                                    <strong class="text-danger">{{item.Price | number}}</strong>
                                 </div>
-                                <div class="shopping" (click)="openModalCart(templateCart, item)">
+                                <div class="mb-2">
+                                    <span *ngIf="item.LuongTon > 0" class="font-italic">Số lượng: {{item.LuongTon}}</span>
+                                    <div *ngIf="item.LuongTon <= 0" class="alert alert-warning">Hàng sắp về</div>
+                                </div>
+                                <div *ngIf="item.LuongTon > 0" class="shopping" (click)="openModalCart(templateCart, item)">
                                     <span class="text-uppercase"><i class="fa fa-shopping-cart"></i> Mua ngay</span>
                                 </div>
                             </div>
@@ -66,11 +70,11 @@
         <div class="product" style="margin: 1.4rem 0 0 0">
             <div class="row">
                 <div class="col-12">
-                    <h4 class="text-uppercase title-product">Sách mới</h4>
+                    <h4 class="text-uppercase title-product">Sách thiếu nhi</h4>
                 </div>
                 <div class="col-12">
                     <div class="row items">
-                        <ng-container *ngFor="let item of dataSource">
+                        <ng-container *ngFor="let item of dataSourceTN">
                             <div class="col-3 item">
                                 <div class="image">
                                     <img [src]="url.URL_IMAGE + item.ImageMain" style="width: 100%">
@@ -79,10 +83,14 @@
                                     <span>{{item.ProductName}}</span>
                                 </div>
                                 <div class="price">
-                                    <small style="text-decoration: line-through;">{{item.Price | number}}</small>
-                                    <strong class="text-danger">45.500đ</strong>
+                                    <!-- <small style="text-decoration: line-through;">{{item.Price | number}}</small> -->
+                                    <strong class="text-danger">{{item.Price | number}}</strong>
                                 </div>
-                                <div class="shopping" (click)="openModalCart(templateCart, item)">
+                                <div class="mb-2">
+                                    <span *ngIf="item.LuongTon > 0" class="font-italic">Số lượng: {{item.LuongTon}}</span>
+                                    <div *ngIf="item.LuongTon <= 0" class="alert alert-warning">Hàng sắp về</div>
+                                </div>
+                                <div *ngIf="item.LuongTon > 0" class="shopping" (click)="openModalCart(templateCart, item)">
                                     <span class="text-uppercase"><i class="fa fa-shopping-cart"></i> Mua ngay</span>
                                 </div>
                             </div>
@@ -101,7 +109,7 @@
                 </div>
                 <div class="col-12">
                     <div class="row items">
-                        <ng-container *ngFor="let item of dataSource">
+                        <ng-container *ngFor="let item of dataSourceBC">
                             <div class="col-3 item">
                                 <div class="image">
                                     <img [src]="url.URL_IMAGE + item.ImageMain" style="width: 100%">
@@ -110,10 +118,14 @@
                                     <span>{{item.ProductName}}</span>
                                 </div>
                                 <div class="price">
-                                    <small style="text-decoration: line-through;">{{item.Price | number}}</small>
-                                    <strong class="text-danger">45.500đ</strong>
+                                    <!-- <small style="text-decoration: line-through;">{{item.Price | number}}</small> -->
+                                    <strong class="text-danger">{{item.Price | number}}</strong>
                                 </div>
-                                <div class="shopping" (click)="openModalCart(templateCart, item)">
+                                <div class="mb-2">
+                                    <span *ngIf="item.LuongTon > 0" class="font-italic">Số lượng: {{item.LuongTon}}</span>
+                                    <div *ngIf="item.LuongTon <= 0" class="alert alert-warning">Hàng sắp về</div>
+                                </div>
+                                <div *ngIf="item.LuongTon > 0" class="shopping" (click)="openModalCart(templateCart, item)">
                                     <span class="text-uppercase"><i class="fa fa-shopping-cart"></i> Mua ngay</span>
                                 </div>
                             </div>
