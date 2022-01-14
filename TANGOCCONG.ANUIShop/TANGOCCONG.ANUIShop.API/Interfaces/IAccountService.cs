@@ -12,6 +12,8 @@ namespace TANGOCCONG.ANUIShop.API.Interfaces
         Task<int> Delete(int id);
         Task<ResponseData<AccountDataResponse>> Detail(int id);
         Task<ResponseData<string>> Create(RegisterRequest request);
+        string ChangePassword(ChangePasswordRequest request);
+        string LockAccount(int id);
         Task<ResponseData<int>> Update(AccountUpdateRequest request);
         Task<PaginationResult<AccountDataResponse>> GetPaging(AccountSearchRequest request);
     }

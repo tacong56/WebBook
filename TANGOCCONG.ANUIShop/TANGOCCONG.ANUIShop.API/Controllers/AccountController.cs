@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace TANGOCCONG.ANUIShop.API.Controllers
             _accountService = accountService;
         }
 
+        [AllowAnonymous]
         [HttpPost("create")]
         public async Task<IActionResult> Insert(RegisterRequest request)
         {
@@ -32,6 +34,7 @@ namespace TANGOCCONG.ANUIShop.API.Controllers
             return NotFound(result);
         }
 
+        [AllowAnonymous]
         [HttpGet("get/{id}")]
         public async Task<IActionResult> Detail(int id)
         {
@@ -68,6 +71,22 @@ namespace TANGOCCONG.ANUIShop.API.Controllers
             };
             var result = await _accountService.Delete(id);
             if (result == 1) return Ok(result);
+            return NotFound(result);
+        }
+
+        [HttpPost("change-password")]
+        public IActionResult ChangePassword(ChangePasswordRequest request)
+        {
+            var result = _accountService.ChangePassword(request);
+            if (!string.IsNullOrEmpty(result)) return Ok(result);
+            return NotFound(result);
+        }
+
+        [HttpPost("lock/{id}")]
+        public IActionResult LockAccount(int id)
+        {
+            var result = _accountService.LockAccount(id);
+            if (!string.IsNullOrEmpty(result)) return Ok(result);
             return NotFound(result);
         }
     }

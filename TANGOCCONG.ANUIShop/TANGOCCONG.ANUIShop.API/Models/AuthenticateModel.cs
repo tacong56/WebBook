@@ -75,6 +75,12 @@ namespace TANGOCCONG.ANUIShop.API.Models
         public int? RoleId { get; set; }
     }
 
+    public class ChangePasswordRequest
+    {
+        public int Id { get; set; }
+        public string Password { get; set; }
+    }
+
     public class AccountUpdateRequest
     {
         public int Id { get; set; }
@@ -149,6 +155,7 @@ namespace TANGOCCONG.ANUIShop.API.Models
         public bool IsDelete { get; set; }
         public int RoleId { get; set; }
         public string RoleName { get; set; }
+        public string PhoneNumber { get; set; }
     }
     #endregion
 }

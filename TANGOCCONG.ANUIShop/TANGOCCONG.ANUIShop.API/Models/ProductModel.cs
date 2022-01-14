@@ -51,6 +51,8 @@ namespace TANGOCCONG.ANUIShop.API.Models
         public DateTime? TimeCreated { get; set; }
         public DateTime? TimeUpdated { get; set; }
         public int UserUpdate { get; set; }
+        public int LuongTon { get; set; }
+        public int daban { get; set; }
     }
     #endregion
 }

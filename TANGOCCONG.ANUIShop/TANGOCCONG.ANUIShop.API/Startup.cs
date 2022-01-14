@@ -116,6 +116,8 @@ namespace TANGOCCONG.ANUIShop.API
             services.AddTransient<IRoleService, RoleService>();
             services.AddTransient<ICartsService, CartsService>();
             services.AddTransient<IOrderService, OrderService>();
+            services.AddTransient<IImportStorage, ImportStorageService>();
+            services.AddTransient<IExportStorage, ExportStorageService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

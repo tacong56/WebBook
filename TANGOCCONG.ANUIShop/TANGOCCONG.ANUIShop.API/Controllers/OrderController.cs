@@ -23,13 +23,15 @@ namespace TANGOCCONG.ANUIShop.API.Controllers
             _merchantAccount = merchantAccount.Value;
         }
 
+        [AllowAnonymous]
         [HttpGet("get-paging")]
-        public async Task<IActionResult> Get(int limit, int page, string sort, int? userID = null, string keyword = null)
+        public async Task<IActionResult> Get(int limit, int page, int? status, DateTime? ngaytu, DateTime? ngayden, string sort, int? userID = null, string keyword = null)
         {
-            var result = await _orderService.GetPaging(limit, page, sort, userID, keyword);
+            var result = await _orderService.GetPaging(limit, page, status, ngaytu, ngayden, sort, userID, keyword);
             return Ok(result);
         }
 
+        [AllowAnonymous]
         [HttpPost("create")]
         public async Task<IActionResult> Insert(OrderIURequest request)
         {
@@ -38,6 +40,7 @@ namespace TANGOCCONG.ANUIShop.API.Controllers
             return NotFound(result);
         }
 
+        [AllowAnonymous]
         [HttpPut("update")]
         public async Task<IActionResult> Update(OrderIURequest request)
         {
@@ -53,13 +56,15 @@ namespace TANGOCCONG.ANUIShop.API.Controllers
             return Ok(result);
         }
 
-        [HttpPut("update-status")]
+        [AllowAnonymous]
+        [HttpPut("update-status/{id}/{status}")]
         public async Task<IActionResult> changeStatus(int id, int status)
         {
             var result = await _orderService.ChangeStatus(id, status);
             return Ok(result);
         }
 
+        [AllowAnonymous]
         [HttpGet("detail/{id}")]
         public IActionResult Detail(int id)
         {
@@ -68,6 +73,7 @@ namespace TANGOCCONG.ANUIShop.API.Controllers
             return NotFound(result);
         }
 
+        [AllowAnonymous]
         [HttpGet("getorderdetail")]
         public IActionResult GetOrderDetail(int orderID, int productID)
         {
@@ -76,6 +82,7 @@ namespace TANGOCCONG.ANUIShop.API.Controllers
             return NotFound(result);
         }
 
+        [AllowAnonymous]
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -89,7 +96,7 @@ namespace TANGOCCONG.ANUIShop.API.Controllers
         public IActionResult CreateOrderVNPay(int orderID, string domainName)
         {
             var result = _orderService.CreateOrderVNPay(_merchantAccount, orderID, domainName);
-            return NotFound(result);
+            return Ok(result);
         }
 
         [AllowAnonymous]
@@ -112,7 +119,7 @@ namespace TANGOCCONG.ANUIShop.API.Controllers
                             decimal.Parse(vnp_Amount), vnp_BankCode, vnp_BankTranNo, vnp_CardType, vnp_TmnCode);
                         if (kq.Error == 0)
                         {
-                            orderID = kq.Data.Id;
+                            orderID = kq.Data.OrderId;
                             TransactionID = kq.Data.TransactionID;
                             stringMessage = "Thanh toánh đơn hàng thành công";
                         }
@@ -167,12 +174,43 @@ namespace TANGOCCONG.ANUIShop.API.Controllers
                         break;
                 }
                 // Check vnp_TmnCode nếu 00 mới được update, ngược lại thì k https://sandbox.vnpayment.vn/apis/docs/bang-ma-loi/
-                return RedirectPermanent(HttpUtility.UrlEncode(urlRedirect + "?orderID=" + orderID + "&transactionID=" + TransactionID + "&msg=" + stringMessage));
+                return RedirectPermanent(urlRedirect + "?orderID=" + orderID + "&transactionID=" + TransactionID + "&msg=" + HttpUtility.UrlEncode(stringMessage));
             }
             catch (Exception ex)
             {
-                return RedirectPermanent(HttpUtility.UrlEncode(urlRedirect + "?orderID=0&transactionID=0&msg=Lỗi:" + ex.Message));
+                return RedirectPermanent(urlRedirect + "?orderID=0&transactionID=0&msg=Lỗi:" + HttpUtility.UrlEncode(ex.Message));
             }
         }
+
+        //dashboard
+        [HttpGet("get-d-order")]
+        public IActionResult DOrder()
+        {
+            var result = _orderService.DOrder();
+            return Ok(result);
+        }
+
+        [HttpGet("get-pie-order")]
+        public IActionResult DPieOrder(DateTime? ngaytu, DateTime? ngayden)
+        {
+            var result = _orderService.DPieOrder(ngaytu, ngayden);
+            return Ok(result);
+        }
+
+        [HttpGet("top-product")]
+        public IActionResult TopProduct(DateTime? ngaytu, DateTime? ngayden)
+        {
+            var result = _orderService.TopProduct(ngaytu, ngayden);
+            return Ok(result);
+        }
+
+        //Transaction
+        [HttpGet("get-paging-tran")]
+        public async Task<IActionResult> GetTransaction(int limit, int page, DateTime? ngaytu, DateTime? ngayden, string sort)
+        {
+            var result = await _orderService.GetPagingTran(limit, page, ngaytu, ngayden, sort);
+            return Ok(result);
+        }
+
     }
 }

@@ -18,6 +18,7 @@ namespace TANGOCCONG.ANUIShop.Data.Entities
         public bool IsDelete { set; get; }
         public decimal? TotalAmount { get; set; }
         public List<OrderDetail> OrderDetails { get; set; }
+        [NotMapped]
         public AppUser AppUser { get; set; }
     }
 }
